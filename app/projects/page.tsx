@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Play } from "lucide-react"
 import Link from "next/link"
+import { getAllProjectsForBuild } from "@/lib/get-projects"
 
 interface Project {
   id: string
@@ -279,23 +280,39 @@ export const metadata = {
   },
 }
 
-async function getProjects() {
+// Enable dynamic rendering in production for fresh data
+export const dynamic = 'force-static'
+export const revalidate = 60 // Revalidate every 60 seconds
+
+async function getProjects(): Promise<Project[]> {
+  // During build time, use direct database access
+  // During runtime, use API with ISR revalidation
+  const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
+  
+  if (isProductionBuild) {
+    // Build time: Direct database access
+    return getAllProjectsForBuild();
+  }
+
+  // Runtime: Try API first, fallback to DB if it fails
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    
     const response = await fetch(`${baseUrl}/api/projects`, {
-      cache: 'no-store', // Always get fresh data
+      next: { revalidate: 60 } // ISR with 60 second revalidation
     })
     
     if (!response.ok) {
-      console.error('Failed to fetch projects')
-      return []
+      throw new Error('API fetch failed')
     }
     
-    const data = await response.json()
-    return data.success ? data.data : []
+    return response.json()
   } catch (error) {
-    console.error('Error fetching projects:', error)
-    return []
+    console.error('API fetch failed, falling back to database:', error);
+    // Fallback to database
+    return getAllProjectsForBuild();
   }
 }
 
@@ -401,13 +418,15 @@ export default async function ProjectsPage() {
                       {project.title}
                     </h3>
                     <p className="mb-4 text-sm text-gray-300 line-clamp-2">{project.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.slice(0, 3).map((tag: string) => (
-                        <span key={tag} className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-gray-400">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    {project.tags && project.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.slice(0, 3).map((tag: string) => (
+                          <span key={tag} className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-gray-400">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </Card>
               </Link>

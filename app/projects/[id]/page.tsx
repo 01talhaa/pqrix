@@ -8,6 +8,7 @@ import Script from "next/script"
 import { notFound } from "next/navigation"
 import { getTeamMemberById } from "@/data/team"
 import Image from "next/image"
+import { getAllProjectsForBuild, getProjectByIdForBuild } from "@/lib/get-projects"
 
 interface ProjectLink {
   label: string
@@ -25,30 +26,58 @@ interface Metric {
   value: string
 }
 
+// Enable static generation with ISR
+export const dynamic = 'force-static'
+export const revalidate = 60 // Revalidate every 60 seconds
+export const dynamicParams = true // Allow dynamic params not in generateStaticParams
+
 async function getProject(id: string) {
+  // During build time, use direct database access
+  // During runtime, use API with ISR revalidation
+  const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
+  
+  if (isProductionBuild) {
+    // Build time: Direct database access
+    return getProjectByIdForBuild(id);
+  }
+
+  // Runtime: Try API first, fallback to DB if it fails
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    
     const response = await fetch(`${baseUrl}/api/projects/${id}`, {
-      cache: 'no-store',
+      next: { revalidate: 60 }, // Revalidate every 60 seconds
     })
     
     if (!response.ok) {
-      return null
+      throw new Error('API fetch failed')
     }
     
     const data = await response.json()
     return data.success ? data.data : null
   } catch (error) {
-    console.error('Error fetching project:', error)
-    return null
+    console.error('API fetch failed, falling back to database:', error)
+    // Fallback to database
+    return getProjectByIdForBuild(id);
   }
 }
 
 async function getAllProjects() {
+  // During build time, use direct DB access
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL) {
+    return getAllProjectsForBuild()
+  }
+
+  // During runtime, use API
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    
     const response = await fetch(`${baseUrl}/api/projects`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 }, // Revalidate every hour for build
     })
     
     if (!response.ok) {
@@ -59,7 +88,8 @@ async function getAllProjects() {
     return data.success ? data.data : []
   } catch (error) {
     console.error('Error fetching projects:', error)
-    return []
+    // Fallback to direct DB access if API fails
+    return getAllProjectsForBuild()
   }
 }
 
