@@ -125,7 +125,7 @@ export function BookingForm({ serviceId, serviceName, packages }: BookingFormPro
             <SelectValue placeholder="Choose a package" />
           </SelectTrigger>
           <SelectContent className="liquid-glass border-white/20 bg-gray-900 text-white">
-            {packages.map((pkg) => (
+            {packages.filter(pkg => pkg.name && pkg.name.trim() !== "").map((pkg) => (
               <SelectItem key={pkg.name} value={pkg.name}>
                 {pkg.name} - {pkg.price}
               </SelectItem>

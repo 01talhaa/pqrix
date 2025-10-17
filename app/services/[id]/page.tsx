@@ -7,36 +7,45 @@ import Link from "next/link"
 import Script from "next/script"
 import { BookingForm } from "@/components/booking-form"
 import { notFound } from "next/navigation"
-import { servicesData, getAllServiceIds } from "@/data/services"
+import { getAllServicesForBuild, getServiceByIdForBuild } from "@/lib/get-services"
+import * as LucideIcons from "lucide-react"
 
-export function generateStaticParams() {
-  return getAllServiceIds().map((id) => ({ id }))
+
+// ISR configuration
+export const dynamic = 'force-static'
+export const revalidate = 60
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  const services = await getAllServicesForBuild()
+  return services.map((service: any) => ({ id: service.id }))
 }
 
-export function generateMetadata({ params }: { params: { id: string } }) {
-  const service = servicesData[params.id]
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const service = await getServiceByIdForBuild(id)
   if (!service) return {}
 
   // Generate comprehensive keywords based on service
   const baseKeywords = [
-    service.title,
-    `${service.title} Bangladesh`,
-    `${service.title} BD`,
-    `${service.title} services`,
-    `professional ${service.title}`,
-    `${service.title} company Bangladesh`,
+    (service as any).title,
+    `${(service as any).title} Bangladesh`,
+    `${(service as any).title} BD`,
+    `${(service as any).title} services`,
+    `professional ${(service as any).title}`,
+    `${(service as any).title} company Bangladesh`,
     "software development Bangladesh",
     "IT services BD",
   ]
 
   // Add service-specific keywords
-  const serviceSpecificKeywords = service.features.map((f: string) => 
+  const serviceSpecificKeywords = (service as any).features?.map((f: string) => 
     f.toLowerCase().replace(/[^a-z0-9\s]/g, '')
-  )
+  ) || []
 
   // Add pricing keywords
-  const pricingKeywords = service.packages 
-    ? service.packages.map((pkg: any) => `${service.title} ${pkg.name} ${pkg.price}`)
+  const pricingKeywords = (service as any).packages 
+    ? (service as any).packages.map((pkg: any) => `${(service as any).title} ${pkg.name} ${pkg.price}`)
     : []
 
   const allKeywords = [
@@ -48,36 +57,37 @@ export function generateMetadata({ params }: { params: { id: string } }) {
     "Bangladesh tech services"
   ].join(", ")
 
-  const description = service.longDescription 
-    ? `${service.longDescription.slice(0, 150)}... Professional ${service.title} services in Bangladesh with packages starting from ${service.pricing}. Expert team, fixed-price quotes, local payment support (bKash/Nagad).`
-    : `${service.description} Expert ${service.title} services in Bangladesh starting from ${service.pricing}. Get a detailed quote with comprehensive SOW and technical specifications.`
+  const s = service as any
+  const description = s.longDescription 
+    ? `${s.longDescription.slice(0, 150)}... Professional ${s.title} services in Bangladesh with packages starting from ${s.pricing || 'competitive rates'}. Expert team, fixed-price quotes, local payment support (bKash/Nagad).`
+    : `${s.description} Expert ${s.title} services in Bangladesh starting from ${s.pricing || 'competitive rates'}. Get a detailed quote with comprehensive SOW and technical specifications.`
 
   return {
-    title: `${service.title} Services Bangladesh | ${service.tagline} | Pqrix`,
+    title: `${s.title} Services Bangladesh | ${s.tagline} | Pqrix`,
     description,
     keywords: allKeywords,
     openGraph: {
-      title: `${service.title} Services in Bangladesh | Pqrix`,
-      description: `${service.description} Starting from ${service.pricing}. Expert team, fixed-price quotes, local payment integration (bKash/Nagad).`,
+      title: `${s.title} Services in Bangladesh | Pqrix`,
+      description: `${s.description} Starting from ${s.pricing || 'competitive rates'}. Expert team, fixed-price quotes, local payment integration (bKash/Nagad).`,
       type: "website",
-      url: `https://pqrix.com/services/${service.id}`,
+      url: `https://pqrix.com/services/${s.id}`,
       images: [
         {
-          url: service.image || "/icons/pqrix-logo.png",
+          url: s.image || "/icons/pqrix-logo.png",
           width: 1200,
           height: 630,
-          alt: `${service.title} Services by Pqrix Bangladesh`,
+          alt: `${s.title} Services by Pqrix Bangladesh`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${service.title} Services Bangladesh | Pqrix`,
-      description: `${service.tagline}. Starting ${service.pricing}. bKash/Nagad accepted.`,
-      images: [service.image || "/icons/pqrix-logo.png"],
+      title: `${s.title} Services Bangladesh | Pqrix`,
+      description: `${s.tagline}. Starting ${s.pricing || 'competitive rates'}. bKash/Nagad accepted.`,
+      images: [s.image || "/icons/pqrix-logo.png"],
     },
     alternates: {
-      canonical: `https://pqrix.com/services/${service.id}`,
+      canonical: `https://pqrix.com/services/${s.id}`,
     },
     robots: {
       index: true,
@@ -86,14 +96,43 @@ export function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export default function ServiceDetailPage({ params }: { params: { id: string } }) {
-  const service = servicesData[params.id]
+export default async function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  
+  // Hybrid data fetching
+  const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
+  let service: any
+  
+  if (isProductionBuild) {
+    service = await getServiceByIdForBuild(id)
+  } else {
+    try {
+      const baseUrl = process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
+        : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      
+      const response = await fetch(`${baseUrl}/api/services/${id}`, {
+        next: { revalidate: 60 }
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        service = data.success ? data.data : null
+      } else {
+        service = await getServiceByIdForBuild(id)
+      }
+    } catch (error) {
+      console.error('API fetch failed, falling back to database:', error)
+      service = await getServiceByIdForBuild(id)
+    }
+  }
 
   if (!service) {
     notFound()
   }
 
-  const Icon = service.icon
+  // Convert icon string to component
+  const Icon = (LucideIcons as any)[service.icon] || LucideIcons.Box
 
   return (
     <>
@@ -138,19 +177,22 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
         </section>
 
         {/* Stats */}
-        {service.stats && (
+        {service.stats && service.stats.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
             <div className="grid gap-6 sm:grid-cols-3">
-              {service.stats.map((stat, idx: number) => (
-                <Card
-                  key={idx}
-                  className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl text-center p-6"
-                >
-                  <stat.icon className="h-8 w-8 text-lime-400 mx-auto mb-3" />
-                  <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </Card>
-              ))}
+              {service.stats.map((stat: any, idx: number) => {
+                const StatIcon = (LucideIcons as any)[stat.icon] || LucideIcons.Award
+                return (
+                  <Card
+                    key={idx}
+                    className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl text-center p-6"
+                  >
+                    <StatIcon className="h-8 w-8 text-lime-400 mx-auto mb-3" />
+                    <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-sm text-gray-400">{stat.label}</div>
+                  </Card>
+                )
+              })}
             </div>
           </section>
         )}

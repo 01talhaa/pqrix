@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <ProtectedRoute requiredRole="admin">
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-black">
         {/* Admin Header */}
         <header className="border-b border-white/10 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">

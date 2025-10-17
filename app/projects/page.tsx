@@ -284,14 +284,14 @@ export const metadata = {
 export const dynamic = 'force-static'
 export const revalidate = 60 // Revalidate every 60 seconds
 
-async function getProjects(): Promise<Project[]> {
+async function getProjects(): Promise<any[]> {
   // During build time, use direct database access
   // During runtime, use API with ISR revalidation
   const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
   
   if (isProductionBuild) {
     // Build time: Direct database access
-    return getAllProjectsForBuild();
+    return await getAllProjectsForBuild();
   }
 
   // Runtime: Try API first, fallback to DB if it fails
@@ -308,16 +308,18 @@ async function getProjects(): Promise<Project[]> {
       throw new Error('API fetch failed')
     }
     
-    return response.json()
+    const data = await response.json()
+    return data.data || data || []
   } catch (error) {
     console.error('API fetch failed, falling back to database:', error);
     // Fallback to database
-    return getAllProjectsForBuild();
+    return await getAllProjectsForBuild();
   }
 }
 
-function getAllCategories(projects: Project[]) {
-  const categories = new Set(projects.map((p: Project) => p.category))
+function getAllCategories(projects: any[]) {
+  if (!Array.isArray(projects)) return ['All']
+  const categories = new Set(projects.map((p: any) => p.category))
   return ['All', ...Array.from(categories)]
 }
 

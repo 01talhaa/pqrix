@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { ArrowLeft, Check, Send } from "lucide-react"
 import Link from "next/link"
-import { servicesData } from "@/data/services"
 
 interface FormData {
   name: string
@@ -25,6 +24,8 @@ function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
+  const [service, setService] = useState<any>(null)
+  const [selectedPackage, setSelectedPackage] = useState<any>(null)
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -36,17 +37,39 @@ function CheckoutContent() {
   const serviceId = searchParams.get("service")
   const packageIndex = searchParams.get("package")
 
-  const service = serviceId ? servicesData[serviceId] : null
-  const selectedPackage =
-    service && packageIndex !== null && service.packages
-      ? service.packages[parseInt(packageIndex)]
-      : null
-
   useEffect(() => {
-    if (!serviceId || !packageIndex || !service || !selectedPackage) {
-      router.push("/services")
+    const fetchService = async () => {
+      if (!serviceId) {
+        router.push("/services")
+        return
+      }
+
+      try {
+        const response = await fetch(`/api/services/${serviceId}`)
+        const data = await response.json()
+        
+        if (data.success && data.data) {
+          setService(data.data)
+          
+          if (packageIndex !== null && data.data.packages) {
+            const pkgIdx = parseInt(packageIndex)
+            if (data.data.packages[pkgIdx]) {
+              setSelectedPackage(data.data.packages[pkgIdx])
+            } else {
+              router.push("/services")
+            }
+          }
+        } else {
+          router.push("/services")
+        }
+      } catch (error) {
+        console.error("Error fetching service:", error)
+        router.push("/services")
+      }
     }
-  }, [serviceId, packageIndex, service, selectedPackage, router])
+
+    fetchService()
+  }, [serviceId, packageIndex, router])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

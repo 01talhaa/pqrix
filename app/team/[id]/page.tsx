@@ -5,25 +5,59 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Linkedin, Twitter, Mail, Award, Briefcase, GraduationCap, FolderOpen } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { teamData, getAllTeamMemberIds } from "@/data/team"
-import { getProjectsByTeamMember } from "@/data/projects"
+import { getAllTeamMembersForBuild, getTeamMemberByIdForBuild } from "@/lib/get-team"
+import { getProjectByIdForBuild } from "@/lib/get-projects"
 
-export function generateStaticParams() {
-  return getAllTeamMemberIds().map((id) => ({ id }))
+export const dynamic = 'force-static'
+export const revalidate = 60
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  const teamMembers = await getAllTeamMembersForBuild()
+  return teamMembers.map((member: any) => ({ id: member.id }))
 }
 
-export function generateMetadata({ params }: { params: { id: string } }) {
-  const member = teamData[params.id]
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const member = await getTeamMemberByIdForBuild(id)
   if (!member) return {}
 
   return {
-    title: `${member.name} - ${member.role} | Pqrix Team`,
-    description: member.bio,
+    title: `${(member as any).name} - ${(member as any).role} | Pqrix Team`,
+    description: (member as any).bio,
   }
 }
 
-export default function TeamMemberPage({ params }: { params: { id: string } }) {
-  const member = teamData[params.id]
+export default async function TeamMemberPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  
+  // Hybrid data fetching
+  const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
+  let member: any
+  
+  if (isProductionBuild) {
+    member = await getTeamMemberByIdForBuild(id)
+  } else {
+    try {
+      const baseUrl = process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
+        : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      
+      const response = await fetch(`${baseUrl}/api/team/${id}`, {
+        next: { revalidate: 60 }
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        member = data.success ? data.data : null
+      } else {
+        member = await getTeamMemberByIdForBuild(id)
+      }
+    } catch (error) {
+      console.error('API fetch failed, falling back to database:', error)
+      member = await getTeamMemberByIdForBuild(id)
+    }
+  }
 
   if (!member) {
     notFound()
@@ -194,8 +228,47 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
         </section>
 
         {/* Projects */}
-        {(() => {
-          const memberProjects = getProjectsByTeamMember(member.id)
+        {member.projects && member.projects.length > 0 && (await (async () => {
+          // Fetch projects from MongoDB based on project IDs
+          const memberProjects = []
+          
+          for (const projectId of member.projects) {
+            if (!projectId || projectId.trim() === '') continue
+            
+            try {
+              // Try fetching from API first
+              if (!isProductionBuild) {
+                try {
+                  const baseUrl = process.env.VERCEL_URL 
+                    ? `https://${process.env.VERCEL_URL}` 
+                    : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+                  
+                  const response = await fetch(`${baseUrl}/api/projects/${projectId}`, {
+                    next: { revalidate: 60 }
+                  })
+                  
+                  if (response.ok) {
+                    const data = await response.json()
+                    if (data.success && data.data) {
+                      memberProjects.push(data.data)
+                      continue
+                    }
+                  }
+                } catch (error) {
+                  console.error(`API fetch failed for project ${projectId}:`, error)
+                }
+              }
+              
+              // Fallback to database
+              const project = await getProjectByIdForBuild(projectId)
+              if (project) {
+                memberProjects.push(project)
+              }
+            } catch (error) {
+              console.error(`Error fetching project ${projectId}:`, error)
+            }
+          }
+          
           if (memberProjects.length > 0) {
             return (
               <section className="container mx-auto px-4 pb-12">
@@ -205,23 +278,18 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
                     <h2 className="text-2xl font-bold text-white">Projects</h2>
                   </div>
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {memberProjects.map((project) => (
+                    {memberProjects.map((project: any) => (
                       <Link key={project.id} href={`/projects/${project.id}`}>
                         <Card className="liquid-glass border border-white/10 bg-white/5 hover:bg-white/10 transition-colors overflow-hidden h-full">
                           <div className="relative aspect-video overflow-hidden">
-                            {project.video ? (
-                              <video
-                                src={project.video}
-                                className="h-full w-full object-cover"
-                                muted
-                                playsInline
-                              />
-                            ) : (
+                            {project.images && project.images.length > 0 ? (
                               <img
-                                src={project.image || "/placeholder.svg"}
+                                src={project.images[0] || "/placeholder.svg"}
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                               />
+                            ) : (
+                              <div className="h-full w-full bg-gradient-to-br from-lime-400/20 to-cyan-400/20" />
                             )}
                           </div>
                           <div className="p-4">
@@ -229,7 +297,7 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
                               <span className="inline-flex items-center rounded-full bg-lime-400/20 border border-lime-400/30 px-3 py-1 text-xs font-medium text-lime-400">
                                 {project.category}
                               </span>
-                              <span className="text-xs text-gray-400">{project.year}</span>
+                              <span className="text-xs text-gray-400">{project.status}</span>
                             </div>
                             <h3 className="text-lg font-semibold text-white mb-1">{project.title}</h3>
                             <p className="text-sm text-gray-400 mb-2">{project.client}</p>
@@ -244,7 +312,7 @@ export default function TeamMemberPage({ params }: { params: { id: string } }) {
             )
           }
           return null
-        })()}
+        })())}
 
         {/* CTA */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">

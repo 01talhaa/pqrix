@@ -127,8 +127,8 @@ export default function AdminProjectsPage() {
     <div className="container mx-auto py-10">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Projects Management</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className="text-3xl font-bold text-white">Projects Management</h1>
+          <p className="text-white/60 mt-2">
             Manage all projects, create new ones, and edit existing projects
           </p>
         </div>
@@ -142,12 +142,12 @@ export default function AdminProjectsPage() {
 
       <div className="mb-6">
         <div className="relative max-w-md">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-3 h-4 w-4 text-white/60" />
           <Input
             placeholder="Search projects..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40"
           />
         </div>
       </div>
@@ -157,29 +157,29 @@ export default function AdminProjectsPage() {
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
       ) : (
-        <div className="rounded-lg border bg-card">
+        <div className="rounded-lg border border-white/10 bg-black/40 backdrop-blur-xl">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-20">Image</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Duration</TableHead>
-                <TableHead>Budget</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="border-white/10 hover:bg-white/5">
+                <TableHead className="w-20 text-white">Image</TableHead>
+                <TableHead className="text-white">Title</TableHead>
+                <TableHead className="text-white">Category</TableHead>
+                <TableHead className="text-white">Status</TableHead>
+                <TableHead className="text-white">Duration</TableHead>
+                <TableHead className="text-white">Budget</TableHead>
+                <TableHead className="text-right text-white">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredProjects.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center py-10 text-muted-foreground">
+                <TableRow className="border-white/10">
+                  <TableCell colSpan={7} className="text-center py-10 text-white/60">
                     No projects found
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredProjects.map((project) => (
-                  <TableRow key={project._id}>
+                  <TableRow key={project._id} className="border-white/10 hover:bg-white/5">
                     <TableCell>
                       {project.images && project.images.length > 0 ? (
                         <div className="relative h-12 w-12 overflow-hidden rounded-md">
@@ -191,27 +191,27 @@ export default function AdminProjectsPage() {
                           />
                         </div>
                       ) : (
-                        <div className="h-12 w-12 rounded-md bg-muted" />
+                        <div className="h-12 w-12 rounded-md bg-white/10" />
                       )}
                     </TableCell>
-                    <TableCell className="font-medium">{project.title}</TableCell>
-                    <TableCell>{project.category}</TableCell>
+                    <TableCell className="font-medium text-white">{project.title}</TableCell>
+                    <TableCell className="text-white/80">{project.category}</TableCell>
                     <TableCell>
                       <Badge className={getStatusColor(project.status)}>
                         {project.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>{project.duration} weeks</TableCell>
-                    <TableCell>{project.budget}</TableCell>
+                    <TableCell className="text-white/80">{project.duration} weeks</TableCell>
+                    <TableCell className="text-white/80">{project.budget}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Link href={`/projects/${project.id}`} target="_blank">
-                          <Button variant="ghost" size="icon" title="View on website">
+                          <Button variant="ghost" size="icon" title="View on website" className="text-white hover:text-lime-400">
                             <Eye className="h-4 w-4" />
                           </Button>
                         </Link>
                         <Link href={`/admin/projects/edit/${project._id}`}>
-                          <Button variant="ghost" size="icon" title="Edit project">
+                          <Button variant="ghost" size="icon" title="Edit project" className="text-white hover:text-lime-400">
                             <Pencil className="h-4 w-4" />
                           </Button>
                         </Link>
@@ -220,8 +220,9 @@ export default function AdminProjectsPage() {
                           size="icon"
                           title="Delete project"
                           onClick={() => setDeleteId(project._id)}
+                          className="text-destructive hover:text-red-400"
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </TableCell>

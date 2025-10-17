@@ -15,26 +15,27 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { ServiceDocument } from "@/lib/models/Service"
+import { TeamMemberDocument } from "@/lib/models/TeamMember"
 
-export default function AdminServicesPage() {
-  const [services, setServices] = useState<ServiceDocument[]>([])
+export default function AdminTeamPage() {
+  const [teamMembers, setTeamMembers] = useState<TeamMemberDocument[]>([])
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchServices()
+    fetchTeamMembers()
   }, [])
 
-  const fetchServices = async () => {
+  const fetchTeamMembers = async () => {
     try {
-      const response = await fetch('/api/services')
+      const response = await fetch("/api/team")
       const data = await response.json()
+      
       if (data.success) {
-        setServices(data.data)
+        setTeamMembers(data.data)
       }
     } catch (error) {
-      console.error('Error fetching services:', error)
+      console.error("Error fetching team members:", error)
     } finally {
       setLoading(false)
     }
@@ -44,16 +45,16 @@ export default function AdminServicesPage() {
     if (!deleteId) return
 
     try {
-      const response = await fetch(`/api/services/${deleteId}`, {
-        method: 'DELETE',
+      const response = await fetch(`/api/team/${deleteId}`, {
+        method: "DELETE",
       })
 
       if (response.ok) {
-        setServices(services.filter(s => s.id !== deleteId))
+        setTeamMembers(teamMembers.filter(m => m.id !== deleteId))
         setDeleteId(null)
       }
     } catch (error) {
-      console.error('Error deleting service:', error)
+      console.error('Error deleting team member:', error)
     }
   }
 
@@ -61,63 +62,63 @@ export default function AdminServicesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Services Management</h1>
-          <p className="text-white/60 mt-2">Manage all your services</p>
+          <h1 className="text-3xl font-bold text-white">Team Management</h1>
+          <p className="text-white/60 mt-2">Manage all your team members</p>
         </div>
-        <Button asChild>
-          <Link href="/admin/services/new">
+        <Button asChild className="bg-lime-400 text-black hover:bg-lime-300">
+          <Link href="/admin/team/new">
             <Plus className="w-4 h-4 mr-2" />
-            Add Service
+            Add Team Member
           </Link>
         </Button>
       </div>
 
       {loading ? (
-        <div className="text-white text-center py-12">Loading services...</div>
-      ) : services.length === 0 ? (
+        <div className="text-white text-center py-12">Loading team members...</div>
+      ) : teamMembers.length === 0 ? (
         <Card className="border-white/10 bg-black/40 backdrop-blur-xl">
           <CardContent className="py-12">
-            <p className="text-white/60 text-center">No services found. Create your first service!</p>
+            <p className="text-white/60 text-center">No team members found. Create your first team member!</p>
           </CardContent>
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service) => (
-            <Card key={service.id} className="border-white/10 bg-black/40 backdrop-blur-xl">
+          {teamMembers.map((member) => (
+            <Card key={member.id} className="border-white/10 bg-black/40 backdrop-blur-xl">
               <CardHeader className="pb-3">
-                <CardTitle className="text-white text-lg line-clamp-1">{service.title}</CardTitle>
-                {service.tagline && (
-                  <p className="text-lime-400 text-xs mt-1">{service.tagline}</p>
+                <CardTitle className="text-white text-lg line-clamp-1">{member.name}</CardTitle>
+                {member.role && (
+                  <p className="text-lime-400 text-xs mt-1">{member.role}</p>
+                )}
+                {member.department && (
+                  <p className="text-white/40 text-xs">{member.department}</p>
                 )}
               </CardHeader>
               <CardContent className="space-y-4">
-                {service.image && (
-                  <div className="relative aspect-video rounded-lg overflow-hidden">
+                {member.image && (
+                  <div className="relative aspect-square rounded-lg overflow-hidden">
                     <img
-                      src={service.image}
-                      alt={service.title}
+                      src={member.image}
+                      alt={member.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
                 )}
-                <p className="text-white/60 text-sm line-clamp-2">{service.description}</p>
-                {service.pricing && (
-                  <div className="text-lime-400 font-semibold text-sm">{service.pricing}</div>
-                )}
+                <p className="text-white/60 text-sm line-clamp-2">{member.bio}</p>
                 <div className="flex gap-2">
                   <Button asChild size="sm" variant="outline" className="flex-1 bg-transparent border-white/10 hover:bg-white/5 text-white">
-                    <Link href={`/services/${service.id}`} target="_blank">
+                    <Link href={`/team/${member.id}`} target="_blank">
                       <Eye className="w-4 h-4 mr-2" />
                       View
                     </Link>
                   </Button>
                   <Button asChild size="sm" className="flex-1 bg-lime-400 text-black hover:bg-lime-300">
-                    <Link href={`/admin/services/${service.id}`}>
+                    <Link href={`/admin/team/${member.id}`}>
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
                     </Link>
                   </Button>
-                  <Button size="sm" variant="destructive" onClick={() => setDeleteId(service.id)}>
+                  <Button size="sm" variant="destructive" onClick={() => setDeleteId(member.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -132,12 +133,12 @@ export default function AdminServicesPage() {
           <AlertDialogHeader>
             <AlertDialogTitle className="text-white">Are you sure?</AlertDialogTitle>
             <AlertDialogDescription className="text-white/60">
-              This action cannot be undone. This will permanently delete the service.
+              This action cannot be undone. This will permanently delete the team member.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+            <AlertDialogCancel className="border-white/10 bg-white/5 text-white hover:bg-white/10">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white">
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

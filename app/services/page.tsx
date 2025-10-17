@@ -5,7 +5,45 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Check } from "lucide-react"
 import Link from "next/link"
 import Script from "next/script"
-import { getAllServices } from "@/data/services"
+import { getAllServicesForBuild } from "@/lib/get-services"
+import * as LucideIcons from "lucide-react"
+
+// ISR configuration
+export const dynamic = 'force-static'
+export const revalidate = 60 // Revalidate every 60 seconds
+
+async function getServices() {
+  // During build time, use direct database access
+  // During runtime, use API with ISR revalidation
+  const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
+  
+  if (isProductionBuild) {
+    // Build time: Direct database access
+    return getAllServicesForBuild();
+  }
+
+  // Runtime: Try API first, fallback to DB if it fails
+  try {
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    
+    const response = await fetch(`${baseUrl}/api/services`, {
+      next: { revalidate: 60 } // ISR with 60 second revalidation
+    })
+    
+    if (!response.ok) {
+      throw new Error('API fetch failed')
+    }
+    
+    const data = await response.json()
+    return data.success ? data.data : []
+  } catch (error) {
+    console.error('API fetch failed, falling back to database:', error);
+    // Fallback to database
+    return getAllServicesForBuild();
+  }
+}
 
 export const metadata = {
   title: "Software Development Services in Bangladesh | Web, Mobile, Desktop & 3D Solutions",
@@ -364,9 +402,9 @@ export const metadata = {
   },
 }
 
-const services = getAllServices()
-
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices()
+  
   return (
     <>
       <main className="min-h-[100dvh] text-white">
@@ -389,7 +427,9 @@ export default function ServicesPage() {
         {/* Services Grid */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
           <div className="grid gap-8 lg:gap-12">
-            {services.map((service, index) => (
+            {services.map((service: any, index: number) => {
+              const IconComponent = (LucideIcons as any)[service.icon] || LucideIcons.Box
+              return (
               <Card
                 key={service.id}
                 className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden"
@@ -410,7 +450,7 @@ export default function ServicesPage() {
                     <div
                       className={`mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${service.color}`}
                     >
-                      <service.icon className="h-7 w-7 text-white" />
+                      <IconComponent className="h-7 w-7 text-white" />
                     </div>
 
                     <CardHeader className="p-0 mb-4">
@@ -445,7 +485,8 @@ export default function ServicesPage() {
                   </div>
                 </div>
               </Card>
-            ))}
+            )
+            })}
           </div>
         </section>
 

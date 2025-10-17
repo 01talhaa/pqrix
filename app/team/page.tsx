@@ -4,7 +4,10 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Linkedin, Twitter, Mail } from "lucide-react"
 import Link from "next/link"
-import { getAllTeamMembers, getAllDepartments } from "@/data/team"
+import { getAllTeamMembersForBuild } from "@/lib/get-team"
+
+export const dynamic = 'force-static'
+export const revalidate = 60
 
 export const metadata = {
   title: "Our Team | Pqrix - Meet the Creative Minds",
@@ -12,10 +15,42 @@ export const metadata = {
     "Meet the talented team behind Pqrix. Our creative professionals bring years of experience in 3D animation, design, and creative direction.",
 }
 
-const teamMembers = getAllTeamMembers()
-const departments = getAllDepartments()
+async function getTeamMembers() {
+  const isProductionBuild = process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL;
+  
+  if (isProductionBuild) {
+    return await getAllTeamMembersForBuild()
+  }
 
-export default function TeamPage() {
+  try {
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    
+    const response = await fetch(`${baseUrl}/api/team`, {
+      next: { revalidate: 60 }
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      return data.success ? data.data : []
+    }
+  } catch (error) {
+    console.error('API fetch failed, falling back to database:', error)
+  }
+  
+  return await getAllTeamMembersForBuild()
+}
+
+function getAllDepartments(members: any[]) {
+  if (!Array.isArray(members)) return ['All']
+  const departments = new Set(members.map((m: any) => m.department))
+  return ['All', ...Array.from(departments)]
+}
+
+export default async function TeamPage() {
+  const teamMembers = await getTeamMembers()
+  const departments = getAllDepartments(teamMembers)
   return (
     <>
       <main className="min-h-[100dvh] text-white">
