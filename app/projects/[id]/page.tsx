@@ -2,248 +2,140 @@ import { SiteHeader } from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, User, Tag, ExternalLink } from "lucide-react"
+import { ArrowLeft, Check, Quote, Users, Calendar, DollarSign, Award, ExternalLink, Lightbulb, Target, Code2, TrendingUp, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import Script from "next/script"
 import { notFound } from "next/navigation"
+import { getTeamMemberById } from "@/data/team"
+import Image from "next/image"
 
-const projectsData: Record<string, any> = {
-  "luxury-watch-campaign": {
-    id: "luxury-watch-campaign",
-    title: "Luxury Watch Campaign",
-    client: "TAG Heuer",
-    category: "3D Animation",
-    year: "2024",
-    duration: "3 months",
-    description: "Premium 3D product visualization showcasing the new Carrera collection with cinematic quality",
-    challenge:
-      "TAG Heuer needed a way to showcase their new Carrera Day-Date collection in a digital-first world where physical showrooms were limited. The challenge was to create a visual experience that matched the luxury and precision of the physical product.",
-    solution:
-      "We created a series of photorealistic 3D animations that highlighted the watch's intricate details, bold colors, and refined finishes. Using advanced rendering techniques and careful attention to lighting, we captured the essence of luxury that TAG Heuer is known for.",
-    results: [
-      "5M+ views across social media platforms",
-      "40% increase in online engagement",
-      "Featured in Watches & Wonders digital showcase",
-      "150% increase in product page visits",
-    ],
-    tags: ["3D Animation", "Product Visualization", "Luxury", "CGI", "Rendering"],
-    video:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/A%20new%20chapter%20in%20the%20story%20of%20success.__Introducing%20the%20new%20TAG%20Heuer%20Carrera%20Day-Date%20collection%2C%20reimagined%20with%20bold%20colors%2C%20refined%20finishes%2C%20and%20upgraded%20functionality%20to%20keep%20you%20focused%20on%20your%20goals.%20__Six%20-nDNoRQyFaZ8oaaoty4XaQz8W8E5bqA.mp4",
-    images: ["/project-luxury-watch-1.jpg", "/project-luxury-watch-2.jpg", "/project-luxury-watch-3.jpg"],
-    testimonial: {
-      quote:
-        "The 3D animations exceeded our expectations. They captured the essence of our brand and helped us connect with customers in a meaningful way during a challenging time.",
-      author: "Marketing Director",
-      company: "TAG Heuer",
-    },
-  },
-  "tech-startup-brand": {
-    id: "tech-startup-brand",
-    title: "Tech Startup Rebrand",
-    client: "Smartpack",
-    category: "Brand Identity",
-    year: "2024",
-    duration: "2 months",
-    description: "Complete brand identity redesign for innovative tech startup entering the smart luggage market",
-    challenge:
-      "Smartpack was launching a revolutionary smart luggage product but lacked a cohesive brand identity that could compete with established players in the market. They needed a brand that communicated innovation, reliability, and premium quality.",
-    solution:
-      "We developed a comprehensive brand identity system that included a modern logo, vibrant color palette, custom typography, and extensive brand guidelines. The visual language was designed to appeal to tech-savvy travelers while maintaining a premium feel.",
-    results: [
-      "Successfully launched at CES 2024",
-      "Featured in TechCrunch and The Verge",
-      "Secured $5M in Series A funding",
-      "Brand recognition increased by 300%",
-    ],
-    tags: ["Branding", "Logo Design", "Tech", "Startup", "Identity System"],
-    images: ["/project-tech-startup-1.jpg", "/project-tech-startup-2.jpg", "/project-tech-startup-3.jpg"],
-    testimonial: {
-      quote:
-        "The rebrand transformed our company. We went from looking like a garage startup to a serious player in the smart luggage space. The investment paid for itself within the first quarter.",
-      author: "CEO & Founder",
-      company: "Smartpack",
-    },
-  },
-  "social-media-campaign": {
-    id: "social-media-campaign",
-    title: "Social Media Campaign",
-    client: "Fashion Brand",
-    category: "Motion Design",
-    year: "2024",
-    duration: "1 month",
-    description: "Dynamic motion graphics series for Instagram and TikTok campaign driving 2M+ impressions",
-    challenge:
-      "A fashion brand needed to break through the noise on social media and capture the attention of Gen Z consumers. Traditional static posts weren't generating the engagement they needed.",
-    solution:
-      "We created a series of eye-catching motion graphics that combined bold typography, dynamic transitions, and on-brand colors. Each piece was optimized for both Instagram Reels and TikTok, with attention-grabbing hooks in the first 3 seconds.",
-    results: [
-      "2M+ impressions in first week",
-      "65% increase in follower growth",
-      "40% increase in website traffic",
-      "Best-performing campaign of the year",
-    ],
-    tags: ["Motion Graphics", "Social Media", "Fashion", "Instagram", "TikTok"],
-    video: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Timeline%201-Ku3Y2Hgaw8hCiFEFg1ELtYp631rSzR.webm",
-    images: ["/project-social-campaign-1.jpg", "/project-social-campaign-2.jpg", "/project-social-campaign-3.jpg"],
-    testimonial: {
-      quote:
-        "These motion graphics completely changed our social media game. We've never seen engagement like this before. Our followers can't get enough!",
-      author: "Social Media Manager",
-      company: "Fashion Brand",
-    },
-  },
-  "product-launch-video": {
-    id: "product-launch-video",
-    title: "Product Launch Video",
-    client: "Consumer Electronics",
-    category: "3D Animation",
-    year: "2024",
-    duration: "6 weeks",
-    description: "High-impact 3D animation for flagship product launch reaching 5M+ views",
-    challenge:
-      "A consumer electronics company was launching their most ambitious product yet and needed a launch video that would generate buzz and excitement across all channels.",
-    solution:
-      "We created a cinematic 3D animation that showcased the product's innovative features through dynamic camera movements, sleek transitions, and photorealistic rendering. The video told a story of innovation and possibility.",
-    results: [
-      "5M+ views in first 48 hours",
-      "Trending #1 on YouTube in Tech category",
-      "90% positive sentiment in comments",
-      "Product sold out in first week",
-    ],
-    tags: ["3D Animation", "Product Launch", "Electronics", "Video Production"],
-    images: ["/project-product-launch-1.jpg", "/project-product-launch-2.jpg", "/project-product-launch-3.jpg"],
-    testimonial: {
-      quote:
-        "This launch video was instrumental in our product's success. It perfectly captured what makes our product special and got people excited to buy.",
-      author: "VP of Marketing",
-      company: "Consumer Electronics",
-    },
-  },
-  "restaurant-brand-identity": {
-    id: "restaurant-brand-identity",
-    title: "Restaurant Brand Identity",
-    client: "Culinary Collective",
-    category: "Brand Identity",
-    year: "2023",
-    duration: "3 months",
-    description: "Modern brand identity for upscale restaurant group with multiple locations",
-    challenge:
-      "A restaurant group was expanding to multiple locations and needed a cohesive brand identity that could work across different concepts while maintaining a unified premium feel.",
-    solution:
-      "We developed a flexible brand system with a sophisticated logo, elegant typography, and a warm color palette. The system included guidelines for menu design, signage, uniforms, and digital presence.",
-    results: [
-      "Successfully opened 3 new locations",
-      "Featured in Food & Wine magazine",
-      "Michelin Guide recognition",
-      "25% increase in reservations",
-    ],
-    tags: ["Branding", "Hospitality", "Print Design", "Restaurant", "Identity"],
-    images: ["/project-restaurant-1.jpg", "/project-restaurant-2.jpg", "/project-restaurant-3.jpg"],
-    testimonial: {
-      quote:
-        "The brand identity elevated our entire operation. Customers immediately recognize the quality and attention to detail we bring to every aspect of the dining experience.",
-      author: "Owner",
-      company: "Culinary Collective",
-    },
-  },
-  "app-ui-animations": {
-    id: "app-ui-animations",
-    title: "App UI Animations",
-    client: "FinTech Startup",
-    category: "Motion Design",
-    year: "2023",
-    duration: "6 weeks",
-    description: "Smooth UI animations and micro-interactions for mobile banking app",
-    challenge:
-      "A FinTech startup needed to differentiate their banking app in a crowded market. They wanted animations that felt premium and trustworthy while making complex financial tasks feel simple.",
-    solution:
-      "We designed and implemented a comprehensive system of micro-interactions, transitions, and animations that guided users through the app with clarity and delight. Every animation served a purpose and enhanced usability.",
-    results: [
-      "4.8 star rating on App Store",
-      "Featured by Apple in 'Apps We Love'",
-      "50% reduction in support tickets",
-      "30% increase in daily active users",
-    ],
-    tags: ["UI Animation", "Mobile", "FinTech", "UX Design", "Micro-interactions"],
-    images: ["/project-app-animations-1.jpg", "/project-app-animations-2.jpg", "/project-app-animations-3.jpg"],
-    testimonial: {
-      quote:
-        "The animations transformed our app from functional to delightful. Users constantly compliment us on how smooth and intuitive everything feels.",
-      author: "Head of Product",
-      company: "FinTech Startup",
-    },
-  },
-  "automotive-showcase": {
-    id: "automotive-showcase",
-    title: "Automotive Showcase",
-    client: "Luxury Auto Brand",
-    category: "3D Animation",
-    year: "2023",
-    duration: "4 months",
-    description: "Photorealistic 3D car visualization for digital showroom experience",
-    challenge:
-      "A luxury automotive brand wanted to create an immersive digital showroom experience that would allow customers to explore vehicles in detail without visiting a physical location.",
-    solution:
-      "We created photorealistic 3D models and animations of their entire vehicle lineup, complete with customizable colors, interiors, and features. The experience included 360-degree views and detailed close-ups of key features.",
-    results: [
-      "Digital showroom visits increased 200%",
-      "40% of customers configured vehicles online",
-      "Reduced showroom costs by 30%",
-      "Industry award for digital innovation",
-    ],
-    tags: ["3D Animation", "Automotive", "CGI", "Product Visualization", "Interactive"],
-    images: ["/project-automotive-1.jpg", "/project-automotive-2.jpg", "/project-automotive-3.jpg"],
-    testimonial: {
-      quote:
-        "The digital showroom has become an essential part of our sales process. Customers love being able to explore vehicles in such detail from the comfort of their homes.",
-      author: "Digital Marketing Director",
-      company: "Luxury Auto Brand",
-    },
-  },
-  "music-festival-campaign": {
-    id: "music-festival-campaign",
-    title: "Music Festival Campaign",
-    client: "Summer Sounds Festival",
-    category: "Motion Design",
-    year: "2023",
-    duration: "2 months",
-    description: "Vibrant motion graphics campaign for annual music festival",
-    challenge:
-      "An annual music festival needed a visual campaign that would capture the energy and excitement of the event while standing out in a crowded festival market.",
-    solution:
-      "We created a bold motion graphics campaign featuring vibrant colors, dynamic typography, and energetic animations. The campaign included social media content, video ads, and on-site digital displays.",
-    results: [
-      "Tickets sold out 2 weeks early",
-      "Social media engagement up 150%",
-      "Featured in Billboard magazine",
-      "Highest attendance in festival history",
-    ],
-    tags: ["Motion Graphics", "Events", "Entertainment", "Festival", "Campaign"],
-    images: ["/project-music-festival-1.jpg", "/project-music-festival-2.jpg", "/project-music-festival-3.jpg"],
-    testimonial: {
-      quote:
-        "The motion graphics campaign perfectly captured the vibe of our festival. It got people excited and helped us sell out faster than ever before.",
-      author: "Festival Director",
-      company: "Summer Sounds Festival",
-    },
-  },
+interface ProjectLink {
+  label: string
+  url: string
 }
 
-export function generateStaticParams() {
-  return Object.keys(projectsData).map((id) => ({ id }))
+interface TimelinePhase {
+  phase: string
+  duration: string
+  description: string
 }
 
-export function generateMetadata({ params }: { params: { id: string } }) {
-  const project = projectsData[params.id]
-  if (!project) return {}
+interface Metric {
+  label: string
+  value: string
+}
 
-  return {
-    title: `${project.title} | Skitbit Projects`,
-    description: project.description,
+async function getProject(id: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const response = await fetch(`${baseUrl}/api/projects/${id}`, {
+      cache: 'no-store',
+    })
+    
+    if (!response.ok) {
+      return null
+    }
+    
+    const data = await response.json()
+    return data.success ? data.data : null
+  } catch (error) {
+    console.error('Error fetching project:', error)
+    return null
   }
 }
 
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
-  const project = projectsData[params.id]
+async function getAllProjects() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const response = await fetch(`${baseUrl}/api/projects`, {
+      cache: 'no-store',
+    })
+    
+    if (!response.ok) {
+      return []
+    }
+    
+    const data = await response.json()
+    return data.success ? data.data : []
+  } catch (error) {
+    console.error('Error fetching projects:', error)
+    return []
+  }
+}
+
+export async function generateStaticParams() {
+  const projects = await getAllProjects()
+  return projects
+    .filter((project: any) => project.id && typeof project.id === 'string')
+    .map((project: any) => ({ 
+      id: project.id.toString() 
+    }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const project = await getProject(id)
+  if (!project) return {}
+
+  const keywords = [
+    project.title,
+    `${project.title} case study`,
+    `${project.category} project`,
+    `${project.category} Bangladesh`,
+    project.client,
+    `${project.client} project`,
+    "software development case study",
+    "Bangladesh software project",
+    ...project.tags,
+    "successful software implementation",
+    "software project results",
+    "client testimonial Bangladesh"
+  ].join(", ")
+
+  const description = `${project.longDescription || project.description} See how we helped ${project.client} with ${project.category}. Project completed in ${project.year}. ${project.results ? 'Results: ' + project.results.slice(0, 2).join(', ') : ''}`
+
+  return {
+    title: `${project.title} - ${project.client} | Software Project Case Study | Pqrix`,
+    description: description.slice(0, 160),
+    keywords,
+    openGraph: {
+      title: `${project.title} - ${project.client} | Pqrix Bangladesh`,
+      description: `${project.category} project for ${project.client}. ${project.description}`,
+      type: "article",
+      url: `https://pqrix.com/projects/${project.id}`,
+      images: [
+        {
+          url: project.image || "/icons/pqrix-logo.png",
+          width: 1200,
+          height: 630,
+          alt: `${project.title} by Pqrix`,
+        },
+      ],
+      article: {
+        publishedTime: `${project.year}-01-01`,
+        authors: ["Pqrix Team"],
+        tags: project.tags,
+      },
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} - ${project.client}`,
+      description: project.description,
+      images: [project.image || "/icons/pqrix-logo.png"],
+    },
+    alternates: {
+      canonical: `https://pqrix.com/projects/${project.id}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  }
+}
+
+export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const project = await getProject(id)
 
   if (!project) {
     notFound()
@@ -266,147 +158,87 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-12 sm:py-16">
-          <div className="mb-8">
-            <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-gray-400">
-              <span className="inline-flex items-center gap-2">
-                <User className="h-4 w-4" />
-                {project.client}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                {project.year}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <Tag className="h-4 w-4" />
-                {project.category}
-              </span>
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-start">
+            <div>
+              <div className="flex items-center gap-3 mb-4 flex-wrap">
+                <span className="inline-flex items-center rounded-full bg-lime-400/20 border border-lime-400/30 px-4 py-1.5 text-sm font-medium text-lime-400">
+                  {project.category}
+                </span>
+                <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white">
+                  {project.year}
+                </span>
+                {project.status && (
+                  <span className="inline-flex items-center rounded-full bg-green-500/20 border border-green-500/30 px-4 py-1.5 text-sm font-medium text-green-400">
+                    {project.status}
+                  </span>
+                )}
+              </div>
+              <p className="text-sm font-medium text-gray-400 mb-3">Client: {project.client}</p>
+              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-white">
+                {project.title}
+              </h1>
+              <p className="text-xl text-gray-300 mb-6">{project.description}</p>
+              <p className="text-gray-400 mb-6">{project.longDescription}</p>
+
+              {/* Project Meta Info */}
+              <div className="grid grid-cols-2 gap-4">
+                {project.duration && (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-lime-400" />
+                    <div>
+                      <p className="text-xs text-gray-400">Duration</p>
+                      <p className="text-sm font-medium text-white">{project.duration}</p>
+                    </div>
+                  </div>
+                )}
+                {project.budget && (
+                  <div className="flex items-center gap-2">
+                    <DollarSign className="h-5 w-5 text-lime-400" />
+                    <div>
+                      <p className="text-xs text-gray-400">Budget</p>
+                      <p className="text-sm font-medium text-white">{project.budget}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-            <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-white">
-              {project.title}
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl">{project.description}</p>
-          </div>
 
-          {/* Main Media */}
-          <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-white/10 mb-8">
-            {project.video ? (
-              <video src={project.video} className="h-full w-full object-cover" controls autoPlay loop muted />
-            ) : (
-              <img
-                src={project.images?.[0] || "/placeholder.svg"}
-                alt={project.title}
-                className="h-full w-full object-cover"
-              />
-            )}
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag: string) => (
-              <span
-                key={tag}
-                className="rounded-full bg-white/5 border border-white/10 px-4 py-2 text-sm text-gray-300"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Project Details */}
-        <section className="container mx-auto px-4 pb-12">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-8">
-              {/* Challenge */}
-              <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-                <h2 className="text-2xl font-bold text-white mb-4">The Challenge</h2>
-                <p className="text-gray-300 leading-relaxed">{project.challenge}</p>
-              </Card>
-
-              {/* Solution */}
-              <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-                <h2 className="text-2xl font-bold text-white mb-4">Our Solution</h2>
-                <p className="text-gray-300 leading-relaxed">{project.solution}</p>
-              </Card>
-
-              {/* Results */}
-              <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-                <h2 className="text-2xl font-bold text-white mb-4">Results</h2>
-                <ul className="space-y-3">
-                  {project.results.map((result: string, idx: number) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <div className="mt-1 h-2 w-2 rounded-full bg-lime-400 flex-shrink-0" />
-                      <span className="text-gray-300">{result}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-
-              {/* Testimonial */}
-              {project.testimonial && (
-                <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl p-8">
-                  <blockquote className="space-y-4">
-                    <p className="text-lg text-white italic leading-relaxed">"{project.testimonial.quote}"</p>
-                    <footer className="text-gray-400">
-                      <div className="font-semibold text-white">{project.testimonial.author}</div>
-                      <div className="text-sm">{project.testimonial.company}</div>
-                    </footer>
-                  </blockquote>
-                </Card>
+            {/* Main Media */}
+            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-white/10">
+              {project.video ? (
+                <video
+                  src={project.video}
+                  className="h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls
+                />
+              ) : (
+                <img
+                  src={project.image || "/placeholder.svg"}
+                  alt={project.title}
+                  className="h-full w-full object-cover"
+                />
               )}
             </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-6">
-                <h3 className="text-lg font-bold text-white mb-4">Project Info</h3>
-                <dl className="space-y-4">
-                  <div>
-                    <dt className="text-sm text-gray-400 mb-1">Client</dt>
-                    <dd className="text-white font-medium">{project.client}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-gray-400 mb-1">Category</dt>
-                    <dd className="text-white font-medium">{project.category}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-gray-400 mb-1">Year</dt>
-                    <dd className="text-white font-medium">{project.year}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm text-gray-400 mb-1">Duration</dt>
-                    <dd className="text-white font-medium">{project.duration}</dd>
-                  </div>
-                </dl>
-              </Card>
-
-              <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl p-6 text-center">
-                <h3 className="text-lg font-bold text-white mb-3">Like What You See?</h3>
-                <p className="text-sm text-gray-300 mb-4">Let's create something amazing together</p>
-                <Button asChild className="w-full rounded-full bg-lime-400 text-black hover:bg-lime-300 font-semibold">
-                  <Link href="https://wa.link/65mf3i">
-                    Start Your Project
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </Card>
-            </div>
           </div>
         </section>
 
-        {/* Additional Images */}
+        {/* Image Gallery */}
         {project.images && project.images.length > 1 && (
-          <section className="container mx-auto px-4 pb-16 sm:pb-24">
-            <h2 className="text-3xl font-bold text-white mb-8">More From This Project</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="container mx-auto px-4 pb-12">
+            <h2 className="text-2xl font-bold text-white mb-6">Project Gallery</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {project.images.slice(1).map((image: string, idx: number) => (
                 <div
                   key={idx}
-                  className="relative aspect-video rounded-xl overflow-hidden liquid-glass border border-white/10"
+                  className="relative aspect-square rounded-xl overflow-hidden liquid-glass border border-white/10 hover:scale-105 transition-transform cursor-pointer"
                 >
                   <img
                     src={image || "/placeholder.svg"}
-                    alt={`${project.title} ${idx + 2}`}
+                    alt={`${project.title} - Image ${idx + 2}`}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -415,8 +247,340 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           </section>
         )}
 
+        {/* Key Metrics */}
+        {project.metrics && project.metrics.length > 0 && (
+          <section className="container mx-auto px-4 pb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Key Results & Metrics</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {project.metrics.map((metric, idx) => (
+                <Card
+                  key={idx}
+                  className="liquid-glass-enhanced border border-white/15 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl text-center p-6 hover:scale-105 transition-transform"
+                >
+                  <TrendingUp className="h-8 w-8 text-lime-400 mx-auto mb-3" />
+                  <p className="text-3xl font-bold text-white mb-2">{metric.value}</p>
+                  <p className="text-sm text-gray-400">{metric.label}</p>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Tags */}
+        <section className="container mx-auto px-4 pb-12">
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span key={tag} className="rounded-full bg-white/10 px-4 py-2 text-sm text-gray-300 border border-white/20">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* Technologies Used */}
+        {project.technologies && project.technologies.length > 0 && (
+          <section className="container mx-auto px-4 pb-12">
+            <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Code2 className="h-6 w-6 text-lime-400" />
+                <h2 className="text-2xl font-bold text-white">Technologies & Tools</h2>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {project.technologies.map((tech, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-lime-400/20 to-green-400/20 border border-lime-400/30 px-4 py-2 text-sm font-medium text-lime-300"
+                  >
+                    <Code2 className="h-4 w-4" />
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </Card>
+          </section>
+        )}
+
+        {/* Timeline */}
+        {project.timeline && project.timeline.length > 0 && (
+          <section className="container mx-auto px-4 pb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Project Timeline</h2>
+            <div className="max-w-4xl mx-auto">
+              <div className="space-y-6">
+                {project.timeline.map((phase, idx) => (
+                  <Card
+                    key={idx}
+                    className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-6 hover:bg-white/10 transition-colors"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-lime-400/20 border border-lime-400/30 flex items-center justify-center">
+                        <span className="text-lg font-bold text-lime-400">{idx + 1}</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="text-xl font-bold text-white">{phase.phase}</h3>
+                          <span className="text-sm text-gray-400">{phase.duration}</span>
+                        </div>
+                        <p className="text-gray-300">{phase.description}</p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Challenges & Solutions */}
+        {(project.challenges || project.solutions) && (
+          <section className="container mx-auto px-4 pb-12">
+            <div className="grid gap-8 lg:grid-cols-2">
+              {/* Challenges */}
+              {project.challenges && project.challenges.length > 0 && (
+                <Card className="liquid-glass border border-red-500/20 bg-red-500/5 backdrop-blur-xl p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <AlertCircle className="h-6 w-6 text-red-400" />
+                    <h2 className="text-2xl font-bold text-white">Challenges</h2>
+                  </div>
+                  <div className="space-y-4">
+                    {project.challenges.map((challenge, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mt-0.5">
+                          <span className="text-xs font-bold text-red-400">{idx + 1}</span>
+                        </div>
+                        <p className="text-gray-300">{challenge}</p>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              )}
+
+              {/* Solutions */}
+              {project.solutions && project.solutions.length > 0 && (
+                <Card className="liquid-glass border border-green-500/20 bg-green-500/5 backdrop-blur-xl p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <Lightbulb className="h-6 w-6 text-green-400" />
+                    <h2 className="text-2xl font-bold text-white">Solutions</h2>
+                  </div>
+                  <div className="space-y-4">
+                    {project.solutions.map((solution, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <Check className="h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" />
+                        <p className="text-gray-300">{solution}</p>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Deliverables */}
+        {project.deliverables && (
+          <section className="container mx-auto px-4 pb-12">
+            <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Target className="h-6 w-6 text-lime-400" />
+                <h2 className="text-2xl font-bold text-white">Deliverables</h2>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {project.deliverables.map((deliverable, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-lime-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-300">{deliverable}</span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+        )}
+
+        {/* Awards */}
+        {project.awards && project.awards.length > 0 && (
+          <section className="container mx-auto px-4 pb-12">
+            <Card className="liquid-glass border border-yellow-500/20 bg-yellow-500/5 backdrop-blur-xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Award className="h-6 w-6 text-yellow-400" />
+                <h2 className="text-2xl font-bold text-white">Awards & Recognition</h2>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {project.awards.map((award, idx) => (
+                  <div key={idx} className="flex items-center gap-3 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                    <Award className="h-5 w-5 text-yellow-400 flex-shrink-0" />
+                    <span className="text-gray-200 font-medium">{award}</span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+        )}
+
+        {/* Results */}
+        {project.results && (
+          <section className="container mx-auto px-4 pb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Project Outcomes</h2>
+            <div className="grid gap-6 sm:grid-cols-3">
+              {project.results.map((result, idx) => (
+                <Card
+                  key={idx}
+                  className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl text-center p-6"
+                >
+                  <Check className="h-8 w-8 text-lime-400 mx-auto mb-3" />
+                  <p className="text-lg font-semibold text-white">{result}</p>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Testimonial */}
+        {project.testimonial && (
+          <section className="container mx-auto px-4 pb-12">
+            <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl p-8 sm:p-12 max-w-4xl mx-auto">
+              <div className="flex justify-center mb-6">
+                <div className="h-16 w-16 rounded-full bg-lime-400/20 border-2 border-lime-400/30 flex items-center justify-center">
+                  <Quote className="h-8 w-8 text-lime-400" />
+                </div>
+              </div>
+              <blockquote className="text-xl sm:text-2xl text-center text-white mb-6 italic leading-relaxed">
+                "{project.testimonial.quote}"
+              </blockquote>
+              <div className="text-center">
+                <p className="font-bold text-xl text-white">{project.testimonial.author}</p>
+                <p className="text-sm text-gray-400 mt-1">{project.testimonial.role}</p>
+              </div>
+            </Card>
+          </section>
+        )}
+
+        {/* Links */}
+        {project.links && project.links.length > 0 && (
+          <section className="container mx-auto px-4 pb-12">
+            <div className="flex flex-wrap gap-4 justify-center">
+              {project.links.map((link, idx) => (
+                <Button
+                  key={idx}
+                  asChild
+                  variant="outline"
+                  className="liquid-glass hover:liquid-glass-enhanced border-lime-400/30 text-lime-400"
+                >
+                  <Link href={link.url} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    {link.label}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Team Members */}
+        {project.teamMembers && project.teamMembers.length > 0 && (
+          <section className="container mx-auto px-4 pb-12">
+            <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Users className="h-6 w-6 text-lime-400" />
+                <h2 className="text-2xl font-bold text-white">Project Team</h2>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {project.teamMembers.map((memberId) => {
+                  const member = getTeamMemberById(memberId)
+                  if (!member) return null
+                  return (
+                    <Link key={memberId} href={`/team/${memberId}`}>
+                      <div className="flex items-center gap-3 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all hover:scale-105 border border-white/10">
+                        <div className="relative h-14 w-14 rounded-full overflow-hidden bg-gray-700 flex-shrink-0">
+                          <img
+                            src={member.image || "/placeholder.svg"}
+                            alt={member.name}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-white">{member.name}</p>
+                          <p className="text-sm text-gray-400">{member.role}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </Card>
+          </section>
+        )}
+
+        {/* CTA */}
+        <section className="container mx-auto px-4 pb-16 sm:pb-24">
+          <Card className="liquid-glass-enhanced border border-white/15 bg-gradient-to-br from-lime-500/20 to-green-500/20 backdrop-blur-xl text-center p-8 sm:p-12">
+            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Start Your Project?</h2>
+            <p className="mb-8 text-lg text-gray-300 max-w-2xl mx-auto">
+              Let's create something amazing together. Get in touch to discuss how we can help bring your vision to life.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button
+                asChild
+                size="lg"
+                className="rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300"
+              >
+                <Link href="https://wa.link/65mf3i">Get in Touch via WhatsApp</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="rounded-full border-white/30 text-white hover:bg-white/10"
+              >
+                <Link href="/services">Explore Our Services</Link>
+              </Button>
+            </div>
+          </Card>
+        </section>
+
         <AppverseFooter />
       </main>
+      
+      {/* Structured Data for Project Case Study */}
+      <Script
+        id="project-schema"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": project.title,
+            "description": project.longDescription || project.description,
+            "author": {
+              "@type": "Organization",
+              "name": "Pqrix"
+            },
+            "datePublished": `${project.year}-01-01`,
+            "image": project.image || project.video,
+            "keywords": project.tags.join(", "),
+            "about": {
+              "@type": "Thing",
+              "name": project.category
+            },
+            "client": {
+              "@type": "Organization",
+              "name": project.client
+            },
+            "review": project.testimonial ? {
+              "@type": "Review",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5"
+              },
+              "author": {
+                "@type": "Person",
+                "name": project.testimonial.author,
+                "jobTitle": project.testimonial.role
+              },
+              "reviewBody": project.testimonial.quote
+            } : undefined
+          })
+        }}
+      />
     </>
   )
 }

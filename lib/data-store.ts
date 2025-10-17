@@ -173,7 +173,7 @@ const initialProjects: Project[] = [
     solution: "We developed a comprehensive 3D pipeline...",
     results: ["300% increase in engagement", "2M+ views in first week", "45% boost in sales"],
     testimonial: {
-      text: "Skitbit exceeded our expectations...",
+      text: "Pqrix exceeded our expectations...",
       author: "Michael Chen",
       position: "Marketing Director, Chronos Luxury",
     },

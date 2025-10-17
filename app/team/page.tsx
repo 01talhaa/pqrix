@@ -4,105 +4,16 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Linkedin, Twitter, Mail } from "lucide-react"
 import Link from "next/link"
+import { getAllTeamMembers, getAllDepartments } from "@/data/team"
 
 export const metadata = {
-  title: "Our Team | Skitbit - Meet the Creative Minds",
+  title: "Our Team | Pqrix - Meet the Creative Minds",
   description:
-    "Meet the talented team behind Skitbit. Our creative professionals bring years of experience in 3D animation, design, and creative direction.",
+    "Meet the talented team behind Pqrix. Our creative professionals bring years of experience in 3D animation, design, and creative direction.",
 }
 
-const teamMembers = [
-  {
-    id: "sarah-chen",
-    name: "Sarah Chen",
-    role: "Creative Director",
-    department: "Leadership",
-    bio: "Leading creative vision with 12+ years in 3D animation and brand strategy",
-    image: "/team-sarah-chen.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "sarah@skitbit.com",
-  },
-  {
-    id: "marcus-rodriguez",
-    name: "Marcus Rodriguez",
-    role: "Lead 3D Animator",
-    department: "Animation",
-    bio: "Award-winning animator specializing in product visualization and character work",
-    image: "/team-marcus-rodriguez.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "marcus@skitbit.com",
-  },
-  {
-    id: "emily-watson",
-    name: "Emily Watson",
-    role: "Brand Strategist",
-    department: "Strategy",
-    bio: "Crafting compelling brand narratives that resonate with audiences",
-    image: "/team-emily-watson.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "emily@skitbit.com",
-  },
-  {
-    id: "david-kim",
-    name: "David Kim",
-    role: "Motion Designer",
-    department: "Design",
-    bio: "Creating dynamic motion graphics that capture attention and drive engagement",
-    image: "/team-david-kim.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "david@skitbit.com",
-  },
-  {
-    id: "lisa-patel",
-    name: "Lisa Patel",
-    role: "Art Director",
-    department: "Design",
-    bio: "Bringing artistic vision to life with meticulous attention to detail",
-    image: "/team-lisa-patel.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "lisa@skitbit.com",
-  },
-  {
-    id: "james-thompson",
-    name: "James Thompson",
-    role: "Senior Animator",
-    department: "Animation",
-    bio: "Pushing the boundaries of what's possible in 3D animation",
-    image: "/team-james-thompson.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "james@skitbit.com",
-  },
-  {
-    id: "nina-martinez",
-    name: "Nina Martinez",
-    role: "Brand Designer",
-    department: "Design",
-    bio: "Designing memorable brand identities that stand the test of time",
-    image: "/team-nina-martinez.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "nina@skitbit.com",
-  },
-  {
-    id: "alex-nguyen",
-    name: "Alex Nguyen",
-    role: "Technical Director",
-    department: "Technology",
-    bio: "Bridging creativity and technology to deliver exceptional results",
-    image: "/team-alex-nguyen.jpg",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-    email: "alex@skitbit.com",
-  },
-]
-
-const departments = ["All", "Leadership", "Animation", "Design", "Strategy", "Technology"]
+const teamMembers = getAllTeamMembers()
+const departments = getAllDepartments()
 
 export default function TeamPage() {
   return (
@@ -223,7 +134,7 @@ export default function TeamPage() {
               size="lg"
               className="rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300"
             >
-              <Link href="mailto:careers@skitbit.com">View Open Positions</Link>
+              <Link href="mailto:careers@pqrix.com">View Open Positions</Link>
             </Button>
           </Card>
         </section>

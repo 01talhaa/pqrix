@@ -82,7 +82,7 @@ export default function PhoneVideo({
       playsInline
       preload="none"
       poster={poster}
-      aria-label="Skitbit app preview video"
+      aria-label="Pqrix app preview video"
       // Do not include controls to keep clean UI
     >
       <source data-src={src} type={src.endsWith(".webm") ? "video/webm" : "video/mp4"} />

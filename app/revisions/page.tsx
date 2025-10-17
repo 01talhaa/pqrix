@@ -62,7 +62,7 @@ export default function RevisionPolicyPage() {
                     For questions regarding our revision policy, please contact us at:
                   </p>
                   <p className="text-neutral-300">
-                    Email: <a href="mailto:hello@theskitbit.com" className="text-lime-300 underline">hello@theskitbit.com</a>
+                    Email: <a href="mailto:hello@pqrix.com" className="text-lime-300 underline">hello@pqrix.com</a>
                   </p>
                 </section>
               </div>

@@ -50,13 +50,11 @@ const featuredProjects = [
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="container mx-auto px-4 py-16 sm:py-20">
-      <div className="mb-12 flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <div>
-          <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Featured Projects</h2>
-          <p className="text-lg text-gray-300">See how we've helped brands stand out</p>
-        </div>
-        <Button asChild variant="ghost" className="text-lime-400 hover:bg-lime-400/10 hover:text-lime-300">
+    <section id="projects" className="container mx-auto px-4 py-12 sm:py-16">
+      <div className="mb-10 text-center">
+        <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Featured Projects</h2>
+        <p className="mx-auto max-w-2xl text-lg text-gray-300">See how we've helped brands stand out with innovative design and animation.</p>
+        <Button asChild variant="ghost" className="mt-6 text-lime-400 hover:bg-lime-400/10 hover:text-lime-300">
           <Link href="/projects">
             View All Projects
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -64,26 +62,26 @@ export function ProjectsSection() {
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {featuredProjects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} featured={index === 0} />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
     </section>
   )
 }
 
-function ProjectCard({ project, featured }: { project: (typeof featuredProjects)[0]; featured?: boolean }) {
+function ProjectCard({ project }: { project: (typeof featuredProjects)[0] }) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Link href={`/projects/${project.id}`} className={featured ? "md:col-span-2" : ""}>
+    <Link href={`/projects/${project.id}`}>
       <Card
-        className="group liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-white/20 hover:bg-white/10"
+        className="group liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-white/20 hover:bg-white/10 h-full flex flex-col"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className={`relative ${featured ? "aspect-[21/9]" : "aspect-video"} overflow-hidden bg-gray-900`}>
+        <div className="relative aspect-video overflow-hidden bg-gray-900">
           {project.video ? (
             <>
               <video
@@ -110,31 +108,31 @@ function ProjectCard({ project, featured }: { project: (typeof featuredProjects)
           {/* Play button overlay for video projects */}
           {project.video && (
             <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-lime-400/90 backdrop-blur-sm">
-                <Play className="h-8 w-8 text-black fill-black ml-1" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-lime-400/90 backdrop-blur-sm">
+                <Play className="h-7 w-7 text-black fill-black ml-1" />
               </div>
             </div>
           )}
 
           {/* Category badge */}
-          <div className="absolute top-4 left-4">
-            <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-lime-400 border border-lime-400/30">
+          <div className="absolute top-3 left-3">
+            <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-2.5 py-0.5 text-xs font-medium text-lime-400 border border-lime-400/30">
               {project.category}
             </span>
           </div>
         </div>
 
-        <div className="p-6">
-          <div className="mb-2 flex items-center gap-2 text-sm text-gray-400">
+        <div className="p-4 flex-grow flex flex-col">
+          <div className="mb-1 text-sm text-gray-400">
             <span>{project.client}</span>
           </div>
-          <h3 className="mb-2 text-2xl font-bold text-white group-hover:text-lime-400 transition-colors">
+          <h3 className="mb-2 text-xl font-bold text-white group-hover:text-lime-400 transition-colors">
             {project.title}
           </h3>
-          <p className="mb-4 text-gray-300">{project.description}</p>
-          <div className="flex flex-wrap gap-2">
+          <p className="mb-3 text-gray-300 text-sm flex-grow">{project.description}</p>
+          <div className="flex flex-wrap gap-2 mt-auto">
             {project.tags.map((tag) => (
-              <span key={tag} className="rounded-full bg-white/5 px-3 py-1 text-xs text-gray-400">
+              <span key={tag} className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-gray-400">
                 {tag}
               </span>
             ))}

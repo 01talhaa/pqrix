@@ -20,7 +20,7 @@ export function Features() {
 
   useEffect(() => {
     // Load content from localStorage
-    const savedContent = localStorage.getItem("skitbit-content")
+    const savedContent = localStorage.getItem("pqrix-content")
     if (savedContent) {
       try {
         const parsed = JSON.parse(savedContent)

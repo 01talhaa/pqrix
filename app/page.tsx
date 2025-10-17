@@ -3,9 +3,11 @@ import { Hero } from "@/components/hero"
 import { Features } from "@/components/features"
 import { ServicesSection } from "@/components/services-section"
 import { LogoMarquee } from "@/components/logo-marquee"
+import { TechStackMarquee } from "@/components/tech-stack-marquee"
 import { Pricing } from "@/components/pricing"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { ProjectsSection } from "@/components/projects-section"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 import Script from "next/script"
 
 // ✅ Force static generation for low TTFB
@@ -16,66 +18,66 @@ export default function Page() {
   const pricingStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebPageElement",
-    "@id": "https://theskitbit.com/#pricing",
+    "@id": "https://pqrix.com/#pricing",
     name: "Pricing Plans",
-    description: "3D Animation pricing plans - Startup, Pro, and Premium packages for all business needs",
-    url: "https://theskitbit.com/#pricing",
+    description: "Software development pricing plans for Discovery, Web/SaaS, Mobile, 3D Web, and Desktop solutions",
+    url: "https://pqrix.com/#pricing",
     mainEntity: {
       "@type": "PriceSpecification",
-      name: "3D Animation Services",
-      description: "Professional 3D animation services with three pricing tiers",
+      name: "Software Development Services",
+      description: "Professional software development services with comprehensive pricing packages",
       offers: [
         {
           "@type": "Offer",
-          name: "Startup Plan",
-          price: "299",
-          priceCurrency: "USD",
-          description: "Up to 15s 3D Animation with 2 revisions",
+          name: "Discovery & Strategy",
+          price: "8500",
+          priceCurrency: "BDT",
+          description: "Technical blueprint, wireframing, and project planning",
         },
         {
           "@type": "Offer",
-          name: "Pro Plan",
-          price: "699",
-          priceCurrency: "USD",
-          description: "Up to 25s 3D Animation with 4 revisions",
+          name: "Web & SaaS Development",
+          price: "35000",
+          priceCurrency: "BDT",
+          description: "Custom web applications, CRM, ERP, and SaaS solutions",
         },
         {
           "@type": "Offer",
-          name: "Premium Plan",
-          price: "2049",
-          priceCurrency: "USD",
-          description: "40-60s 3D Animation with unlimited revisions",
+          name: "Mobile App Development",
+          price: "75000",
+          priceCurrency: "BDT",
+          description: "iOS, Android, and cross-platform mobile applications",
         },
       ],
     },
   }
 
-  // Structured data for main page
+    // Structured data for main page
   const pageStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": "https://theskitbit.com/",
-    name: "Skitbit | 3D Animation Made Simple, Reliable & Scalable",
+    "@id": "https://pqrix.com/",
+    name: "Pqrix | Software Development Company in Bangladesh",
     description:
-      "From product launches to full-scale campaigns, Skitbit delivers 3D animation that’s fast, consistent, and built to wow your audience.",
-    url: "https://theskitbit.com/",
+      "Leading software development company in Bangladesh offering Discovery & Strategy, Web/SaaS Development, Mobile Apps, 3D Web/XR, and Desktop solutions with local payment integration.",
+    url: "https://pqrix.com/",
     mainEntity: {
       "@type": "Organization",
-      name: "Skitbit",
-      url: "https://theskitbit.com",
+      name: "Pqrix",
+      url: "https://pqrix.com",
       sameAs: [
-        "https://twitter.com/theskitbit",
-        "https://www.youtube.com/@skitbitinternational",
-        "https://instagram.com/theskitbit",
-        "https://threads.com/theskitbit",
+        "https://twitter.com/pqrix",
+        "https://www.youtube.com/@pqrix",
+        "https://instagram.com/pqrix",
+        "https://threads.com/pqrix",
       ],
     },
     hasPart: [
       {
         "@type": "WebPageElement",
-        "@id": "https://theskitbit.com/#pricing",
+        "@id": "https://pqrix.com/#pricing",
         name: "Pricing Section",
-        url: "https://theskitbit.com/#pricing",
+        url: "https://pqrix.com/#pricing",
       },
     ],
   }
@@ -87,11 +89,15 @@ export default function Page() {
         <Hero />
         <Features />
         <ServicesSection />
+        <TechStackMarquee />
         <ProjectsSection />
-        <LogoMarquee />
-        <Pricing />
+        {/* <LogoMarquee /> */}
+        {/* <Pricing /> */}
         <AppverseFooter />
       </main>
+      
+      {/* WhatsApp Floating Button */}
+      <WhatsAppButton />
 
       {/* JSON-LD structured data */}
       <Script

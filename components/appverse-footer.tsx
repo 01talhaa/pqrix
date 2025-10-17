@@ -15,7 +15,7 @@ interface FooterContent {
 
 const defaultContent: FooterContent = {
   tagline: "Experience 3D animation like never before. We craft cinematic visuals for brands and products.",
-  copyright: "© 2025 — Skitbit International Uk",
+  copyright: "© 2025 — Pqrix",
 }
 
 export function AppverseFooter() {
@@ -23,7 +23,7 @@ export function AppverseFooter() {
 
   useEffect(() => {
     // Load content from localStorage
-    const savedContent = localStorage.getItem("skitbit-content")
+    const savedContent = localStorage.getItem("pqrix-content")
     if (savedContent) {
       try {
         const parsed = JSON.parse(savedContent)
@@ -80,7 +80,7 @@ export function AppverseFooter() {
                     loop={true}
                     muted={true}
                     playsInline={true}
-                    aria-label="Skitbit app preview - approvals made easy"
+                    aria-label="Pqrix app preview - approvals made easy"
                   />
                   {/* On-screen content */}
                   <div className="relative p-3">
@@ -107,8 +107,8 @@ export function AppverseFooter() {
             {/* Brand */}
             <div className="space-y-3">
               <div className="flex items-center gap-1.5">
-                <Image src="/icons/skitbit-white.svg" alt="Skitbit logo" width={24} height={24} className="h-6 w-6" />
-                <span className="text-xl font-semibold text-lime-300">Skitbit</span>
+                <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={24} height={24} className="h-6 w-6" />
+                <span className="text-xl font-semibold text-lime-300">Pqrix</span>
               </div>
               <p className="max-w-sm text-sm text-neutral-400">{content.tagline}</p>
             </div>
@@ -133,11 +133,11 @@ export function AppverseFooter() {
                   <li className="flex items-center gap-2">
                     <Twitter className="h-4 w-4 text-neutral-400" />
                     <a
-                      href="https://twitter.com/theskitbit"
+                      href="https://twitter.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-lime-300"
-                      aria-label="Follow skitbit on Twitter"
+                      aria-label="Follow pqrix on Twitter"
                     >
                       X/Twitter
                     </a>
@@ -145,11 +145,11 @@ export function AppverseFooter() {
                   <li className="flex items-center gap-2">
                     <Youtube className="h-4 w-4 text-neutral-400" />
                     <a
-                      href="https://www.youtube.com/@skitbitinternational"
+                      href="https://www.youtube.com/@pqrixinternational"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-lime-300"
-                      aria-label="Subscribe to skitbit on YouTube"
+                      aria-label="Subscribe to pqrix on YouTube"
                     >
                       YouTube
                     </a>
@@ -157,11 +157,11 @@ export function AppverseFooter() {
                   <li className="flex items-center gap-2">
                     <Instagram className="h-4 w-4 text-neutral-400" />
                     <a
-                      href="https://instagram.com/theskitbit"
+                      href="https://instagram.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-lime-300"
-                      aria-label="Follow skitbit on Instagram"
+                      aria-label="Follow pqrix on Instagram"
                     >
                       Instagram
                     </a>
@@ -169,11 +169,11 @@ export function AppverseFooter() {
                   <li className="flex items-center gap-2">
                     <MessageCircle className="h-4 w-4 text-neutral-400" />
                     <a
-                      href="https://threads.com/theskitbit"
+                      href="https://threads.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-lime-300"
-                      aria-label="Follow skitbit on Threads"
+                      aria-label="Follow pqrix on Threads"
                     >
                       Threads
                     </a>

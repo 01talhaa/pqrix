@@ -5,101 +5,308 @@ import { Button } from "@/components/ui/button"
 import { Play } from "lucide-react"
 import Link from "next/link"
 
-export const metadata = {
-  title: "Our Projects | Skitbit - Portfolio Showcase",
-  description:
-    "Explore our portfolio of creative projects including 3D animations, brand identities, and motion design work.",
+interface Project {
+  id: string
+  title: string
+  client: string
+  category: string
+  description: string
+  image?: string
+  images?: string[]
+  video?: string
+  tags: string[]
+  year: string
 }
 
-const allProjects = [
-  {
-    id: "luxury-watch-campaign",
-    title: "Luxury Watch Campaign",
-    client: "TAG Heuer",
-    category: "3D Animation",
-    description: "Premium 3D product visualization showcasing the new Carrera collection with cinematic quality",
-    image: "/project-luxury-watch.jpg",
-    video:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/A%20new%20chapter%20in%20the%20story%20of%20success.__Introducing%20the%20new%20TAG%20Heuer%20Carrera%20Day-Date%20collection%2C%20reimagined%20with%20bold%20colors%2C%20refined%20finishes%2C%20and%20upgraded%20functionality%20to%20keep%20you%20focused%20on%20your%20goals.%20__Six%20-nDNoRQyFaZ8oaaoty4XaQz8W8E5bqA.mp4",
-    tags: ["3D Animation", "Product Viz", "Luxury"],
-    year: "2024",
+export const metadata = {
+  title: "Our Projects & Portfolio | Software Development Case Studies | Pqrix Bangladesh",
+  description:
+    "Explore our portfolio of successful software projects in Bangladesh: Web applications, Mobile apps, SaaS platforms, 3D web experiences, and desktop solutions. Real client results, proven expertise in Discovery & Strategy, Full-stack development, and Custom software solutions.",
+  keywords: [
+    // Portfolio General
+    "software development portfolio",
+    "software projects",
+    "IT portfolio",
+    "development portfolio",
+    "project showcase",
+    "work portfolio",
+    "case studies",
+    "software case studies",
+    "project case studies",
+    "success stories",
+    "client success stories",
+    "software success stories",
+    "completed projects",
+    "delivered projects",
+    "past projects",
+    "project examples",
+    "project samples",
+    "software examples",
+    "development work",
+    "previous work",
+    "client work",
+    "client projects",
+    
+    // Project Types - Comprehensive
+    "web application projects",
+    "web development projects",
+    "website projects",
+    "web portfolio",
+    "SaaS projects",
+    "cloud application projects",
+    "mobile app projects",
+    "mobile application portfolio",
+    "iOS app projects",
+    "android app projects",
+    "mobile app portfolio",
+    "desktop software projects",
+    "desktop application portfolio",
+    "3D web projects",
+    "WebGL projects",
+    "interactive 3D projects",
+    "virtual tour projects",
+    "e-commerce projects",
+    "online store projects",
+    "marketplace projects",
+    "fintech projects",
+    "financial software projects",
+    "healthcare software projects",
+    "education software projects",
+    "e-learning projects",
+    "logistics software projects",
+    "CRM projects",
+    "ERP projects",
+    "custom software projects",
+    "enterprise software projects",
+    "business software projects",
+    "startup projects",
+    "MVP projects",
+    
+    // Client & Results Focus
+    "client testimonials",
+    "customer testimonials",
+    "client reviews",
+    "project testimonials",
+    "client feedback",
+    "success metrics",
+    "project results",
+    "delivered results",
+    "proven results",
+    "measurable results",
+    "ROI projects",
+    "business impact",
+    "real-world projects",
+    "production projects",
+    "live projects",
+    "deployed projects",
+    "successful implementations",
+    "client satisfaction",
+    "happy clients",
+    "trusted by clients",
+    
+    // Industry-Specific Projects
+    "fintech portfolio",
+    "ecommerce portfolio",
+    "healthcare portfolio",
+    "education portfolio",
+    "logistics portfolio",
+    "retail projects",
+    "hospitality projects",
+    "real estate projects",
+    "social media projects",
+    "booking system projects",
+    "management system projects",
+    "B2B projects",
+    "B2C projects",
+    "enterprise projects",
+    "startup portfolio",
+    "SME projects",
+    
+    // Technical Showcases
+    "full stack projects",
+    "backend projects",
+    "frontend projects",
+    "React projects",
+    "Angular projects",
+    "Vue.js projects",
+    "Node.js projects",
+    "Python projects",
+    "Laravel projects",
+    "Django projects",
+    "Flutter projects",
+    "React Native projects",
+    "Electron projects",
+    "Three.js projects",
+    "WebGL showcase",
+    "API projects",
+    "microservices projects",
+    "cloud projects",
+    "AWS projects",
+    "azure projects",
+    
+    // Features Demonstrated
+    "payment integration projects",
+    "bKash integration projects",
+    "Nagad integration projects",
+    "payment gateway projects",
+    "third-party integration",
+    "API integration examples",
+    "real-time projects",
+    "chat application projects",
+    "video streaming projects",
+    "data visualization projects",
+    "dashboard projects",
+    "admin panel projects",
+    "multi-tenant projects",
+    "white label projects",
+    "subscription-based projects",
+    "marketplace platform",
+    "booking platform",
+    "management platform",
+    
+    // Project Attributes
+    "custom solutions",
+    "tailored solutions",
+    "bespoke projects",
+    "innovative projects",
+    "cutting-edge projects",
+    "modern projects",
+    "scalable projects",
+    "secure projects",
+    "high-performance projects",
+    "responsive projects",
+    "mobile-friendly projects",
+    "cross-platform projects",
+    "cloud-based projects",
+    "enterprise-grade projects",
+    
+    // Proof & Credibility
+    "proven expertise",
+    "demonstrated skills",
+    "technical expertise",
+    "industry experience",
+    "project experience",
+    "years of experience",
+    "trusted partner",
+    "reliable solutions",
+    "quality work",
+    "professional work",
+    "award-winning projects",
+    "featured projects",
+    "highlighted work",
+    "best projects",
+    "top projects",
+    
+    // Development Proof
+    "agile projects",
+    "scrum projects",
+    "sprint-based delivery",
+    "on-time delivery",
+    "successful delivery",
+    "completed on budget",
+    "satisfied clients",
+    "repeat clients",
+    "long-term clients",
+    "partnership projects",
+    
+    // Transformation Stories
+    "digital transformation",
+    "business transformation",
+    "process automation",
+    "workflow automation",
+    "legacy modernization",
+    "system migration",
+    "cloud migration projects",
+    "technology upgrade",
+    "software upgrade projects",
+    "platform migration",
+    
+    // Specific Solutions
+    "CRM implementation",
+    "ERP implementation",
+    "LMS implementation",
+    "POS implementation",
+    "inventory system",
+    "accounting system",
+    "billing system",
+    "HR management system",
+    "payroll system",
+    "project management system",
+    "task management system",
+    "document management",
+    "content management",
+    "learning management",
+    "customer management",
+    "vendor management",
+    "supply chain management",
+    "warehouse management",
+    "fleet management",
+    "asset management",
+    
+    // Location-specific (keeping Bangladesh)
+    "software portfolio Bangladesh",
+    "IT projects Bangladesh",
+    "software company portfolio Bangladesh",
+    "development work Bangladesh",
+    "Bangladesh tech projects"
+  ].join(", "),
+  openGraph: {
+    title: "Software Development Projects Portfolio | Pqrix Bangladesh",
+    description: "Browse our successful software development projects in Bangladesh: Web apps, Mobile applications, SaaS platforms, and Desktop solutions. See how we've helped businesses grow with technology.",
+    type: "website",
+    url: "https://pqrix.com/projects",
+    images: [
+      {
+        url: "/icons/pqrix-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Pqrix Software Development Projects Portfolio",
+      },
+    ],
   },
-  {
-    id: "tech-startup-brand",
-    title: "Tech Startup Rebrand",
-    client: "Smartpack",
-    category: "Brand Identity",
-    description: "Complete brand identity redesign for innovative tech startup entering the smart luggage market",
-    image: "/project-tech-startup.jpg",
-    tags: ["Branding", "Logo Design", "Tech"],
-    year: "2024",
+  twitter: {
+    card: "summary_large_image",
+    title: "Software Development Projects | Pqrix Bangladesh",
+    description: "Explore our portfolio of web, mobile, and desktop software projects in Bangladesh. Real results, proven expertise.",
+    images: ["/icons/pqrix-logo.png"],
   },
-  {
-    id: "social-media-campaign",
-    title: "Social Media Campaign",
-    client: "Fashion Brand",
-    category: "Motion Design",
-    description: "Dynamic motion graphics series for Instagram and TikTok campaign driving 2M+ impressions",
-    image: "/project-social-campaign.jpg",
-    video: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Timeline%201-Ku3Y2Hgaw8hCiFEFg1ELtYp631rSzR.webm",
-    tags: ["Motion Graphics", "Social Media", "Fashion"],
-    year: "2024",
+  alternates: {
+    canonical: "https://pqrix.com/projects",
   },
-  {
-    id: "product-launch-video",
-    title: "Product Launch Video",
-    client: "Consumer Electronics",
-    category: "3D Animation",
-    description: "High-impact 3D animation for flagship product launch reaching 5M+ views",
-    image: "/project-product-launch.jpg",
-    tags: ["3D Animation", "Product Launch", "Electronics"],
-    year: "2024",
+  robots: {
+    index: true,
+    follow: true,
   },
-  {
-    id: "restaurant-brand-identity",
-    title: "Restaurant Brand Identity",
-    client: "Culinary Collective",
-    category: "Brand Identity",
-    description: "Modern brand identity for upscale restaurant group with multiple locations",
-    image: "/project-restaurant-brand.jpg",
-    tags: ["Branding", "Hospitality", "Print Design"],
-    year: "2023",
-  },
-  {
-    id: "app-ui-animations",
-    title: "App UI Animations",
-    client: "FinTech Startup",
-    category: "Motion Design",
-    description: "Smooth UI animations and micro-interactions for mobile banking app",
-    image: "/project-app-animations.jpg",
-    tags: ["UI Animation", "Mobile", "FinTech"],
-    year: "2023",
-  },
-  {
-    id: "automotive-showcase",
-    title: "Automotive Showcase",
-    client: "Luxury Auto Brand",
-    category: "3D Animation",
-    description: "Photorealistic 3D car visualization for digital showroom experience",
-    image: "/project-automotive.jpg",
-    tags: ["3D Animation", "Automotive", "CGI"],
-    year: "2023",
-  },
-  {
-    id: "music-festival-campaign",
-    title: "Music Festival Campaign",
-    client: "Summer Sounds Festival",
-    category: "Motion Design",
-    description: "Vibrant motion graphics campaign for annual music festival",
-    image: "/project-music-festival.jpg",
-    tags: ["Motion Graphics", "Events", "Entertainment"],
-    year: "2023",
-  },
-]
+}
 
-const categories = ["All", "3D Animation", "Brand Identity", "Motion Design"]
+async function getProjects() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const response = await fetch(`${baseUrl}/api/projects`, {
+      cache: 'no-store', // Always get fresh data
+    })
+    
+    if (!response.ok) {
+      console.error('Failed to fetch projects')
+      return []
+    }
+    
+    const data = await response.json()
+    return data.success ? data.data : []
+  } catch (error) {
+    console.error('Error fetching projects:', error)
+    return []
+  }
+}
 
-export default function ProjectsPage() {
+function getAllCategories(projects: Project[]) {
+  const categories = new Set(projects.map((p: Project) => p.category))
+  return ['All', ...Array.from(categories)]
+}
+
+export default async function ProjectsPage() {
+  const allProjects = await getProjects()
+  const categories = getAllCategories(allProjects)
   return (
     <>
       <main className="min-h-[100dvh] text-white">
@@ -140,7 +347,7 @@ export default function ProjectsPage() {
         {/* Projects Grid */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allProjects.map((project) => (
+            {allProjects.map((project: Project) => (
               <Link key={project.id} href={`/projects/${project.id}`}>
                 <Card className="group liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-white/20 hover:bg-white/10 h-full">
                   <div className="relative aspect-video overflow-hidden bg-gray-900">
@@ -159,7 +366,7 @@ export default function ProjectsPage() {
                     ) : (
                       <>
                         <img
-                          src={project.image || "/placeholder.svg"}
+                          src={project.image || project.images?.[0] || "/placeholder.svg"}
                           alt={project.title}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
@@ -195,7 +402,7 @@ export default function ProjectsPage() {
                     </h3>
                     <p className="mb-4 text-sm text-gray-300 line-clamp-2">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
-                      {project.tags.slice(0, 3).map((tag) => (
+                      {project.tags.slice(0, 3).map((tag: string) => (
                         <span key={tag} className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-gray-400">
                           {tag}
                         </span>

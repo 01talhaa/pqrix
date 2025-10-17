@@ -112,7 +112,7 @@ export default function LoginPage() {
                     id="admin-email"
                     name="email"
                     type="email"
-                    placeholder="admin@skitbit.com"
+                    placeholder="admin@pqrix.com"
                     required
                     className="bg-white/5 border-white/10"
                   />
@@ -136,7 +136,7 @@ export default function LoginPage() {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Signing in..." : "Sign In as Admin"}
                 </Button>
-                <p className="text-xs text-center text-white/40 mt-4">Demo: admin@skitbit.com / admin123</p>
+                <p className="text-xs text-center text-white/40 mt-4">Demo: admin@pqrix.com / admin123</p>
               </form>
             </TabsContent>
           </Tabs>

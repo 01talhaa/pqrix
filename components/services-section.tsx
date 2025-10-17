@@ -44,7 +44,7 @@ export function ServicesSection() {
   return (
     <section id="services" className="container mx-auto px-4 py-16 sm:py-20">
       <div className="mb-12 text-center">
-        <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Our Services</h2>
+        <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Our <span className="text-lime-300">Services</span></h2>
         <p className="mx-auto max-w-2xl text-lg text-gray-300">
           From concept to completion, we deliver premium creative solutions that drive results
         </p>

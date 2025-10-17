@@ -1,0 +1,25 @@
+{
+  "name": "Pqrix - Software Development Company",
+  "short_name": "Pqrix",
+  "description": "Leading software development company in Bangladesh offering Discovery & Strategy, Web/SaaS, Mobile, 3D Web/XR, and Desktop solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/pqrix-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "business",
+    "productivity",
+    "technology"
+  ],
+  "lang": "en",
+  "dir": "ltr"
+}

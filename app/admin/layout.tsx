@@ -5,17 +5,25 @@ import type React from "react"
 import { ProtectedRoute } from "@/components/protected-route"
 import { useAuth } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut } from "lucide-react"
+import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth()
   const router = useRouter()
+  const pathname = usePathname()
 
   const handleLogout = () => {
+    // Clear the cookie
+    document.cookie = "admin-session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC"
     logout()
-    router.push("/login")
+    router.push("/admin/login")
+  }
+
+  // If it's the login page, don't wrap with ProtectedRoute
+  if (pathname === "/admin/login") {
+    return <>{children}</>
   }
 
   return (
@@ -59,6 +67,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <Users className="w-4 h-4" />
                   Team
+                </Link>
+                <Link
+                  href="/admin/test"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <FlaskConical className="w-4 h-4" />
+                  Test
                 </Link>
               </nav>
             </div>
