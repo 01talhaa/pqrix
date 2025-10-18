@@ -135,7 +135,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       url: `https://pqrix.com/projects/${project.id}`,
       images: [
         {
-          url: project.image || "/icons/pqrix-logo.png",
+          url: project.image || project.images?.[0] || "/icons/pqrix-logo.png",
           width: 1200,
           height: 630,
           alt: `${project.title} by Pqrix`,
@@ -151,7 +151,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       card: "summary_large_image",
       title: `${project.title} - ${project.client}`,
       description: project.description,
-      images: [project.image || "/icons/pqrix-logo.png"],
+      images: [project.image || project.images?.[0] || "/icons/pqrix-logo.png"],
     },
     alternates: {
       canonical: `https://pqrix.com/projects/${project.id}`,
@@ -247,7 +247,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 />
               ) : (
                 <img
-                  src={project.image || "/placeholder.svg"}
+                  src={project.image || project.images?.[0] || "/placeholder.svg"}
                   alt={project.title}
                   className="h-full w-full object-cover"
                 />
@@ -558,7 +558,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full border-white/30 text-white hover:bg-white/10"
+                className="rounded-full border-white/30 text-black hover:bg-white/10 hover:text-white"
               >
                 <Link href="/services">Explore Our Services</Link>
               </Button>

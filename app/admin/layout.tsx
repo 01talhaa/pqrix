@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical } from "lucide-react"
+import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth()
@@ -48,6 +48,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   Dashboard
                 </Link>
                 <Link
+                  href="/admin/bookings"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Package className="w-4 h-4" />
+                  Bookings
+                </Link>
+                <Link
                   href="/admin/services"
                   className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
                 >
@@ -67,6 +74,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <Users className="w-4 h-4" />
                   Team
+                </Link>
+                <Link
+                  href="/admin/clients"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <UserCog className="w-4 h-4" />
+                  Clients
+                </Link>
+                <Link
+                  href="/admin/testimonials"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  Testimonials
+                </Link>
+                <Link
+                  href="/admin/blogs"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <FileText className="w-4 h-4" />
+                  Blogs
+                </Link>
+                <Link
+                  href="/admin/ads"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Megaphone className="w-4 h-4" />
+                  Ads
                 </Link>
                 <Link
                   href="/admin/test"

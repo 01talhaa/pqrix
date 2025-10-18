@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Briefcase, FolderKanban, Users, TrendingUp, Package } from "lucide-react"
 import Link from "next/link"
 import {
@@ -20,6 +21,7 @@ import {
   Line,
   Legend,
 } from "recharts"
+import { ServiceBookingDocument } from "@/lib/models/ServiceBooking"
 
 const COLORS = ['#a3e635', '#8b5cf6', '#3b82f6', '#f97316']
 
@@ -27,6 +29,7 @@ export default function AdminDashboard() {
   const [services, setServices] = useState<any[]>([])
   const [projects, setProjects] = useState<any[]>([])
   const [teamMembers, setTeamMembers] = useState<any[]>([])
+  const [bookings, setBookings] = useState<ServiceBookingDocument[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,25 +38,30 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const [servicesRes, projectsRes, teamRes] = await Promise.all([
+      const [servicesRes, projectsRes, teamRes, bookingsRes] = await Promise.all([
         fetch('/api/services'),
         fetch('/api/projects'),
-        fetch('/api/team')
+        fetch('/api/team'),
+        fetch('/api/bookings')
       ])
 
       const servicesData = await servicesRes.json()
       const projectsData = await projectsRes.json()
       const teamData = await teamRes.json()
+      const bookingsData = await bookingsRes.json()
 
       setServices(servicesData.success ? servicesData.data : [])
       setProjects(projectsData.success ? projectsData.data : [])
       setTeamMembers(teamData.success ? teamData.data : [])
+      setBookings(bookingsData.success ? bookingsData.data : [])
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
       setLoading(false)
     }
   }
+
+  const newInquiries = bookings.filter(b => b.status === "Inquired").length
 
   const stats = [
     {
@@ -78,11 +86,12 @@ export default function AdminDashboard() {
       color: "text-blue-400",
     },
     {
-      title: "Total Orders",
-      value: 0,
+      title: "Service Bookings",
+      value: bookings.length,
       icon: Package,
-      href: "/admin",
+      href: "/admin/bookings",
       color: "text-orange-400",
+      badge: newInquiries > 0 ? newInquiries : undefined,
     },
   ]
 
@@ -91,6 +100,7 @@ export default function AdminDashboard() {
     { name: 'Services', value: services.length, color: '#8b5cf6' },
     { name: 'Projects', value: projects.length, color: '#a3e635' },
     { name: 'Team', value: teamMembers.length, color: '#3b82f6' },
+    { name: 'Bookings', value: bookings.length, color: '#f97316' },
   ]
 
   const projectStatusData = [
@@ -134,7 +144,14 @@ export default function AdminDashboard() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white/60 text-sm">{stat.title}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-white/60 text-sm">{stat.title}</p>
+                      {stat.badge !== undefined && stat.badge > 0 && (
+                        <Badge className="bg-yellow-500 text-black text-xs px-2 py-0.5">
+                          {stat.badge} new
+                        </Badge>
+                      )}
+                    </div>
                     <p className="text-3xl font-bold text-white mt-2">
                       {loading ? '...' : stat.value}
                     </p>
@@ -341,6 +358,67 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Recent Service Bookings */}
+      {bookings.length > 0 && (
+        <Card className="border-white/10 bg-black/40 backdrop-blur-xl">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-white">Recent Service Bookings</CardTitle>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/admin/bookings">View All</Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {bookings.slice(0, 5).map((booking) => {
+                const getStatusColor = (status: string) => {
+                  switch (status) {
+                    case "Inquired":
+                      return "bg-yellow-500/20 text-yellow-400 border-yellow-500/50"
+                    case "Pending":
+                      return "bg-yellow-500/20 text-yellow-400 border-yellow-500/50"
+                    case "Paid":
+                      return "bg-purple-500/20 text-purple-400 border-purple-500/50"
+                    case "Started":
+                      return "bg-blue-500/20 text-blue-400 border-blue-500/50"
+                    case "In Progress":
+                      return "bg-blue-500/20 text-blue-400 border-blue-500/50"
+                    case "Completed":
+                      return "bg-green-500/20 text-green-400 border-green-500/50"
+                    case "Cancelled":
+                      return "bg-orange-500/20 text-orange-400 border-orange-500/50"
+                    default:
+                      return "bg-gray-500/20 text-gray-400 border-gray-500/50"
+                  }
+                }
+
+                return (
+                  <div key={booking.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1">
+                        <h4 className="font-semibold text-white">{booking.serviceTitle}</h4>
+                        <Badge className={getStatusColor(booking.status)}>
+                          {booking.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-purple-400">{booking.packageName} - ${booking.packagePrice}</p>
+                      <p className="text-xs text-white/60 mt-1">{booking.clientEmail}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-white/60">
+                        {new Date(booking.createdAt).toLocaleDateString()}
+                      </p>
+                      {booking.whatsappMessageSent && (
+                        <p className="text-xs text-green-400 mt-1">WhatsApp sent</p>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

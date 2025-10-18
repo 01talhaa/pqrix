@@ -5,6 +5,7 @@ import { Inter } from "next/font/google"
 import Script from "next/script"
 import Plasma from "@/components/plasma"
 import { Toaster } from "@/components/ui/sonner"
+import { ClientAuthProvider } from "@/lib/client-auth"
 
 const inter = Inter({ subsets: ["latin"], display: "swap" })
 
@@ -597,18 +598,20 @@ export default function RootLayout({
         </Script>
       </head>
       <body>
-        <div className="fixed inset-0 z-0 bg-black">
-          <Plasma
-            color="#8b5cf6"
-            speed={0.8}
-            direction="forward"
-            scale={1.5}
-            opacity={0.4}
-            mouseInteractive={true}
-          />
-        </div>
-        <div className="relative z-10">{children}</div>
-        <Toaster />
+        <ClientAuthProvider>
+          <div className="fixed inset-0 z-0 bg-black">
+            <Plasma
+              color="#8b5cf6"
+              speed={0.8}
+              direction="forward"
+              scale={1.5}
+              opacity={0.4}
+              mouseInteractive={true}
+            />
+          </div>
+          <div className="relative z-10">{children}</div>
+          <Toaster />
+        </ClientAuthProvider>
       </body>
     </html>
   )

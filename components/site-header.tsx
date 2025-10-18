@@ -3,10 +3,22 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
-import { Menu, Briefcase, Tag, HelpCircle, Wrench, FolderOpen, Users } from "lucide-react"
+import { Menu, Briefcase, Tag, HelpCircle, Wrench, FolderOpen, Users, LogOut, LayoutDashboard } from "lucide-react"
+import { useClientAuth } from "@/lib/client-auth"
 
 export function SiteHeader() {
+  const { client, isAuthenticated, logout } = useClientAuth()
+  
   const links = [
     { href: "/", label: "Home", icon: Briefcase },
     { href: "/services", label: "Services", icon: Wrench },
@@ -15,6 +27,20 @@ export function SiteHeader() {
     { href: "#pricing", label: "Pricing", icon: Tag },
     { href: "faq", label: "FAQ", icon: HelpCircle },
   ]
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2)
+  }
+
+  const handleLogout = async () => {
+    await logout()
+    window.location.href = "/"
+  }
 
   return (
     <header className="sticky top-0 z-50 p-4">
@@ -35,16 +61,54 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex">
-            <Button
-              asChild
-              className="bg-lime-400 text-black font-medium rounded-lg px-6 py-2.5
-                         hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
-                         transition-all"
-            >
-              <Link href="#contact">Chat With Us</Link>
-            </Button>
+          {/* Desktop CTA / Avatar */}
+          <div className="hidden md:flex items-center gap-3">
+            {isAuthenticated && client ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                    <Avatar className="h-10 w-10 border-2 border-lime-400">
+                      <AvatarImage src={client.image} alt={client.name} />
+                      <AvatarFallback className="bg-lime-400 text-black font-semibold">
+                        {getInitials(client.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-black/95 border-white/10">
+                  <DropdownMenuLabel className="text-white">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium">{client.name}</p>
+                      <p className="text-xs text-white/60">{client.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem asChild className="text-white hover:bg-white/10 cursor-pointer">
+                    <Link href="/client/dashboard" className="flex items-center">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem 
+                    onClick={handleLogout}
+                    className="text-red-400 hover:bg-white/10 cursor-pointer"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                asChild
+                className="bg-lime-400 text-black font-medium rounded-lg px-6 py-2.5
+                           hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
+                           transition-all"
+              >
+                <Link href="/client/login">Login / Sign Up</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Nav */}
@@ -83,16 +147,48 @@ export function SiteHeader() {
                   ))}
                 </nav>
 
-                {/* CTA Button at Bottom */}
+                {/* CTA Button / Client Info at Bottom */}
                 <div className="mt-auto border-t border-gray-800 p-4">
-                  <Button
-                    asChild
-                    className="w-full bg-lime-400 text-black font-medium rounded-lg px-6 py-2.5
-                               hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
-                               transition-all"
-                  >
-                    <Link href="https://wa.link/65mf3i">Get a Quote</Link>
-                  </Button>
+                  {isAuthenticated && client ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 px-2">
+                        <Avatar className="h-10 w-10 border-2 border-lime-400">
+                          <AvatarImage src={client.image} alt={client.name} />
+                          <AvatarFallback className="bg-lime-400 text-black font-semibold">
+                            {getInitials(client.name)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-white truncate">{client.name}</p>
+                          <p className="text-xs text-white/60 truncate">{client.email}</p>
+                        </div>
+                      </div>
+                      <Button
+                        asChild
+                        className="w-full bg-lime-400 text-black font-medium rounded-lg
+                                   hover:bg-lime-300 transition-all"
+                      >
+                        <Link href="/client/dashboard">Dashboard</Link>
+                      </Button>
+                      <Button
+                        onClick={handleLogout}
+                        variant="outline"
+                        className="w-full border-red-400/50 text-red-400 hover:bg-red-400/10"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logout
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      asChild
+                      className="w-full bg-lime-400 text-black font-medium rounded-lg px-6 py-2.5
+                                 hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
+                                 transition-all"
+                    >
+                      <Link href="/client/login">Login / Sign Up</Link>
+                    </Button>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

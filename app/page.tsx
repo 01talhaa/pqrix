@@ -7,7 +7,9 @@ import { TechStackMarquee } from "@/components/tech-stack-marquee"
 import { Pricing } from "@/components/pricing"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { ProjectsSection } from "@/components/projects-section"
+import { BlogSection } from "@/components/blog-section"
 import { WhatsAppButton } from "@/components/whatsapp-button"
+import { AdDisplay } from "@/components/ad-display"
 import Script from "next/script"
 
 // ✅ Force static generation for low TTFB
@@ -91,6 +93,7 @@ export default function Page() {
         <ServicesSection />
         <TechStackMarquee />
         <ProjectsSection />
+        <BlogSection />
         {/* <LogoMarquee /> */}
         {/* <Pricing /> */}
         <AppverseFooter />
@@ -98,6 +101,9 @@ export default function Page() {
       
       {/* WhatsApp Floating Button */}
       <WhatsAppButton />
+
+      {/* Ad Display Modal */}
+      <AdDisplay />
 
       {/* JSON-LD structured data */}
       <Script

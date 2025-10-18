@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useClientAuth } from "@/lib/client-auth"
 import { SiteHeader } from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card } from "@/components/ui/card"
@@ -11,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { ArrowLeft, Check, Send } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 interface FormData {
   name: string
@@ -23,6 +25,7 @@ interface FormData {
 function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { client, isAuthenticated } = useClientAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [service, setService] = useState<any>(null)
   const [selectedPackage, setSelectedPackage] = useState<any>(null)
@@ -36,6 +39,19 @@ function CheckoutContent() {
 
   const serviceId = searchParams.get("service")
   const packageIndex = searchParams.get("package")
+
+  // Pre-fill form if client is logged in
+  useEffect(() => {
+    if (client) {
+      setFormData({
+        name: client.name || "",
+        email: client.email || "",
+        phone: client.phone || "",
+        company: client.company || "",
+        message: "",
+      })
+    }
+  }, [client])
 
   useEffect(() => {
     const fetchService = async () => {
@@ -102,21 +118,60 @@ function CheckoutContent() {
     e.preventDefault()
 
     if (!formData.name || !formData.email || !formData.phone) {
-      alert("Please fill in all required fields")
+      toast.error("Please fill in all required fields")
       return
     }
 
     setIsLoading(true)
 
-    const message = generateWhatsAppMessage()
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
+    try {
+      // Create booking record
+      const bookingData = {
+        clientId: client?.id || `guest-${Date.now()}`,
+        clientName: formData.name,
+        clientEmail: formData.email,
+        clientPhone: formData.phone,
+        serviceId: service.id,
+        serviceTitle: service.title,
+        packageName: selectedPackage.name,
+        packagePrice: selectedPackage.price,
+        whatsappMessage: formData.message,
+      }
 
-    window.open(whatsappUrl, "_blank")
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      })
 
-    setTimeout(() => {
+      if (response.ok) {
+        const message = generateWhatsAppMessage()
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
+
+        // Open WhatsApp
+        window.open(whatsappUrl, "_blank")
+
+        toast.success("Inquiry sent! Redirecting to WhatsApp...")
+
+        setTimeout(() => {
+          setIsLoading(false)
+          if (isAuthenticated) {
+            router.push("/client/dashboard")
+          } else {
+            router.push("/services")
+          }
+        }, 2000)
+      } else {
+        toast.error("Failed to create booking. Please try again.")
+        setIsLoading(false)
+      }
+    } catch (error) {
+      console.error("Booking error:", error)
+      toast.error("An error occurred. Please try again.")
       setIsLoading(false)
-      router.push("/services")
-    }, 1000)
+    }
   }
 
   if (!service || !selectedPackage) {

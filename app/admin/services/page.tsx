@@ -105,7 +105,7 @@ export default function AdminServicesPage() {
                   <div className="text-lime-400 font-semibold text-sm">{service.pricing}</div>
                 )}
                 <div className="flex gap-2">
-                  <Button asChild size="sm" variant="outline" className="flex-1 bg-transparent border-white/10 hover:bg-white/5 text-white">
+                  <Button asChild size="sm" variant="outline" className="flex-1 bg-transparent border-white/10 hover:bg-white/5 text-white hover:text-white">
                     <Link href={`/services/${service.id}`} target="_blank">
                       <Eye className="w-4 h-4 mr-2" />
                       View

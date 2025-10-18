@@ -4,74 +4,80 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Play } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
-
-const featuredProjects = [
-  {
-    id: "luxury-watch-campaign",
-    title: "Luxury Watch Campaign",
-    client: "TAG Heuer",
-    category: "3D Animation",
-    description: "Premium 3D product visualization showcasing the new Carrera collection",
-    image: "/project-luxury-watch.jpg",
-    video:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/A%20new%20chapter%20in%20the%20story%20of%20success.__Introducing%20the%20new%20TAG%20Heuer%20Carrera%20Day-Date%20collection%2C%20reimagined%20with%20bold%20colors%2C%20refined%20finishes%2C%20and%20upgraded%20functionality%20to%20keep%20you%20focused%20on%20your%20goals.%20__Six%20-nDNoRQyFaZ8oaaoty4XaQz8W8E5bqA.mp4",
-    tags: ["3D Animation", "Product Viz", "Luxury"],
-  },
-  {
-    id: "tech-startup-brand",
-    title: "Tech Startup Rebrand",
-    client: "Smartpack",
-    category: "Brand Identity",
-    description: "Complete brand identity redesign for innovative tech startup",
-    image: "/project-tech-startup.jpg",
-    tags: ["Branding", "Logo Design", "Tech"],
-  },
-  {
-    id: "social-media-campaign",
-    title: "Social Media Campaign",
-    client: "Fashion Brand",
-    category: "Motion Design",
-    description: "Dynamic motion graphics for Instagram and TikTok campaign",
-    image: "/project-social-campaign.jpg",
-    video: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Timeline%201-Ku3Y2Hgaw8hCiFEFg1ELtYp631rSzR.webm",
-    tags: ["Motion Graphics", "Social Media", "Fashion"],
-  },
-  {
-    id: "product-launch-video",
-    title: "Product Launch Video",
-    client: "Consumer Electronics",
-    category: "3D Animation",
-    description: "High-impact 3D animation for flagship product launch",
-    image: "/project-product-launch.jpg",
-    tags: ["3D Animation", "Product Launch", "Electronics"],
-  },
-]
+import { useState, useEffect } from "react"
 
 export function ProjectsSection() {
+  const [projects, setProjects] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/projects')
+        const data = await response.json()
+        if (data.success || Array.isArray(data.data)) {
+          // Show only first 6 projects
+          const projectsData = data.data || data
+          setProjects(projectsData.slice(0, 6))
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProjects()
+  }, [])
+
+  if (loading) {
+    return (
+      <section id="projects" className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Featured Projects</h2>
+          <p className="mx-auto max-w-2xl text-lg text-gray-300">See how we've helped brands stand out with innovative design and animation.</p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="h-96 rounded-lg bg-white/5 animate-pulse" />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  if (projects.length === 0) {
+    return null
+  }
+
   return (
     <section id="projects" className="container mx-auto px-4 py-12 sm:py-16">
       <div className="mb-10 text-center">
         <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Featured Projects</h2>
         <p className="mx-auto max-w-2xl text-lg text-gray-300">See how we've helped brands stand out with innovative design and animation.</p>
-        <Button asChild variant="ghost" className="mt-6 text-lime-400 hover:bg-lime-400/10 hover:text-lime-300">
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
+
+      <div className="mt-12 text-center">
+        <Button
+          asChild
+          className="rounded-full bg-lime-400 px-8 py-6 text-base font-semibold text-black hover:bg-lime-300"
+        >
           <Link href="/projects">
             View All Projects
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </div>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
     </section>
   )
 }
 
-function ProjectCard({ project }: { project: (typeof featuredProjects)[0] }) {
+function ProjectCard({ project }: { project: any }) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -97,7 +103,7 @@ function ProjectCard({ project }: { project: (typeof featuredProjects)[0] }) {
           ) : (
             <>
               <img
-                src={project.image || "/placeholder.svg"}
+                src={project.image || project.images?.[0] || "/placeholder.svg"}
                 alt={project.title}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -131,7 +137,7 @@ function ProjectCard({ project }: { project: (typeof featuredProjects)[0] }) {
           </h3>
           <p className="mb-3 text-gray-300 text-sm flex-grow">{project.description}</p>
           <div className="flex flex-wrap gap-2 mt-auto">
-            {project.tags.map((tag) => (
+            {project.tags?.map((tag: string) => (
               <span key={tag} className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-gray-400">
                 {tag}
               </span>
