@@ -24,7 +24,7 @@ export function SiteHeader() {
     { href: "/services", label: "Services", icon: Wrench },
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/team", label: "Team", icon: Users },
-    { href: "#pricing", label: "Pricing", icon: Tag },
+    // { href: "#pricing", label: "Pricing", icon: Tag },
     { href: "faq", label: "FAQ", icon: HelpCircle },
   ]
 
