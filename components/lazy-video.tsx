@@ -1,110 +1,60 @@
-"use client"
-
-import { useEffect, useRef, useState } from "react"
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 
 interface LazyVideoProps {
-  src: string
-  className?: string
-  poster?: string
-  autoplay?: boolean
-  loop?: boolean
-  muted?: boolean
-  controls?: boolean
-  playsInline?: boolean
-  "aria-label"?: string
+  src: string;
+  poster?: string;
+  className?: string;
 }
 
-export default function LazyVideo({
-  src,
-  className = "",
-  poster,
-  autoplay = false,
-  loop = false,
-  muted = true,
-  controls = false,
-  playsInline = true,
-  "aria-label": ariaLabel,
-  ...props
-}: LazyVideoProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [loaded, setLoaded] = useState(false)
+const LazyVideo: React.FC<LazyVideoProps> = ({ src, poster, className }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const el = videoRef.current
-    if (!el) return
+    const video = videoRef.current;
+    if (!video) return;
 
-    let observer: IntersectionObserver | null = null
-
-    const onIntersect: IntersectionObserverCallback = (entries) => {
-      entries.forEach(async (entry) => {
-        if (entry.isIntersecting && !loaded) {
-          // Set the src attribute to start loading
-          el.src = src
-          el.load()
-
-          // If autoplay is enabled, try to play when ready
-          if (autoplay) {
-            const playVideo = async () => {
-              try {
-                await el.play()
-              } catch (error) {
-                // Autoplay might be blocked
-                console.log("Autoplay blocked:", error)
-              }
-            }
-
-            if (el.readyState >= 3) {
-              // Video is already loaded enough to play
-              playVideo()
-            } else {
-              // Wait for video to load enough data
-              el.addEventListener("canplay", playVideo, { once: true })
-            }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(video);
           }
+        });
+      },
+      { threshold: 0.25 }
+    );
 
-          setLoaded(true)
-          // Don't disconnect observer - we want to keep monitoring visibility
-        } else if (!entry.isIntersecting && loaded && autoplay) {
-          // Video is out of view and has autoplay - pause it but keep it loaded
-          try {
-            el.pause()
-          } catch (error) {
-            console.log("Error pausing video:", error)
-          }
-        } else if (entry.isIntersecting && loaded && autoplay) {
-          // Video is back in view and has autoplay - resume playing
-          try {
-            await el.play()
-          } catch (error) {
-            console.log("Error resuming video:", error)
-          }
-        }
-      })
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && isVisible) {
+      video.play().catch((err) => {
+        console.warn("Autoplay blocked:", err);
+      });
     }
-
-    observer = new IntersectionObserver(onIntersect, {
-      rootMargin: "50px", // Start loading 50px before entering viewport
-      threshold: 0.1,
-    })
-    observer.observe(el)
-
-    return () => observer?.disconnect()
-  }, [src, loaded, autoplay])
+  }, [isVisible]);
 
   return (
     <video
       ref={videoRef}
-      className={className}
-      muted={muted}
-      loop={loop}
-      playsInline={playsInline}
-      controls={controls}
-      preload="none"
       poster={poster}
-      aria-label={ariaLabel}
-      {...props}
+      preload="none"
+      muted
+      loop
+      playsInline
+      autoPlay={isVisible}  // ✅ Correct camelCase
+      className={className}
     >
+      {isVisible && <source src={src} type="video/mp4" />}
       Your browser does not support the video tag.
     </video>
-  )
-}
+  );
+};
+
+export default LazyVideo;

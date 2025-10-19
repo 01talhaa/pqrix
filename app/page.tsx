@@ -10,6 +10,7 @@ import { ProjectsSection } from "@/components/projects-section"
 import { BlogSection } from "@/components/blog-section"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { AdDisplay } from "@/components/ad-display"
+import { PqrixChatbot } from "@/components/pqrix-chatbot"
 import Script from "next/script"
 
 // ✅ Force static generation for low TTFB
@@ -89,11 +90,11 @@ export default function Page() {
       <main className="min-h-[100dvh] text-white">
         <SiteHeader />
         <Hero />
-        <Features />
         <ServicesSection />
-        <TechStackMarquee />
         <ProjectsSection />
+        <TechStackMarquee />
         <BlogSection />
+        <Features />
         {/* <LogoMarquee /> */}
         {/* <Pricing /> */}
         <AppverseFooter />
@@ -104,6 +105,9 @@ export default function Page() {
 
       {/* Ad Display Modal */}
       <AdDisplay />
+
+      {/* AI Chatbot */}
+      <PqrixChatbot />
 
       {/* JSON-LD structured data */}
       <Script
