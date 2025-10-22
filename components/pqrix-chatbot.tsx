@@ -191,7 +191,7 @@ export function PqrixChatbot() {
 
       {/* Chat Window - Left Side */}
       {isOpen && (
-        <Card className="fixed bottom-2 left-2 xs:bottom-4 xs:left-4 sm:bottom-6 sm:left-6 z-[9998] w-[calc(100vw-1rem)] xs:w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-96 lg:w-[420px] xl:w-[450px] h-[calc(100vh-1rem)] xs:h-[calc(100vh-2rem)] sm:h-[600px] max-h-[calc(100vh-1rem)] xs:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] bg-black border-white/20 shadow-2xl flex flex-col overflow-hidden">
+  <Card className="fixed bottom-2 left-2 xs:bottom-4 xs:left-4 sm:bottom-6 sm:left-6 z-[9998] w-[calc(100vw-1rem)] xs:w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-96 lg:w-[420px] xl:w-[450px] h-[calc(100vh-1rem)] xs:h-[calc(100vh-2rem)] sm:h-[600px] max-h-[calc(100vh-1rem)] xs:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] bg-black border-white/20 shadow-2xl flex flex-col overflow-hidden max-[500px]:w-72 max-[500px]:h-100 max-[500px]:left-3 max-[500px]:bottom-3">
           {/* Header */}
           <div className="flex items-center justify-between p-3 xs:p-4 border-b border-white/10 bg-gradient-to-r from-lime-400/10 to-green-500/10">
             <div className="flex items-center gap-2 xs:gap-3">

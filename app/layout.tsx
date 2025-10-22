@@ -599,15 +599,18 @@ export default function RootLayout({
       </head>
       <body>
         <ClientAuthProvider>
+          {/* Plasma background - hidden on mobile devices for better performance */}
           <div className="fixed inset-0 z-0 bg-black">
-            <Plasma
-              color="#8b5cf6"
-              speed={0.8}
-              direction="forward"
-              scale={1.5}
-              opacity={0.4}
-              mouseInteractive={true}
-            />
+            <div className="hidden min-[500px]:block h-full w-full">
+              <Plasma
+                color="#8b5cf6"
+                speed={0.8}
+                direction="forward"
+                scale={1.5}
+                opacity={0.4}
+                mouseInteractive={true}
+              />
+            </div>
           </div>
           <div className="relative z-10">{children}</div>
           <Toaster />
