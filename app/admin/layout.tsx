@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone } from "lucide-react"
+import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone, Receipt } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth()
@@ -53,6 +53,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <Package className="w-4 h-4" />
                   Bookings
+                </Link>
+                <Link
+                  href="/admin/invoices"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Receipt className="w-4 h-4" />
+                  Invoices
                 </Link>
                 <Link
                   href="/admin/services"
@@ -103,13 +110,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Megaphone className="w-4 h-4" />
                   Ads
                 </Link>
-                <Link
+                {/* <Link
                   href="/admin/test"
                   className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
                 >
                   <FlaskConical className="w-4 h-4" />
                   Test
-                </Link>
+                </Link> */}
               </nav>
             </div>
             <div className="flex items-center gap-4">

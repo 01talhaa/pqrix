@@ -34,9 +34,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Loader2, Package, Search, Trash2, Edit, Plus, CheckCircle2, Clock, Calendar } from "lucide-react"
+import { Loader2, Package, Search, Trash2, Edit, Plus, CheckCircle2, Clock, Calendar, FileText, DollarSign, Check, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { ServiceBookingDocument } from "@/lib/models/ServiceBooking"
+import { InvoiceDocument } from "@/lib/models/Invoice"
 
 type BookingStatus = "Inquired" | "Pending" | "Paid" | "Started" | "In Progress" | "Completed" | "Cancelled"
 
@@ -47,6 +48,8 @@ export default function AdminBookingsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [editingBooking, setEditingBooking] = useState<ServiceBookingDocument | null>(null)
+  const [editingInvoice, setEditingInvoice] = useState<InvoiceDocument | null>(null)
+  const [loadingInvoice, setLoadingInvoice] = useState(false)
   const [savingBooking, setSavingBooking] = useState(false)
   const { toast } = useToast()
 
@@ -81,6 +84,35 @@ export default function AdminBookingsPage() {
   useEffect(() => {
     fetchBookings()
   }, [])
+
+  // Fetch invoice when editing booking
+  useEffect(() => {
+    const fetchInvoice = async () => {
+      if (!editingBooking || !editingBooking.invoiceId) {
+        setEditingInvoice(null)
+        return
+      }
+
+      try {
+        setLoadingInvoice(true)
+        const response = await fetch(`/api/invoices?bookingId=${editingBooking.id}`)
+        const data = await response.json()
+
+        if (data.success && data.data) {
+          setEditingInvoice(data.data)
+        } else {
+          setEditingInvoice(null)
+        }
+      } catch (error) {
+        console.error("Error fetching invoice:", error)
+        setEditingInvoice(null)
+      } finally {
+        setLoadingInvoice(false)
+      }
+    }
+
+    fetchInvoice()
+  }, [editingBooking])
 
   // Filter bookings
   useEffect(() => {
@@ -141,7 +173,9 @@ export default function AdminBookingsPage() {
 
     try {
       setSavingBooking(true)
-      const response = await fetch(`/api/bookings/${editingBooking.id}`, {
+      
+      // Update booking
+      const bookingResponse = await fetch(`/api/bookings/${editingBooking.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -156,26 +190,47 @@ export default function AdminBookingsPage() {
         }),
       })
 
-      const data = await response.json()
+      const bookingData = await bookingResponse.json()
 
-      if (data.success) {
-        toast({
-          title: "Success",
-          description: "Booking updated successfully",
-        })
-        setEditingBooking(null)
-        fetchBookings()
-      } else {
-        toast({
-          title: "Error",
-          description: data.error || "Failed to update booking",
-          variant: "destructive",
-        })
+      if (!bookingData.success) {
+        throw new Error(bookingData.error || "Failed to update booking")
       }
-    } catch (error) {
+
+      // Update invoice milestones if invoice exists
+      if (editingInvoice) {
+        const invoiceResponse = await fetch(`/api/invoices/${editingInvoice.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            milestones: editingInvoice.milestones,
+          }),
+        })
+
+        const invoiceData = await invoiceResponse.json()
+
+        if (!invoiceData.success) {
+          console.error("Failed to update invoice:", invoiceData.error)
+          toast({
+            title: "Warning",
+            description: "Booking updated but invoice update failed",
+            variant: "destructive",
+          })
+        }
+      }
+
+      toast({
+        title: "Success",
+        description: "Booking updated successfully",
+      })
+      setEditingBooking(null)
+      setEditingInvoice(null)
+      fetchBookings()
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "An error occurred while updating booking",
+        description: error.message || "An error occurred while updating booking",
         variant: "destructive",
       })
     } finally {
@@ -229,6 +284,71 @@ export default function AdminBookingsPage() {
     setEditingBooking({
       ...editingBooking,
       timeline: newTimeline,
+    })
+  }
+
+  // Toggle milestone payment status
+  const toggleMilestonePayment = (milestoneId: string) => {
+    if (!editingInvoice) return
+
+    const updatedMilestones = editingInvoice.milestones.map((milestone) => {
+      if (milestone.id === milestoneId) {
+        const newPaymentStatus: "Paid" | "Unpaid" = milestone.paymentStatus === "Paid" ? "Unpaid" : "Paid"
+        return {
+          ...milestone,
+          paymentStatus: newPaymentStatus,
+          paidAmount: newPaymentStatus === "Paid" ? milestone.amount : 0,
+          paidDate: newPaymentStatus === "Paid" ? new Date().toISOString() : undefined,
+        }
+      }
+      return milestone
+    })
+
+    // Calculate new totals
+    const newPaidAmount = updatedMilestones.reduce(
+      (sum, m) => sum + m.paidAmount,
+      0
+    )
+    const newRemainingAmount = editingInvoice.totalAmount - newPaidAmount
+
+    // Determine invoice status
+    let newStatus: "Unpaid" | "Partial" | "Paid" | "Overdue" | "Cancelled" = "Unpaid"
+    if (newPaidAmount >= editingInvoice.totalAmount) {
+      newStatus = "Paid"
+    } else if (newPaidAmount > 0) {
+      newStatus = "Partial"
+    }
+
+    setEditingInvoice({
+      ...editingInvoice,
+      milestones: updatedMilestones,
+      paidAmount: newPaidAmount,
+      remainingAmount: newRemainingAmount,
+      status: newStatus,
+    })
+  }
+
+  // Update milestone status (In Progress/Completed)
+  const updateMilestoneStatus = (
+    milestoneId: string,
+    status: "Pending" | "In Progress" | "Completed"
+  ) => {
+    if (!editingInvoice) return
+
+    const updatedMilestones = editingInvoice.milestones.map((milestone) => {
+      if (milestone.id === milestoneId) {
+        return {
+          ...milestone,
+          status,
+          completedDate: status === "Completed" ? new Date().toISOString() : undefined,
+        }
+      }
+      return milestone
+    })
+
+    setEditingInvoice({
+      ...editingInvoice,
+      milestones: updatedMilestones,
     })
   }
 
@@ -408,7 +528,27 @@ export default function AdminBookingsPage() {
 
                 {/* Actions */}
                 <div className="flex gap-2">
-                  <Dialog open={editingBooking?.id === booking.id} onOpenChange={(open) => !open && setEditingBooking(null)}>
+                  {/* View Invoice Button */}
+                  {booking.invoiceId && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-lime-400/50 text-lime-400 hover:bg-lime-400/10"
+                    >
+                      <a href={`/client/invoices/${booking.invoiceId}`} target="_blank" rel="noopener noreferrer">
+                        <FileText className="mr-2 h-4 w-4" />
+                        Invoice
+                      </a>
+                    </Button>
+                  )}
+                  
+                  <Dialog open={editingBooking?.id === booking.id} onOpenChange={(open) => {
+                    if (!open) {
+                      setEditingBooking(null)
+                      setEditingInvoice(null)
+                    }
+                  }}>
                     <DialogTrigger asChild>
                       <Button
                         variant="outline"
@@ -531,6 +671,157 @@ export default function AdminBookingsPage() {
                             />
                           </div>
 
+                          {/* Invoice & Payment Milestones */}
+                          {editingBooking.invoiceId && (
+                            <div>
+                              <div className="flex items-center justify-between mb-4">
+                                <Label className="flex items-center gap-2">
+                                  <DollarSign className="h-4 w-4" />
+                                  Payment Milestones
+                                </Label>
+                                {editingInvoice && (
+                                  <Badge
+                                    className={
+                                      editingInvoice.status === "Paid"
+                                        ? "bg-green-500/20 text-green-400 border-green-500/50"
+                                        : editingInvoice.status === "Partial"
+                                        ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/50"
+                                        : "bg-red-500/20 text-red-400 border-red-500/50"
+                                    }
+                                  >
+                                    {editingInvoice.status}
+                                  </Badge>
+                                )}
+                              </div>
+
+                              {loadingInvoice ? (
+                                <div className="flex items-center justify-center p-8">
+                                  <Loader2 className="h-6 w-6 animate-spin text-lime-400" />
+                                </div>
+                              ) : editingInvoice ? (
+                                <div className="space-y-4">
+                                  {/* Invoice Summary */}
+                                  <Card className="p-4 bg-black/60 border-white/20">
+                                    <div className="grid grid-cols-3 gap-4 text-sm">
+                                      <div>
+                                        <p className="text-white/60 text-xs">Total Amount</p>
+                                        <p className="text-white font-semibold">
+                                          ৳{editingInvoice.totalAmount.toLocaleString()}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p className="text-white/60 text-xs">Paid</p>
+                                        <p className="text-green-400 font-semibold">
+                                          ৳{editingInvoice.paidAmount.toLocaleString()}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p className="text-white/60 text-xs">Remaining</p>
+                                        <p className="text-red-400 font-semibold">
+                                          ৳{editingInvoice.remainingAmount.toLocaleString()}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </Card>
+
+                                  {/* Milestones List */}
+                                  {editingInvoice.milestones.map((milestone, index) => (
+                                    <Card key={milestone.id} className="p-4 bg-black/60 border-white/20">
+                                      <div className="space-y-3">
+                                        <div className="flex items-start justify-between">
+                                          <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                              <Label className="text-xs text-white">
+                                                Step {index + 1}: {milestone.name}
+                                              </Label>
+                                              <Badge
+                                                variant="outline"
+                                                className={
+                                                  milestone.status === "Completed"
+                                                    ? "bg-green-500/20 text-green-400 border-green-500/50"
+                                                    : milestone.status === "In Progress"
+                                                    ? "bg-blue-500/20 text-blue-400 border-blue-500/50"
+                                                    : "bg-gray-500/20 text-gray-400 border-gray-500/50"
+                                                }
+                                              >
+                                                {milestone.status}
+                                              </Badge>
+                                            </div>
+                                            <p className="text-xs text-white/60">{milestone.description}</p>
+                                          </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-3">
+                                          <div>
+                                            <Label className="text-xs text-white/60">Amount</Label>
+                                            <p className="text-sm text-white font-semibold">
+                                              ৳{milestone.amount.toLocaleString()} ({milestone.percentage}%)
+                                            </p>
+                                          </div>
+                                          <div>
+                                            <Label className="text-xs text-white/60">Payment Status</Label>
+                                            <Button
+                                              type="button"
+                                              variant={milestone.paymentStatus === "Paid" ? "default" : "outline"}
+                                              size="sm"
+                                              className={
+                                                milestone.paymentStatus === "Paid"
+                                                  ? "w-full bg-green-500 hover:bg-green-600 text-white"
+                                                  : "w-full"
+                                              }
+                                              onClick={() => toggleMilestonePayment(milestone.id)}
+                                            >
+                                              {milestone.paymentStatus === "Paid" ? (
+                                                <>
+                                                  <Check className="mr-2 h-4 w-4" />
+                                                  Paid
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <X className="mr-2 h-4 w-4" />
+                                                  Unpaid
+                                                </>
+                                              )}
+                                            </Button>
+                                          </div>
+                                        </div>
+
+                                        <div>
+                                          <Label className="text-xs text-white/60">Milestone Status</Label>
+                                          <Select
+                                            value={milestone.status}
+                                            onValueChange={(value: "Pending" | "In Progress" | "Completed") =>
+                                              updateMilestoneStatus(milestone.id, value)
+                                            }
+                                          >
+                                            <SelectTrigger>
+                                              <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="Pending">Pending</SelectItem>
+                                              <SelectItem value="In Progress">In Progress</SelectItem>
+                                              <SelectItem value="Completed">Completed</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+
+                                        {milestone.paidDate && (
+                                          <p className="text-xs text-green-400">
+                                            Paid on {new Date(milestone.paidDate).toLocaleDateString()}
+                                          </p>
+                                        )}
+                                      </div>
+                                    </Card>
+                                  ))}
+                                </div>
+                              ) : (
+                                <p className="text-sm text-white/60 text-center py-4">
+                                  No invoice found for this booking
+                                </p>
+                              )}
+                            </div>
+                          )}
+
                           {/* Timeline */}
                           <div>
                             <div className="flex items-center justify-between mb-4">
@@ -622,7 +913,10 @@ export default function AdminBookingsPage() {
                           <div className="flex justify-end gap-3 pt-4">
                             <Button
                               variant="outline"
-                              onClick={() => setEditingBooking(null)}
+                              onClick={() => {
+                                setEditingBooking(null)
+                                setEditingInvoice(null)
+                              }}
                               disabled={savingBooking}
                             >
                               Cancel

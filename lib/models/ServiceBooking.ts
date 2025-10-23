@@ -23,6 +23,7 @@ export interface ServiceBookingDocument {
   timeline: BookingTimeline[]
   whatsappMessageSent: boolean
   whatsappMessage?: string
+  invoiceId?: string // Link to invoice
   startDate?: string
   estimatedCompletion?: string
   notes?: string
@@ -65,6 +66,7 @@ export const ServiceBookingSchema = {
         },
         whatsappMessageSent: { bsonType: "bool" },
         whatsappMessage: { bsonType: "string" },
+        invoiceId: { bsonType: "string" },
         startDate: { bsonType: "string" },
         estimatedCompletion: { bsonType: "string" },
         notes: { bsonType: "string" },
