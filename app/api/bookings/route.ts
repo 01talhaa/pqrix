@@ -107,6 +107,43 @@ export async function POST(request: NextRequest) {
 
     await collection.insertOne(newBooking)
 
+    // Automatically create invoice for this booking
+    try {
+      const invoiceResponse = await fetch(`${request.nextUrl.origin}/api/invoices`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bookingId: id,
+          serviceId,
+        }),
+      })
+
+      const invoiceData = await invoiceResponse.json()
+
+      if (invoiceData.success) {
+        // Update booking with invoice ID
+        await collection.updateOne(
+          { id },
+          {
+            $set: {
+              invoiceId: invoiceData.data.id,
+              updatedAt: new Date().toISOString(),
+            },
+          }
+        )
+
+        // Add invoice ID to the response
+        newBooking.invoiceId = invoiceData.data.id
+      } else {
+        console.error("Failed to create invoice:", invoiceData.error)
+      }
+    } catch (invoiceError) {
+      console.error("Error creating invoice:", invoiceError)
+      // Don't fail the booking if invoice creation fails
+    }
+
     return NextResponse.json(
       { success: true, data: newBooking },
       { status: 201 }

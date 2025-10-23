@@ -655,6 +655,20 @@ export default function ClientDashboard() {
                               <p className="text-white text-sm">{booking.notes}</p>
                             </div>
                           )}
+
+                          {/* Invoice Link */}
+                          {booking.invoiceId && (
+                            <div className="mt-4">
+                              <Button
+                                asChild
+                                className="w-full bg-lime-400 text-black hover:bg-lime-300"
+                              >
+                                <Link href={`/client/invoices/${booking.invoiceId}`}>
+                                  View Invoice & Payment Details
+                                </Link>
+                              </Button>
+                            </div>
+                          )}
                         </CardContent>
                       </Card>
                     ))}

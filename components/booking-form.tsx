@@ -33,23 +33,90 @@ export function BookingForm({ serviceId, serviceName, packages }: BookingFormPro
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      // Generate unique client ID
+      const clientId = `client-${Date.now()}-${Math.random().toString(36).substring(7)}`
 
-    toast({
-      title: "Booking Request Received!",
-      description: "We'll get back to you within 24 hours to discuss your project.",
-    })
+      // Create WhatsApp message
+      const whatsappMessage = `
+New Service Booking Request
 
-    setIsSubmitting(false)
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      package: "",
-      message: "",
-    })
+Service: ${serviceName}
+Package: ${formData.package}
+
+Client Details:
+- Name: ${formData.name}
+- Email: ${formData.email}
+- Phone: ${formData.phone || "N/A"}
+- Company: ${formData.company || "N/A"}
+
+Project Details:
+${formData.message}
+
+Please review this booking in the admin dashboard.
+      `.trim()
+
+      // Create booking
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clientId,
+          clientName: formData.name,
+          clientEmail: formData.email,
+          clientPhone: formData.phone,
+          serviceId,
+          serviceTitle: serviceName,
+          packageName: formData.package,
+          packagePrice: packages.find((p) => p.name === formData.package)?.price || "N/A",
+          whatsappMessage,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        toast({
+          title: "Booking Request Received!",
+          description: "We've created your invoice. Check your email for details and payment instructions.",
+          duration: 5000,
+        })
+
+        // If invoice was created, show it to the user
+        if (data.data.invoiceId) {
+          setTimeout(() => {
+            window.open(`/client/invoices/${data.data.invoiceId}`, "_blank")
+          }, 1000)
+        }
+
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          package: "",
+          message: "",
+        })
+      } else {
+        toast({
+          title: "Error",
+          description: data.error || "Failed to submit booking request",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Booking error:", error)
+      toast({
+        title: "Error",
+        description: "An error occurred. Please try again or contact us directly.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (field: string, value: string) => {
