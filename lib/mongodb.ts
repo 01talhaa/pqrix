@@ -5,7 +5,18 @@ if (!process.env.MONGO_URI) {
 }
 
 const uri: string = process.env.MONGO_URI
-const options = {}
+
+// 🚀 Optimized MongoDB connection options
+const options = {
+  maxPoolSize: 10, // Connection pool size
+  minPoolSize: 2,
+  maxIdleTimeMS: 30000,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  family: 4, // Use IPv4, skip IPv6 lookup
+  compressors: ['zlib' as const], // Enable compression
+  zlibCompressionLevel: 6 as const, // Balanced compression
+}
 
 let client: MongoClient
 let clientPromise: Promise<MongoClient>
@@ -27,9 +38,19 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect()
 }
 
+// 🚀 Cached database connection
+let cachedDb: Db | null = null
+
 export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
   const client = await clientPromise
+  
+  // Use cached db connection
+  if (cachedDb) {
+    return { client, db: cachedDb }
+  }
+  
   const db = client.db('pqrix')
+  cachedDb = db
   return { client, db }
 }
 

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Dialog,
   DialogContent,
@@ -32,11 +33,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Loader2, Plus, Edit, Trash2, Megaphone, Image as ImageIcon, X, ExternalLink } from "lucide-react"
+import { Loader2, Plus, Edit, Trash2, Megaphone, Image as ImageIcon, X, ExternalLink, Video, Layout, Play, ArrowUp, ArrowDown } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import type { AdDocument, CreateAdInput } from "@/lib/models/Ad"
+import type { BannerDocument, CreateBannerInput } from "@/lib/models/Banner"
+import { DISPLAY_STYLES, TONE_OPTIONS, GRADIENT_PRESETS } from "@/lib/models/Banner"
 
 export default function AdminAdsPage() {
+  const [activeTab, setActiveTab] = useState<"ads" | "banners">("ads")
+  
+  // Ads state
   const [ads, setAds] = useState<AdDocument[]>([])
   const [loading, setLoading] = useState(true)
   const [showEditor, setShowEditor] = useState(false)
@@ -45,9 +51,20 @@ export default function AdminAdsPage() {
   const [uploadingImage, setUploadingImage] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [adToDelete, setAdToDelete] = useState<string | null>(null)
+  
+  // Banners state
+  const [banners, setBanners] = useState<BannerDocument[]>([])
+  const [bannersLoading, setBannersLoading] = useState(true)
+  const [showBannerEditor, setShowBannerEditor] = useState(false)
+  const [editingBanner, setEditingBanner] = useState<BannerDocument | null>(null)
+  const [bannerSubmitting, setBannerSubmitting] = useState(false)
+  const [uploadingMedia, setUploadingMedia] = useState(false)
+  const [bannerDeleteDialogOpen, setBannerDeleteDialogOpen] = useState(false)
+  const [bannerToDelete, setBannerToDelete] = useState<string | null>(null)
+  
   const { toast } = useToast()
 
-  // Form state
+  // Form state for ads
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -55,6 +72,20 @@ export default function AdminAdsPage() {
     link: "",
     status: "draft" as "draft" | "published",
     displayDuration: 5,
+  })
+  
+  // Form state for banners
+  const [bannerFormData, setBannerFormData] = useState({
+    title: "",
+    subtitle: "",
+    tone: "results",
+    mediaType: "video" as "image" | "video",
+    mediaUrl: "",
+    posterUrl: "",
+    displayStyle: "autoplay" as "autoplay" | "slider" | "static",
+    status: "draft" as "draft" | "published",
+    order: 1,
+    gradient: "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
   })
 
   useEffect(() => {
@@ -290,10 +321,348 @@ export default function AdminAdsPage() {
     }
   }
 
+  // ====================
+  // BANNER FUNCTIONS
+  // ====================
+
+  useEffect(() => {
+    if (activeTab === "banners") {
+      fetchBanners()
+    }
+  }, [activeTab])
+
+  const fetchBanners = async () => {
+    setBannersLoading(true)
+    try {
+      const response = await fetch("/api/banners?admin=true", {
+        cache: 'no-store',
+        credentials: 'include',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
+      const data = await response.json()
+      if (data.success) {
+        setBanners(data.data)
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to fetch banners",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Error fetching banners:", error)
+      toast({
+        title: "Error",
+        description: "An error occurred while fetching banners",
+        variant: "destructive",
+      })
+    } finally {
+      setBannersLoading(false)
+    }
+  }
+
+  const openBannerEditor = (banner?: BannerDocument) => {
+    if (banner) {
+      setEditingBanner(banner)
+      // Get first media item for backwards compatibility
+      const firstMedia = banner.media && banner.media.length > 0 ? banner.media[0] : null
+      setBannerFormData({
+        title: banner.title,
+        subtitle: banner.subtitle,
+        tone: banner.tone,
+        mediaType: firstMedia?.type || "video",
+        mediaUrl: firstMedia?.url || "",
+        posterUrl: firstMedia?.type === 'video' ? (firstMedia.posterUrl || "") : "",
+        displayStyle: banner.displayStyle,
+        status: banner.status,
+        order: banner.order,
+        gradient: banner.gradient || "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
+      })
+    } else {
+      setEditingBanner(null)
+      const nextOrder = banners.length > 0 ? Math.max(...banners.map(b => b.order)) + 1 : 1
+      setBannerFormData({
+        title: "",
+        subtitle: "",
+        tone: "results",
+        mediaType: "video",
+        mediaUrl: "",
+        posterUrl: "",
+        displayStyle: "autoplay",
+        status: "draft",
+        order: nextOrder,
+        gradient: "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
+      })
+    }
+    setShowBannerEditor(true)
+  }
+
+  const closeBannerEditor = () => {
+    setShowBannerEditor(false)
+    setEditingBanner(null)
+    setBannerFormData({
+      title: "",
+      subtitle: "",
+      tone: "results",
+      mediaType: "video",
+      mediaUrl: "",
+      posterUrl: "",
+      displayStyle: "autoplay",
+      status: "draft",
+      order: 1,
+      gradient: "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
+    })
+  }
+
+  const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'media' | 'poster') => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (type === 'media') {
+      if (bannerFormData.mediaType === 'image' && !file.type.startsWith('image/')) {
+        toast({
+          title: "Invalid File",
+          description: "Please upload an image file",
+          variant: "destructive",
+        })
+        return
+      }
+      if (bannerFormData.mediaType === 'video' && !file.type.startsWith('video/')) {
+        toast({
+          title: "Invalid File",
+          description: "Please upload a video file",
+          variant: "destructive",
+        })
+        return
+      }
+    } else if (type === 'poster' && !file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid File",
+        description: "Poster must be an image file",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Validate file size (50MB max)
+    if (file.size > 50 * 1024 * 1024) {
+      toast({
+        title: "File Too Large",
+        description: "Maximum file size is 50MB",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setUploadingMedia(true)
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      if (data.success && data.url) {
+        if (type === 'media') {
+          setBannerFormData({ ...bannerFormData, mediaUrl: data.url })
+        } else {
+          setBannerFormData({ ...bannerFormData, posterUrl: data.url })
+        }
+        toast({
+          title: "Success",
+          description: `${type === 'media' ? 'Media' : 'Poster'} uploaded successfully!`,
+        })
+      } else {
+        throw new Error(data.error || 'Upload failed')
+      }
+    } catch (error: any) {
+      console.error("Error uploading:", error)
+      toast({
+        title: "Upload Error",
+        description: error.message || "Failed to upload file",
+        variant: "destructive",
+      })
+    } finally {
+      setUploadingMedia(false)
+    }
+  }
+
+  const handleBannerSubmit = async () => {
+    // Validation
+    if (!bannerFormData.title.trim() || !bannerFormData.subtitle.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Title and subtitle are required",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (!bannerFormData.mediaUrl) {
+      toast({
+        title: "Validation Error",
+        description: "Please upload media file",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (bannerFormData.mediaType === 'video' && !bannerFormData.posterUrl) {
+      toast({
+        title: "Validation Error",
+        description: "Poster image is required for videos",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setBannerSubmitting(true)
+
+    try {
+      const url = editingBanner
+        ? `/api/banners/${editingBanner.id}?admin=true`
+        : `/api/banners?admin=true`
+      
+      const method = editingBanner ? "PUT" : "POST"
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bannerFormData),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        toast({
+          title: "Success",
+          description: `Banner ${editingBanner ? "updated" : "created"} successfully!`,
+        })
+        
+        if (editingBanner) {
+          setBanners(banners.map(b => b.id === editingBanner.id ? data.data : b))
+        } else {
+          setBanners([data.data, ...banners])
+        }
+        
+        closeBannerEditor()
+        
+        // Dispatch event if published
+        if (bannerFormData.status === 'published') {
+          window.dispatchEvent(new CustomEvent('banner-published', { detail: data.data }))
+        }
+      } else {
+        toast({
+          title: "Error",
+          description: data.error || "Failed to save banner",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Error saving banner:", error)
+      toast({
+        title: "Error",
+        description: "An error occurred while saving",
+        variant: "destructive",
+      })
+    } finally {
+      setBannerSubmitting(false)
+    }
+  }
+
+  const openBannerDeleteDialog = (id: string) => {
+    setBannerToDelete(id)
+    setBannerDeleteDialogOpen(true)
+  }
+
+  const handleBannerDelete = async () => {
+    if (!bannerToDelete) return
+
+    try {
+      const response = await fetch(`/api/banners/${bannerToDelete}?admin=true`, {
+        method: "DELETE",
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        toast({
+          title: "Success",
+          description: "Banner deleted successfully!",
+        })
+        setBanners(banners.filter(b => b.id !== bannerToDelete))
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to delete banner",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Error deleting banner:", error)
+      toast({
+        title: "Error",
+        description: "An error occurred while deleting",
+        variant: "destructive",
+      })
+    } finally {
+      setBannerDeleteDialogOpen(false)
+      setBannerToDelete(null)
+    }
+  }
+
+  const moveBanner = async (id: string, direction: 'up' | 'down') => {
+    const currentIndex = banners.findIndex(b => b.id === id)
+    if (currentIndex === -1) return
+    
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
+    if (targetIndex < 0 || targetIndex >= banners.length) return
+
+    const newBanners = [...banners]
+    const [moved] = newBanners.splice(currentIndex, 1)
+    newBanners.splice(targetIndex, 0, moved)
+
+    // Update order numbers
+    const updates = newBanners.map((banner, index) => ({
+      ...banner,
+      order: index + 1
+    }))
+
+    setBanners(updates)
+
+    // Update in database
+    try {
+      await fetch(`/api/banners/${id}?admin=true`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order: targetIndex + 1 }),
+      })
+    } catch (error) {
+      console.error("Error updating banner order:", error)
+      fetchBanners() // Refresh on error
+    }
+  }
+
   const stats = {
     total: ads.length,
     published: ads.filter(a => a.status === 'published').length,
     draft: ads.filter(a => a.status === 'draft').length,
+  }
+
+  const bannerStats = {
+    total: banners.length,
+    published: banners.filter(b => b.status === 'published').length,
+    draft: banners.filter(b => b.status === 'draft').length,
   }
 
   return (

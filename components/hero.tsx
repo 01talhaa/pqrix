@@ -3,8 +3,50 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import LazyVideo from "./lazy-video"
+import { useEffect, useState } from "react"
+import type { BannerDocument } from "@/lib/models/Banner"
 
 export function Hero() {
+  const [banners, setBanners] = useState<BannerDocument[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchBanners()
+    
+    // Listen for banner updates
+    const handleBannerUpdate = () => {
+      fetchBanners()
+    }
+    
+    window.addEventListener('banner-published', handleBannerUpdate)
+    
+    return () => {
+      window.removeEventListener('banner-published', handleBannerUpdate)
+    }
+  }, [])
+
+  const fetchBanners = async () => {
+    try {
+      const response = await fetch("/api/banners", {
+        next: { revalidate: 300 }, // 🚀 Cache for 5 minutes
+      })
+      const data = await response.json()
+      if (data.success && data.data.length > 0) {
+        setBanners(data.data)
+      } else {
+        // Fallback to default banners
+        setBanners([])
+      }
+    } catch (error) {
+      console.error("Error fetching banners:", error)
+      setBanners([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const displayBanners = banners.length > 0 ? banners : phoneData
+
   const buttonNew = (
     <Button asChild className="rounded-full bg-lime-400 px-6 text-black hover:bg-lime-300">
       <a href="https://wa.link/rc25na" target="_blank" rel="noopener noreferrer">
@@ -43,22 +85,48 @@ export function Hero() {
 
           {/* Phone Grid */}
           <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-            {phoneData.map((p, i) => {
-              const visibility =
-                i <= 2
-                  ? "block"
-                  : i === 3
-                  ? "hidden md:block"
-                  : i === 4
-                  ? "hidden xl:block"
-                  : "hidden"
+            {loading ? (
+              <div className="col-span-full flex justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lime-400"></div>
+              </div>
+            ) : (
+              displayBanners.map((item, i) => {
+                const visibility =
+                  i <= 2
+                    ? "block"
+                    : i === 3
+                    ? "hidden md:block"
+                    : i === 4
+                    ? "hidden xl:block"
+                    : "hidden"
 
-              return (
-                <div key={i} className={visibility}>
-                  <PhoneCard {...p} />
-                </div>
-              )
-            })}
+                // Check if item is a banner or phoneData
+                const isBanner = 'media' in item
+                
+                if (isBanner) {
+                  const banner = item as BannerDocument
+                  
+                  return (
+                    <div key={banner.id} className={visibility}>
+                      <PhoneCard
+                        title={banner.title}
+                        sub={banner.subtitle}
+                        tone={banner.tone}
+                        gradient={banner.gradient || "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]"}
+                        media={banner.media}
+                        displayStyle={banner.displayStyle}
+                      />
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div key={i} className={visibility}>
+                      <PhoneCard {...(item as any)} />
+                    </div>
+                  )
+                }
+              })
+            )}
           </div>
         </div>
       </div>
@@ -72,28 +140,64 @@ function PhoneCard({
   tone,
   gradient,
   videoSrc,
+  imageSrc,
   poster,
+  media,
+  displayStyle,
 }: {
   title: string
   sub: string
   tone: string
   gradient: string
   videoSrc?: string
+  imageSrc?: string
   poster?: string
+  media?: { url: string; type: 'image' | 'video'; posterUrl?: string }[]
+  displayStyle?: 'autoplay' | 'slider' | 'static'
 }) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Slider functionality - auto cycle through media items
+  useEffect(() => {
+    if (displayStyle === 'slider' && media && media.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % media.length)
+      }, 4000) // Change slide every 4 seconds
+
+      return () => clearInterval(interval)
+    }
+  }, [displayStyle, media])
+
+  // Determine what to display
+  const currentMedia = media && media.length > 0 ? media[currentIndex] : null
+  const finalVideoSrc = currentMedia?.type === 'video' ? currentMedia.url : videoSrc
+  const finalImageSrc = currentMedia?.type === 'image' ? currentMedia.url : imageSrc
+  const finalPoster = currentMedia?.type === 'video' ? currentMedia.posterUrl : poster
+
   return (
     <div className="relative rounded-[28px] glass-border bg-neutral-900 p-2">
       <div className="relative aspect-[9/19] w-full overflow-hidden rounded-2xl bg-black">
-        <LazyVideo
-          src={
-            videoSrc ??
-            "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b0f3222371106db366a14ca1c29cef55-1b1EWVSa4w3FL2zslcaCGYTy9vcxjF.mp4"
-          }
-          poster={poster ?? "/thumbnails/default.jpg"}
-          className="absolute inset-0 h-full w-full object-cover"
-          {...({ autoPlay: true, loop: true, muted: true, playsInline: true } as any)}
-          aria-label={`${title} - ${sub}`}
-        />
+        {finalImageSrc ? (
+          // Static Image
+          <img
+            src={finalImageSrc}
+            alt={`${title} - ${sub}`}
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
+          />
+        ) : (
+          // Video
+          <LazyVideo
+            key={finalVideoSrc} // Key forces re-render when video changes
+            src={
+              finalVideoSrc ??
+              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b0f3222371106db366a14ca1c29cef55-1b1EWVSa4w3FL2zslcaCGYTy9vcxjF.mp4"
+            }
+            poster={finalPoster ?? "/thumbnails/default.jpg"}
+            className="absolute inset-0 h-full w-full object-cover"
+            {...({ autoPlay: true, loop: true, muted: true, playsInline: true } as any)}
+            aria-label={`${title} - ${sub}`}
+          />
+        )}
 
         <div className="relative z-10 p-3">
           <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/20" />
@@ -105,6 +209,24 @@ function PhoneCard({
             </div>
           </div>
         </div>
+
+        {/* Slider Indicators */}
+        {displayStyle === 'slider' && media && media.length > 1 && (
+          <div className="absolute bottom-16 left-0 right-0 z-20 flex justify-center gap-1.5">
+            {media.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentIndex
+                    ? 'w-6 bg-lime-400'
+                    : 'w-1.5 bg-white/30 hover:bg-white/50'
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone, Receipt } from "lucide-react"
+import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone, Receipt, Layout } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth()
@@ -40,13 +40,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 Admin Panel
               </Link>
               <nav className="hidden md:flex items-center gap-6">
-                <Link
+                {/* <Link
                   href="/admin"
                   className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
                 >
                   <LayoutDashboard className="w-4 h-4" />
                   Dashboard
-                </Link>
+                </Link> */}
                 <Link
                   href="/admin/bookings"
                   className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
@@ -109,6 +109,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <Megaphone className="w-4 h-4" />
                   Ads
+                </Link>
+                <Link
+                  href="/admin/banners"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Layout className="w-4 h-4" />
+                  Banners
                 </Link>
                 {/* <Link
                   href="/admin/test"
