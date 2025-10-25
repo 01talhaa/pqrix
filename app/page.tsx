@@ -1,17 +1,36 @@
 import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
-import { Features } from "@/components/features"
-import { ServicesSection } from "@/components/services-section"
-import { LogoMarquee } from "@/components/logo-marquee"
-import { TechStackMarquee } from "@/components/tech-stack-marquee"
-import { Pricing } from "@/components/pricing"
-import { AppverseFooter } from "@/components/appverse-footer"
-import { ProjectsSection } from "@/components/projects-section"
-import { BlogSection } from "@/components/blog-section"
-import { WhatsAppButton } from "@/components/whatsapp-button"
-import { AdDisplay } from "@/components/ad-display"
-import { PqrixChatbot } from "@/components/pqrix-chatbot"
 import Script from "next/script"
+import dynamicImport from "next/dynamic"
+
+// 🚀 Lazy load heavy components
+const Features = dynamicImport(() => import("@/components/features").then(mod => ({ default: mod.Features })), {
+  loading: () => <div className="h-96 animate-pulse bg-black/20" />,
+})
+const ServicesSection = dynamicImport(() => import("@/components/services-section").then(mod => ({ default: mod.ServicesSection })), {
+  loading: () => <div className="h-96 animate-pulse bg-black/20" />,
+})
+const LogoMarquee = dynamicImport(() => import("@/components/logo-marquee").then(mod => ({ default: mod.LogoMarquee })), {
+  loading: () => <div className="h-32 animate-pulse bg-black/20" />,
+})
+const TechStackMarquee = dynamicImport(() => import("@/components/tech-stack-marquee").then(mod => ({ default: mod.TechStackMarquee })), {
+  loading: () => <div className="h-32 animate-pulse bg-black/20" />,
+})
+const Pricing = dynamicImport(() => import("@/components/pricing").then(mod => ({ default: mod.Pricing })), {
+  loading: () => <div className="h-96 animate-pulse bg-black/20" />,
+})
+const AppverseFooter = dynamicImport(() => import("@/components/appverse-footer").then(mod => ({ default: mod.AppverseFooter })), {
+  loading: () => <div className="h-64 animate-pulse bg-black/20" />,
+})
+const ProjectsSection = dynamicImport(() => import("@/components/projects-section").then(mod => ({ default: mod.ProjectsSection })), {
+  loading: () => <div className="h-96 animate-pulse bg-black/20" />,
+})
+const BlogSection = dynamicImport(() => import("@/components/blog-section").then(mod => ({ default: mod.BlogSection })), {
+  loading: () => <div className="h-96 animate-pulse bg-black/20" />,
+})
+const WhatsAppButton = dynamicImport(() => import("@/components/whatsapp-button").then(mod => ({ default: mod.WhatsAppButton })))
+const AdDisplay = dynamicImport(() => import("@/components/ad-display").then(mod => ({ default: mod.AdDisplay })))
+const PqrixChatbot = dynamicImport(() => import("@/components/pqrix-chatbot").then(mod => ({ default: mod.PqrixChatbot })))
 
 // ✅ Force static generation for low TTFB
 export const dynamic = "force-static"
