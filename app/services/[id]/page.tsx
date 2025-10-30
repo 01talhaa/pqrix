@@ -136,12 +136,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <main className="min-h-[100dvh] text-white">
+      <main className="min-h-[100dvh] text-black dark:text-white">
         <SiteHeader />
 
         {/* Back Button */}
         <div className="container mx-auto px-4 pt-8">
-          <Button asChild variant="ghost" className="text-gray-300 hover:text-white">
+          <Button asChild variant="ghost" className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">
             <Link href="/services">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Services
@@ -158,14 +158,14 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               >
                 <Icon className="h-8 w-8 text-white" />
               </div>
-              <p className="text-sm font-medium text-lime-400 mb-3">{service.tagline}</p>
-              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-white">
+              <p className="text-sm font-medium text-green-600 dark:text-lime-400 mb-3">{service.tagline}</p>
+              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-black dark:text-white">
                 {service.title}
               </h1>
-              <p className="text-xl text-gray-300 mb-6">{service.description}</p>
-              <p className="text-gray-400">{service.longDescription}</p>
+              <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">{service.description}</p>
+              <p className="text-gray-600 dark:text-gray-400">{service.longDescription}</p>
             </div>
-            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-white/10">
+            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-gray-200 dark:border-white/10">
               <img
                 src={service.image || "/placeholder.svg"}
                 alt={service.title}
@@ -185,11 +185,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 return (
                   <Card
                     key={idx}
-                    className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl text-center p-6"
+                    className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl text-center p-6"
                   >
-                    <StatIcon className="h-8 w-8 text-lime-400 mx-auto mb-3" />
-                    <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
-                    <div className="text-sm text-gray-400">{stat.label}</div>
+                    <StatIcon className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
+                    <div className="text-2xl font-bold text-black dark:text-white mb-1">{stat.value}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
                   </Card>
                 )
               })}
@@ -199,13 +199,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
         {/* Features */}
         <section className="container mx-auto px-4 pb-12">
-          <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6">What's Included</h2>
+          <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+            <h2 className="text-2xl font-bold text-black dark:text-white mb-6">What's Included</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {service.features.map((feature: string, idx: number) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-lime-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-300">{feature}</span>
+                  <Check className="h-5 w-5 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700 dark:text-gray-300">{feature}</span>
                 </div>
               ))}
             </div>
@@ -215,18 +215,18 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         {/* Process */}
         {service.process && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Process</h2>
+            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Our Process</h2>
             <div className="grid gap-6 md:grid-cols-5">
-              {service.process.map((item, idx: number) => (
+              {service.process.map((item: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-6 text-center"
+                  className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-6 text-center"
                 >
-                  <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lime-400/20 text-lime-400 font-bold">
+                  <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-lime-400/20 text-green-600 dark:text-lime-400 font-bold">
                     {idx + 1}
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{item.step}</h3>
-                  <p className="text-sm text-gray-400">{item.description}</p>
+                  <h3 className="text-lg font-semibold text-black dark:text-white mb-2">{item.step}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
                 </Card>
               ))}
             </div>
@@ -236,30 +236,30 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         {/* Packages */}
         {service.packages && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Choose Your Package</h2>
+            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Choose Your Package</h2>
             <div className="grid gap-6 md:grid-cols-3">
-              {service.packages.map((pkg, idx: number) => (
+              {service.packages.map((pkg: any, idx: number) => (
                 <Card
                   key={idx}
                   className={`liquid-glass border backdrop-blur-xl p-6 relative ${
-                    pkg.popular ? "border-lime-400/50 bg-lime-400/5" : "border-white/10 bg-white/5"
+                    pkg.popular ? "border-green-500/50 dark:border-lime-400/50 bg-green-50 dark:bg-lime-400/5" : "border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5"
                   }`}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-lime-400 text-black text-xs font-bold px-3 py-1 rounded-full">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 dark:bg-lime-400 text-white dark:text-black text-xs font-bold px-3 py-1 rounded-full">
                       MOST POPULAR
                     </div>
                   )}
                   <CardContent className="p-0 space-y-6">
                     <div>
-                      <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
-                      <div className="text-4xl font-extrabold text-lime-400 mb-1">{pkg.price}</div>
-                      <p className="text-sm text-gray-400">{pkg.duration}</p>
+                      <h3 className="text-2xl font-bold text-black dark:text-white mb-2">{pkg.name}</h3>
+                      <div className="text-4xl font-extrabold text-green-600 dark:text-lime-400 mb-1">{pkg.price}</div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{pkg.duration}</p>
                     </div>
                     <ul className="space-y-3">
                       {pkg.features.map((feature: string, fidx: number) => (
-                        <li key={fidx} className="flex items-start gap-2 text-sm text-gray-300">
-                          <Check className="h-4 w-4 text-lime-400 mt-0.5 flex-shrink-0" />
+                        <li key={fidx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                          <Check className="h-4 w-4 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
                           <span>{feature}</span>
                         </li>
                       ))}
@@ -268,8 +268,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                       asChild
                       className={`w-full rounded-full ${
                         pkg.popular
-                          ? "bg-lime-400 text-black hover:bg-lime-300"
-                          : "bg-white/10 text-white hover:bg-white/20"
+                          ? "bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+                          : "bg-gray-200 dark:bg-white/10 text-black dark:text-white hover:bg-gray-300 dark:hover:bg-white/20"
                       }`}
                     >
                       <Link href={`/checkout?service=${service.id}&package=${idx}`}>Select Package</Link>
@@ -284,9 +284,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         {/* Booking Form */}
         {service.packages && (
           <section id="booking" className="container mx-auto px-4 pb-16 sm:pb-24">
-            <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl p-8 sm:p-12 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-4 text-center">Book This Service</h2>
-              <p className="text-gray-300 mb-8 text-center">
+            <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl p-8 sm:p-12 max-w-3xl mx-auto">
+              <h2 className="text-3xl font-bold text-black dark:text-white mb-4 text-center">Book This Service</h2>
+              <p className="text-gray-700 dark:text-gray-300 mb-8 text-center">
                 Fill out the form below and we'll get back to you within 24 hours
               </p>
               <BookingForm serviceId={service.id} serviceName={service.title} packages={service.packages} />

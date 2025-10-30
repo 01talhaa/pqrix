@@ -92,20 +92,20 @@ export function Features() {
 
   return (
     <section id="features" className="container mx-auto px-4 py-16 sm:py-20">
-      <h2 className="mb-8 text-center text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+      <h2 className="mb-8 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">
         {content.title}
       </h2>
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Adaptability Card - Hidden on mobile */}
-        <Card className="hidden md:block liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl">
+        <Card className="hidden md:block liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl">
           <CardHeader>
-            <p className="text-[11px] tracking-widest text-neutral-400">ADAPTABILITY</p>
-            <CardTitle className="mt-1 text-xl text-white">Make the experience truly intuitive</CardTitle>
+            <p className="text-[11px] tracking-widest text-gray-600 dark:text-neutral-400">ADAPTABILITY</p>
+            <CardTitle className="mt-1 text-xl text-black dark:text-white">Make the experience truly intuitive</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
-              <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-gray-200 dark:border-white/10">
                 <Image
                   src="/images/intuitive-1.png"
                   alt="Close-up smartphone camera module on textured leather back"
@@ -115,7 +115,7 @@ export function Features() {
                   priority={false}
                 />
               </div>
-              <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-gray-200 dark:border-white/10">
                 <Image
                   src="/images/intuitive-2.png"
                   alt="Hand gripping textured phone back — macro detail"
@@ -130,22 +130,22 @@ export function Features() {
         </Card>
 
         {/* Client Love Card - Always visible */}
-        <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl">
+        <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl">
           <CardHeader>
-            <p className="text-[11px] tracking-widest text-neutral-400">CLIENT LOVE</p>
-            <CardTitle className="mt-1 text-xl text-white">
+            <p className="text-[11px] tracking-widest text-gray-600 dark:text-neutral-400">CLIENT LOVE</p>
+            <CardTitle className="mt-1 text-xl text-black dark:text-white">
               What Our Clients Say
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="mb-6 flex items-end gap-4">
-              <div className="text-5xl font-bold text-lime-300">{averageRating}</div>
+              <div className="text-5xl font-bold text-green-600 dark:text-lime-300">{averageRating}</div>
               <div className="flex items-center gap-1">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-lime-300 text-lime-300" />
+                  <Star key={i} className="h-5 w-5 fill-green-500 dark:fill-lime-300 text-green-500 dark:text-lime-300" />
                 ))}
               </div>
-              <span className="text-sm text-white/60 mb-1">({testimonials.length} reviews)</span>
+              <span className="text-sm text-gray-600 dark:text-white/60 mb-1">({testimonials.length} reviews)</span>
             </div>
 
             {testimonials.length > 0 ? (
@@ -159,17 +159,17 @@ export function Features() {
                         <img
                           src={testimonials[currentTestimonial].clientImage}
                           alt={testimonials[currentTestimonial].clientName}
-                          className="h-16 w-16 rounded-full object-cover border-2 border-lime-300"
+                          className="h-16 w-16 rounded-full object-cover border-2 border-green-500 dark:border-lime-300"
                         />
                       ) : (
-                        <div className="h-16 w-16 rounded-full bg-lime-300/20 flex items-center justify-center border-2 border-lime-300">
-                          <span className="text-lime-300 font-bold text-xl">
+                        <div className="h-16 w-16 rounded-full bg-green-100 dark:bg-lime-300/20 flex items-center justify-center border-2 border-green-500 dark:border-lime-300">
+                          <span className="text-green-600 dark:text-lime-300 font-bold text-xl">
                             {testimonials[currentTestimonial].clientName.charAt(0)}
                           </span>
                         </div>
                       )}
                       <div>
-                        <h4 className="text-white font-semibold">
+                        <h4 className="text-black dark:text-white font-semibold">
                           {testimonials[currentTestimonial].clientName}
                         </h4>
                         <div className="flex gap-1 mt-1">
@@ -178,8 +178,8 @@ export function Features() {
                               key={i}
                               className={`h-4 w-4 ${
                                 i < testimonials[currentTestimonial].rating
-                                  ? "fill-lime-300 text-lime-300"
-                                  : "text-white/40"
+                                  ? "fill-green-500 dark:fill-lime-300 text-green-500 dark:text-lime-300"
+                                  : "text-gray-400 dark:text-white/40"
                               }`}
                             />
                           ))}
@@ -188,7 +188,7 @@ export function Features() {
                     </div>
 
                     {/* Review Text */}
-                    <p className="text-white/90 leading-relaxed">
+                    <p className="text-gray-800 dark:text-white/90 leading-relaxed">
                       &ldquo;{testimonials[currentTestimonial].review}&rdquo;
                     </p>
 
@@ -201,12 +201,12 @@ export function Features() {
                             key={idx}
                             src={image}
                             alt={`Review image ${idx + 1}`}
-                            className="h-20 w-20 rounded-lg object-cover border border-lime-300/30"
+                            className="h-20 w-20 rounded-lg object-cover border border-green-300 dark:border-lime-300/30"
                           />
                         ))}
                         {testimonials[currentTestimonial].images!.length > 3 && (
-                          <div className="h-20 w-20 rounded-lg bg-white/10 flex items-center justify-center border border-lime-300/30">
-                            <span className="text-lime-300 text-sm font-semibold">
+                          <div className="h-20 w-20 rounded-lg bg-green-50 dark:bg-white/10 flex items-center justify-center border border-green-300 dark:border-lime-300/30">
+                            <span className="text-green-600 dark:text-lime-300 text-sm font-semibold">
                               +{testimonials[currentTestimonial].images!.length - 3}
                             </span>
                           </div>
@@ -217,13 +217,13 @@ export function Features() {
 
                   {/* Navigation Controls */}
                   {testimonials.length > 1 && (
-                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
+                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 dark:border-white/10">
                       <button
                         onClick={prevTestimonial}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
                         aria-label="Previous testimonial"
                       >
-                        <ChevronLeft className="h-5 w-5 text-white" />
+                        <ChevronLeft className="h-5 w-5 text-black dark:text-white" />
                       </button>
                       
                       <div className="flex gap-2">
@@ -236,8 +236,8 @@ export function Features() {
                             }}
                             className={`h-2 rounded-full transition-all ${
                               index === currentTestimonial
-                                ? "w-8 bg-lime-300"
-                                : "w-2 bg-white/40 hover:bg-white/60"
+                                ? "w-8 bg-green-500 dark:bg-lime-300"
+                                : "w-2 bg-gray-400 dark:bg-white/40 hover:bg-gray-600 dark:hover:bg-white/60"
                             }`}
                             aria-label={`Go to testimonial ${index + 1}`}
                           />
@@ -246,10 +246,10 @@ export function Features() {
 
                       <button
                         onClick={nextTestimonial}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
                         aria-label="Next testimonial"
                       >
-                        <ChevronRight className="h-5 w-5 text-white" />
+                        <ChevronRight className="h-5 w-5 text-black dark:text-white" />
                       </button>
                     </div>
                   )}
@@ -258,7 +258,7 @@ export function Features() {
             ) : (
               // Fallback if no testimonials
               <div className="space-y-4">
-                <p className="text-white/90 leading-relaxed">
+                <p className="text-gray-800 dark:text-white/90 leading-relaxed">
                   &ldquo;Their work didn&apos;t just look good, it moved the needle — our audience felt the difference instantly.&rdquo;
                 </p>
                 <div className="grid grid-cols-2 gap-4">
@@ -267,14 +267,14 @@ export function Features() {
                     width={280}
                     height={160}
                     alt="Product sketch concepts"
-                    className="h-full w-full rounded-xl border border-white/10 object-cover"
+                    className="h-full w-full rounded-xl border border-gray-200 dark:border-white/10 object-cover"
                   />
                   <Image
                     src={"/images/top-rated-2.png"}
                     width={280}
                     height={160}
                     alt="Product showcase"
-                    className="h-full w-full rounded-xl border border-white/10 object-cover"
+                    className="h-full w-full rounded-xl border border-gray-200 dark:border-white/10 object-cover"
                   />
                 </div>
               </div>

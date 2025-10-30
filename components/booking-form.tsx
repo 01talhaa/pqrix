@@ -127,7 +127,7 @@ Please review this booking in the admin dashboard.
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="name" className="text-white">
+          <Label htmlFor="name" className="text-black dark:text-white">
             Full Name *
           </Label>
           <Input
@@ -135,13 +135,13 @@ Please review this booking in the admin dashboard.
             required
             value={formData.name}
             onChange={(e) => handleChange("name", e.target.value)}
-            className="liquid-glass border-white/20 bg-white/5 text-white placeholder:text-gray-500"
+            className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white placeholder:text-gray-500"
             placeholder="John Doe"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-white">
+          <Label htmlFor="email" className="text-black dark:text-white">
             Email Address *
           </Label>
           <Input
@@ -150,13 +150,13 @@ Please review this booking in the admin dashboard.
             required
             value={formData.email}
             onChange={(e) => handleChange("email", e.target.value)}
-            className="liquid-glass border-white/20 bg-white/5 text-white placeholder:text-gray-500"
+            className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white placeholder:text-gray-500"
             placeholder="john@example.com"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone" className="text-white">
+          <Label htmlFor="phone" className="text-black dark:text-white">
             Phone Number
           </Label>
           <Input
@@ -164,34 +164,34 @@ Please review this booking in the admin dashboard.
             type="tel"
             value={formData.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
-            className="liquid-glass border-white/20 bg-white/5 text-white placeholder:text-gray-500"
+            className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white placeholder:text-gray-500"
             placeholder="+1 (555) 000-0000"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="company" className="text-white">
+          <Label htmlFor="company" className="text-black dark:text-white">
             Company Name
           </Label>
           <Input
             id="company"
             value={formData.company}
             onChange={(e) => handleChange("company", e.target.value)}
-            className="liquid-glass border-white/20 bg-white/5 text-white placeholder:text-gray-500"
+            className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white placeholder:text-gray-500"
             placeholder="Your Company"
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="package" className="text-white">
+        <Label htmlFor="package" className="text-black dark:text-white">
           Select Package *
         </Label>
         <Select required value={formData.package} onValueChange={(value) => handleChange("package", value)}>
-          <SelectTrigger className="liquid-glass border-white/20 bg-white/5 text-white">
+          <SelectTrigger className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white">
             <SelectValue placeholder="Choose a package" />
           </SelectTrigger>
-          <SelectContent className="liquid-glass border-white/20 bg-gray-900 text-white">
+          <SelectContent className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-gray-900 text-black dark:text-white">
             {packages.filter(pkg => pkg.name && pkg.name.trim() !== "").map((pkg) => (
               <SelectItem key={pkg.name} value={pkg.name}>
                 {pkg.name} - {pkg.price}
@@ -202,7 +202,7 @@ Please review this booking in the admin dashboard.
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message" className="text-white">
+        <Label htmlFor="message" className="text-black dark:text-white">
           Project Details *
         </Label>
         <Textarea
@@ -210,7 +210,7 @@ Please review this booking in the admin dashboard.
           required
           value={formData.message}
           onChange={(e) => handleChange("message", e.target.value)}
-          className="liquid-glass border-white/20 bg-white/5 text-white placeholder:text-gray-500 min-h-[120px]"
+          className="liquid-glass border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white placeholder:text-gray-500 min-h-[120px]"
           placeholder="Tell us about your project, timeline, and any specific requirements..."
         />
       </div>
@@ -218,7 +218,7 @@ Please review this booking in the admin dashboard.
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-full bg-lime-400 px-8 py-6 text-base font-semibold text-black hover:bg-lime-300"
+        className="w-full rounded-full bg-green-500 dark:bg-lime-400 px-8 py-6 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
       >
         {isSubmitting ? (
           <>
@@ -230,7 +230,7 @@ Please review this booking in the admin dashboard.
         )}
       </Button>
 
-      <p className="text-center text-sm text-gray-400">
+      <p className="text-center text-sm text-gray-600 dark:text-gray-400">
         By submitting this form, you agree to our terms of service and privacy policy
       </p>
     </form>

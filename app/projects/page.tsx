@@ -328,7 +328,7 @@ export default async function ProjectsPage() {
   const categories = getAllCategories(allProjects)
   return (
     <>
-      <main className="min-h-[100dvh] text-white">
+      <main className="min-h-[100dvh] text-black dark:text-white">
         <SiteHeader />
 
         {/* Hero Section */}
@@ -336,9 +336,9 @@ export default async function ProjectsPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
               <span className="block">Our Creative</span>
-              <span className="block text-lime-300 drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Portfolio</span>
+              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Portfolio</span>
             </h1>
-            <p className="text-lg text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
               Explore our latest work and see how we've helped brands create unforgettable experiences
             </p>
           </div>
@@ -353,8 +353,8 @@ export default async function ProjectsPage() {
                 variant={category === "All" ? "default" : "outline"}
                 className={
                   category === "All"
-                    ? "rounded-full bg-lime-400 text-black hover:bg-lime-300"
-                    : "rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                    ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+                    : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                 }
               >
                 {category}
@@ -368,8 +368,8 @@ export default async function ProjectsPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {allProjects.map((project: Project) => (
               <Link key={project.id} href={`/projects/${project.id}`}>
-                <Card className="group liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-white/20 hover:bg-white/10 h-full">
-                  <div className="relative aspect-video overflow-hidden bg-gray-900">
+                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
+                  <div className="relative aspect-video overflow-hidden bg-gray-200 dark:bg-gray-900">
                     {project.video ? (
                       <>
                         <video
@@ -395,14 +395,14 @@ export default async function ProjectsPage() {
 
                     {project.video && (
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-lime-400/90 backdrop-blur-sm">
-                          <Play className="h-7 w-7 text-black fill-black ml-1" />
+                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/90 dark:bg-lime-400/90 backdrop-blur-sm">
+                          <Play className="h-7 w-7 text-white dark:text-black fill-white dark:fill-black ml-1" />
                         </div>
                       </div>
                     )}
 
                     <div className="absolute top-3 left-3">
-                      <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-lime-400 border border-lime-400/30">
+                      <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-green-400 dark:text-lime-400 border border-green-400/30 dark:border-lime-400/30">
                         {project.category}
                       </span>
                     </div>
@@ -415,15 +415,15 @@ export default async function ProjectsPage() {
                   </div>
 
                   <div className="p-5">
-                    <div className="mb-2 text-sm text-gray-400">{project.client}</div>
-                    <h3 className="mb-2 text-xl font-bold text-white group-hover:text-lime-400 transition-colors">
+                    <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">{project.client}</div>
+                    <h3 className="mb-2 text-xl font-bold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
                       {project.title}
                     </h3>
-                    <p className="mb-4 text-sm text-gray-300 line-clamp-2">{project.description}</p>
+                    <p className="mb-4 text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{project.description}</p>
                     {project.tags && project.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {project.tags.slice(0, 3).map((tag: string) => (
-                          <span key={tag} className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-gray-400">
+                          <span key={tag} className="rounded-full bg-gray-100 dark:bg-white/5 px-2.5 py-1 text-xs text-gray-600 dark:text-gray-400">
                             {tag}
                           </span>
                         ))}
@@ -438,13 +438,13 @@ export default async function ProjectsPage() {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
-            <p className="mb-8 text-lg text-gray-300">Let's bring your vision to life with our creative expertise</p>
+          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
+            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
+            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's bring your vision to life with our creative expertise</p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300"
+              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
             >
               <Link href="https://wa.link/65mf3i">Start Your Project</Link>
             </Button>
