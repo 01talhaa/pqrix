@@ -5,7 +5,7 @@ import { Inter } from "next/font/google"
 import Script from "next/script"
 import Plasma from "@/components/plasma"
 import { Toaster } from "@/components/ui/sonner"
-import { ClientAuthProvider } from "@/lib/client-auth"
+import { Providers } from "@/components/providers"
 
 const inter = Inter({ subsets: ["latin"], display: "swap" })
 
@@ -596,11 +596,24 @@ export default function RootLayout({
             gtag('config', 'G-W6LV22900R');
           `}
         </Script>
+
+        {/* Theme initialization script - prevents flash */}
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`
+            try {
+              const theme = localStorage.getItem('theme') || 
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+              document.documentElement.classList.add(theme);
+            } catch (e) {
+              document.documentElement.classList.add('dark');
+            }
+          `}
+        </Script>
       </head>
       <body>
-        <ClientAuthProvider>
+        <Providers>
           {/* Plasma background - hidden on mobile devices for better performance */}
-          <div className="fixed inset-0 z-0 bg-black">
+          <div className="fixed inset-0 z-0 bg-white dark:bg-black">
             <div className="hidden min-[500px]:block h-full w-full">
               <Plasma
                 color="#8b5cf6"
@@ -614,7 +627,7 @@ export default function RootLayout({
           </div>
           <div className="relative z-10">{children}</div>
           <Toaster />
-        </ClientAuthProvider>
+        </Providers>
       </body>
     </html>
   )

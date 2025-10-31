@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
 import { Menu, Briefcase, Tag, HelpCircle, Wrench, FolderOpen, Users, LogOut, LayoutDashboard } from "lucide-react"
 import { useClientAuth } from "@/lib/client-auth"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function SiteHeader() {
   const { client, isAuthenticated, logout } = useClientAuth()
@@ -48,14 +49,14 @@ export function SiteHeader() {
         <div className="flex h-14 items-center justify-between px-6 liquid-glass-header rounded-full">
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-1.5">
-            <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={20} height={20} className="h-5 w-5" />
-            <span className="font-semibold tracking-wide text-white">Pqrix</span>
+            <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={20} height={20} className="h-5 w-5 dark:invert-0 invert" />
+            <span className="font-semibold tracking-wide text-black dark:text-white">Pqrix</span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden items-center gap-6 text-sm text-gray-300 md:flex">
+          <nav className="hidden items-center gap-6 text-sm text-gray-700 dark:text-gray-300 md:flex">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-purple-300 transition-colors">
+              <Link key={l.href} href={l.href} className="hover:text-green-600 dark:hover:text-purple-300 transition-colors">
                 {l.label}
               </Link>
             ))}
@@ -63,6 +64,7 @@ export function SiteHeader() {
 
           {/* Desktop CTA / Avatar */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             {isAuthenticated && client ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -102,8 +104,8 @@ export function SiteHeader() {
             ) : (
               <Button
                 asChild
-                className="bg-lime-400 text-black font-medium rounded-lg px-6 py-2.5
-                           hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
+                className="bg-green-500 dark:bg-lime-400 text-white dark:text-black font-medium rounded-lg px-6 py-2.5
+                           hover:bg-green-600 dark:hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
                            transition-all"
               >
                 <Link href="/client/login">Login / Sign Up</Link>
@@ -112,34 +114,35 @@ export function SiteHeader() {
           </div>
 
           {/* Mobile Nav */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle />
             <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="border-gray-700 bg-gray-900/80 text-gray-200 hover:bg-gray-800"
+                  className="border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="liquid-glass border-gray-800 p-0 w-64 flex flex-col">
+              <SheetContent side="right" className="liquid-glass border-gray-200 dark:border-gray-800 p-0 w-64 flex flex-col">
                 {/* Brand Header */}
-                <div className="flex items-center gap-1.5 px-4 py-4 border-b border-gray-800">
-                  <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={24} height={24} className="h-6 w-6" />
-                  <span className="font-semibold tracking-wide text-white text-lg">Pqrix</span>
+                <div className="flex items-center gap-1.5 px-4 py-4 border-b border-gray-200 dark:border-gray-800">
+                  <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={24} height={24} className="h-6 w-6 dark:invert-0 invert" />
+                  <span className="font-semibold tracking-wide text-black dark:text-white text-lg">Pqrix</span>
                 </div>
 
                 {/* Nav Links */}
-                <nav className="flex flex-col gap-1 mt-2 text-gray-200">
+                <nav className="flex flex-col gap-1 mt-2 text-gray-800 dark:text-gray-200">
                   {links.map((l) => (
                     <Link
                       key={l.href}
                       href={l.href}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-900 hover:text-purple-300 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-green-600 dark:hover:text-purple-300 transition-colors"
                     >
-                      <span className="inline-flex items-center justify-center w-5 h-5 text-gray-400">
+                      <span className="inline-flex items-center justify-center w-5 h-5 text-gray-600 dark:text-gray-400">
                         <l.icon className="h-4 w-4" />
                       </span>
                       <span className="text-sm">{l.label}</span>
@@ -148,25 +151,25 @@ export function SiteHeader() {
                 </nav>
 
                 {/* CTA Button / Client Info at Bottom */}
-                <div className="mt-auto border-t border-gray-800 p-4">
+                <div className="mt-auto border-t border-gray-200 dark:border-gray-800 p-4">
                   {isAuthenticated && client ? (
                     <div className="space-y-3">
                       <div className="flex items-center gap-3 px-2">
-                        <Avatar className="h-10 w-10 border-2 border-lime-400">
+                        <Avatar className="h-10 w-10 border-2 border-green-500 dark:border-lime-400">
                           <AvatarImage src={client.image} alt={client.name} />
-                          <AvatarFallback className="bg-lime-400 text-black font-semibold">
+                          <AvatarFallback className="bg-green-500 dark:bg-lime-400 text-white dark:text-black font-semibold">
                             {getInitials(client.name)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-white truncate">{client.name}</p>
-                          <p className="text-xs text-white/60 truncate">{client.email}</p>
+                          <p className="text-sm font-medium text-black dark:text-white truncate">{client.name}</p>
+                          <p className="text-xs text-gray-600 dark:text-white/60 truncate">{client.email}</p>
                         </div>
                       </div>
                       <Button
                         asChild
-                        className="w-full bg-lime-400 text-black font-medium rounded-lg
-                                   hover:bg-lime-300 transition-all"
+                        className="w-full bg-green-500 dark:bg-lime-400 text-white dark:text-black font-medium rounded-lg
+                                   hover:bg-green-600 dark:hover:bg-lime-300 transition-all"
                       >
                         <Link href="/client/dashboard">Dashboard</Link>
                       </Button>
@@ -182,8 +185,8 @@ export function SiteHeader() {
                   ) : (
                     <Button
                       asChild
-                      className="w-full bg-lime-400 text-black font-medium rounded-lg px-6 py-2.5
-                                 hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
+                      className="w-full bg-green-500 dark:bg-lime-400 text-white dark:text-black font-medium rounded-lg px-6 py-2.5
+                                 hover:bg-green-600 dark:hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
                                  transition-all"
                     >
                       <Link href="/client/login">Login / Sign Up</Link>

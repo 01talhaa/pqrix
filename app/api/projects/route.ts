@@ -2,18 +2,32 @@ import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from '@/lib/mongodb'
 import { PROJECTS_COLLECTION } from '@/lib/models/Project'
 import { ObjectId } from 'mongodb'
+import cache, { getOrSet, cacheKeys, CACHE_TTL } from '@/lib/cache'
 
-// GET /api/projects - List all projects
+// GET /api/projects - List all projects (with caching)
 export async function GET() {
   try {
-    const { db } = await connectToDatabase()
-    const projects = await db
-      .collection(PROJECTS_COLLECTION)
-      .find({})
-      .sort({ createdAt: -1 })
-      .toArray()
+    const projects = await getOrSet(
+      cacheKeys.projects.all(),
+      async () => {
+        const { db } = await connectToDatabase()
+        return await db
+          .collection(PROJECTS_COLLECTION)
+          .find({})
+          .sort({ year: -1, createdAt: -1 })
+          .toArray()
+      },
+      CACHE_TTL.MEDIUM // Cache for 1 minute
+    )
 
-    return NextResponse.json({ success: true, data: projects })
+    return NextResponse.json(
+      { success: true, data: projects },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+        },
+      }
+    )
   } catch (error) {
     console.error('Error fetching projects:', error)
     return NextResponse.json(
@@ -37,6 +51,9 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await db.collection(PROJECTS_COLLECTION).insertOne(projectData)
+
+    // Invalidate cache after creating new project
+    cache.invalidatePattern('projects:')
 
     return NextResponse.json({
       success: true,

@@ -1,8 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Renderer, Program, Mesh, Triangle } from "ogl"
+import { useTheme } from "@/contexts/theme-context"
 import "./Plasma.css"
 
 interface PlasmaProps {
@@ -106,6 +107,19 @@ export const Plasma: React.FC<PlasmaProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const mousePos = useRef({ x: 0, y: 0 })
+  const [mounted, setMounted] = useState(false)
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("dark")
+  
+  // Get theme from context
+  const { theme } = useTheme()
+  
+  useEffect(() => {
+    setMounted(true)
+    setCurrentTheme(theme)
+  }, [theme])
+  
+  // Use light green color in light mode, purple in dark mode
+  const effectiveColor = currentTheme === "light" ? "#86efac" : color // light green-400
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -114,8 +128,8 @@ export const Plasma: React.FC<PlasmaProps> = ({
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
     const isMobile = window.innerWidth < 768
 
-    const useCustomColor = color ? 1.0 : 0.0
-    const customColorRgb = color ? hexToRgb(color) : [1, 1, 1]
+    const useCustomColor = effectiveColor ? 1.0 : 0.0
+    const customColorRgb = effectiveColor ? hexToRgb(effectiveColor) : [1, 1, 1]
     const directionMultiplier = direction === "reverse" ? -1.0 : 1.0
 
     // Lower DPR on mobile/iOS
@@ -211,7 +225,7 @@ export const Plasma: React.FC<PlasmaProps> = ({
         containerRef.current?.removeChild(canvas)
       } catch {}
     }
-  }, [color, speed, direction, scale, opacity, mouseInteractive])
+  }, [effectiveColor, speed, direction, scale, opacity, mouseInteractive, currentTheme])
 
   return <div ref={containerRef} className="plasma-container pointer-events-none will-change-transform" />
 }
