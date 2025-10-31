@@ -53,7 +53,7 @@ export default async function TeamPage() {
   const departments = getAllDepartments(teamMembers)
   return (
     <>
-      <main className="min-h-[100dvh] text-white">
+      <main className="min-h-[100dvh] text-black dark:text-white">
         <SiteHeader />
 
         {/* Hero Section */}
@@ -61,9 +61,9 @@ export default async function TeamPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
               <span className="block">Meet Our</span>
-              <span className="block text-lime-300 drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Creative Team</span>
+              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Creative Team</span>
             </h1>
-            <p className="text-lg text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
               Talented professionals passionate about bringing your vision to life through exceptional creative work
             </p>
           </div>
@@ -78,8 +78,8 @@ export default async function TeamPage() {
                 variant={dept === "All" ? "default" : "outline"}
                 className={
                   dept === "All"
-                    ? "rounded-full bg-lime-400 text-black hover:bg-lime-300"
-                    : "rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                    ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+                    : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                 }
               >
                 {dept}
@@ -91,10 +91,10 @@ export default async function TeamPage() {
         {/* Team Grid */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {teamMembers.map((member) => (
+            {teamMembers.map((member: any) => (
               <Link key={member.id} href={`/team/${member.id}`}>
-                <Card className="group liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-white/20 hover:bg-white/10 h-full">
-                  <div className="relative aspect-square overflow-hidden bg-gray-900">
+                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
+                  <div className="relative aspect-square overflow-hidden bg-gray-200 dark:bg-gray-900">
                     <img
                       src={member.image || "/placeholder.svg"}
                       alt={member.name}
@@ -138,18 +138,18 @@ export default async function TeamPage() {
 
                     {/* Department Badge */}
                     <div className="absolute top-3 right-3">
-                      <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-lime-400 border border-lime-400/30">
+                      <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-green-400 dark:text-lime-400 border border-green-400/30 dark:border-lime-400/30">
                         {member.department}
                       </span>
                     </div>
                   </div>
 
                   <div className="p-5">
-                    <h3 className="mb-1 text-xl font-bold text-white group-hover:text-lime-400 transition-colors">
+                    <h3 className="mb-1 text-xl font-bold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
                       {member.name}
                     </h3>
-                    <p className="mb-3 text-sm font-medium text-lime-400">{member.role}</p>
-                    <p className="text-sm text-gray-300 line-clamp-2">{member.bio}</p>
+                    <p className="mb-3 text-sm font-medium text-green-600 dark:text-lime-400">{member.role}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{member.bio}</p>
                   </div>
                 </Card>
               </Link>
@@ -159,15 +159,15 @@ export default async function TeamPage() {
 
         {/* Join Team CTA */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Want to Join Our Team?</h2>
-            <p className="mb-8 text-lg text-gray-300">
+          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
+            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Want to Join Our Team?</h2>
+            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">
               We're always looking for talented creatives to join our growing team
             </p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300"
+              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
             >
               <Link href="mailto:careers@pqrix.com">View Open Positions</Link>
             </Button>

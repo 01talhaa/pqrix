@@ -71,7 +71,7 @@ export default function ClientInvoicePage() {
 
   const handleContactSupport = () => {
     const message = `Hi, I have a question about my invoice ${invoice?.invoiceNumber}`
-    window.open(`https://wa.link/65mf3i?text=${encodeURIComponent(message)}`, "_blank")
+    window.open(`https://wa.me/8801401658685?text=${encodeURIComponent(message)}`, "_blank")
   }
 
   if (loading) {

@@ -407,7 +407,7 @@ export default async function ServicesPage() {
   
   return (
     <>
-      <main className="min-h-[100dvh] text-white">
+      <main className="min-h-[100dvh] text-black dark:text-white">
         <SiteHeader />
 
         {/* Hero Section */}
@@ -415,9 +415,9 @@ export default async function ServicesPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
               <span className="block">Premium Creative</span>
-              <span className="block text-lime-300 drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Services</span>
+              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Services</span>
             </h1>
-            <p className="text-lg text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
               From concept to completion, we deliver world-class creative solutions that drive real results for your
               business
             </p>
@@ -432,7 +432,7 @@ export default async function ServicesPage() {
               return (
               <Card
                 key={service.id}
-                className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden"
+                className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden"
               >
                 <div className={`grid gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}>
                   {/* Image */}
@@ -454,18 +454,18 @@ export default async function ServicesPage() {
                     </div>
 
                     <CardHeader className="p-0 mb-4">
-                      <p className="text-sm font-medium text-lime-400 mb-2">{service.tagline}</p>
-                      <CardTitle className="text-3xl text-white mb-3">{service.title}</CardTitle>
-                      <p className="text-gray-300">{service.description}</p>
+                      <p className="text-sm font-medium text-green-600 dark:text-lime-400 mb-2">{service.tagline}</p>
+                      <CardTitle className="text-3xl text-black dark:text-white mb-3">{service.title}</CardTitle>
+                      <p className="text-gray-700 dark:text-gray-300">{service.description}</p>
                     </CardHeader>
 
                     <CardContent className="p-0 space-y-6">
                       <div>
-                        <h4 className="text-sm font-semibold text-white mb-3">What's Included:</h4>
+                        <h4 className="text-sm font-semibold text-black dark:text-white mb-3">What's Included:</h4>
                         <ul className="grid gap-2 sm:grid-cols-2">
-                          {service.features.map((feature, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
-                              <Check className="h-4 w-4 text-lime-400 mt-0.5 flex-shrink-0" />
+                          {service.features.map((feature: any, idx: number) => (
+                            <li key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                              <Check className="h-4 w-4 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -473,8 +473,8 @@ export default async function ServicesPage() {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-4">
-                        <div className="text-2xl font-bold text-white">{service.pricing}</div>
-                        <Button asChild className="rounded-full bg-lime-400 px-6 text-black hover:bg-lime-300">
+                        <div className="text-2xl font-bold text-black dark:text-white">{service.pricing}</div>
+                        <Button asChild className="rounded-full bg-green-500 dark:bg-lime-400 px-6 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
                           <Link href={`/services/${service.id}`}>
                             View Details
                             <ArrowRight className="ml-2 h-4 w-4" />
@@ -492,15 +492,15 @@ export default async function ServicesPage() {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-white/15 bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Start Your Project?</h2>
-            <p className="mb-8 text-lg text-gray-300">Let's discuss how we can bring your vision to life</p>
+          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
+            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Start Your Project?</h2>
+            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's discuss how we can bring your vision to life</p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300"
+              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
             >
-              <Link href="https://wa.link/65mf3i">Get in Touch</Link>
+              <Link href="https://wa.me/8801401658685">Get in Touch</Link>
             </Button>
           </Card>
         </section>

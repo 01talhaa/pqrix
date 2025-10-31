@@ -106,7 +106,7 @@ export default function Page() {
 
   return (
     <>
-      <main className="min-h-[100dvh] text-white">
+      <main className="min-h-[100dvh] text-black dark:text-white">
         <SiteHeader />
         <Hero />
         <ServicesSection />
