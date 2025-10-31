@@ -93,7 +93,7 @@ export default async function TeamPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((member: any) => (
               <Link key={member.id} href={`/team/${member.id}`}>
-                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
+                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
                   <div className="relative aspect-square overflow-hidden bg-gray-200 dark:bg-gray-900">
                     <img
                       src={member.image || "/placeholder.svg"}
@@ -159,7 +159,7 @@ export default async function TeamPage() {
 
         {/* Join Team CTA */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
+          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Want to Join Our Team?</h2>
             <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">
               We're always looking for talented creatives to join our growing team

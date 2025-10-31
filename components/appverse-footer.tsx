@@ -39,14 +39,14 @@ export function AppverseFooter() {
   return (
     <section className="text-black dark:text-white">
       {/* Contact CTA */}
-      <div className="container mx-auto px-4 pt-12 sm:pt-16">
+      {/* <div className="container mx-auto px-4 pt-12 sm:pt-16">
         <div className="flex justify-center">
           <Button
             asChild
             className="rounded-full bg-green-500 dark:bg-lime-400 px-6 py-2 text-sm font-medium text-white dark:text-black shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:shadow-[0_0_20px_rgba(163,230,53,0.35)] hover:bg-green-600 dark:hover:bg-lime-300"
           >
             <a
-              href="https://wa.link/rc25na"
+              href="https://wa.me/8801878377992"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -54,7 +54,7 @@ export function AppverseFooter() {
             </a>
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Download the app */}
       <div className="container mx-auto px-4 py-12 sm:py-16">

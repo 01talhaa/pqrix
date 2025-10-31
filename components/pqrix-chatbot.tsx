@@ -139,7 +139,7 @@ export function PqrixChatbot() {
       console.error("Chat error:", error)
       const errorMessage: Message = {
         role: "assistant",
-        content: "I'm having trouble connecting. Please try again or contact us directly via WhatsApp at https://wa.link/65mf3i",
+        content: "I'm having trouble connecting. Please try again or contact us directly via WhatsApp at https://wa.me/8801401658685",
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, errorMessage])
@@ -191,20 +191,20 @@ export function PqrixChatbot() {
 
       {/* Chat Window - Left Side */}
       {isOpen && (
-  <Card className="fixed bottom-2 left-2 xs:bottom-4 xs:left-4 sm:bottom-6 sm:left-6 z-[9998] w-[calc(100vw-1rem)] xs:w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-96 lg:w-[420px] xl:w-[450px] h-[calc(100vh-1rem)] xs:h-[calc(100vh-2rem)] sm:h-[600px] max-h-[calc(100vh-1rem)] xs:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] bg-black border-white/20 shadow-2xl flex flex-col overflow-hidden max-[500px]:w-72 max-[500px]:h-100 max-[500px]:left-3 max-[500px]:bottom-3">
+  <Card className="fixed bottom-2 left-2 xs:bottom-4 xs:left-4 sm:bottom-6 sm:left-6 z-[9998] w-[calc(100vw-1rem)] xs:w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-96 lg:w-[420px] xl:w-[450px] h-[calc(100vh-1rem)] xs:h-[calc(100vh-2rem)] sm:h-[600px] max-h-[calc(100vh-1rem)] xs:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] !bg-white dark:!bg-black !border-gray-200 dark:!border-white/20 shadow-2xl flex flex-col overflow-hidden max-[500px]:w-72 max-[500px]:h-100 max-[500px]:left-3 max-[500px]:bottom-3">
           {/* Header */}
-          <div className="flex items-center justify-between p-3 xs:p-4 border-b border-white/10 bg-gradient-to-r from-lime-400/10 to-green-500/10">
+          <div className="flex items-center justify-between p-3 xs:p-4 border-b !border-gray-200 dark:!border-white/10 bg-gradient-to-r from-lime-400/10 to-green-500/10">
             <div className="flex items-center gap-2 xs:gap-3">
               <div className="relative">
                 <Bot className="h-6 w-6 xs:h-8 xs:w-8 text-lime-400" />
-                <span className="absolute -bottom-1 -right-1 h-2 w-2 xs:h-3 xs:w-3 bg-green-500 rounded-full border-2 border-black" />
+                <span className="absolute -bottom-1 -right-1 h-2 w-2 xs:h-3 xs:w-3 bg-green-500 rounded-full border-2 border-white dark:border-black" />
               </div>
               <div>
-                <h3 className="font-bold text-white flex items-center gap-1 xs:gap-2 text-sm xs:text-base">
+                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-1 xs:gap-2 text-sm xs:text-base">
                   Pqrix AI
                   <Sparkles className="h-3 w-3 xs:h-4 xs:w-4 text-lime-400" />
                 </h3>
-                <p className="text-xs text-white/60">Always ready to help</p>
+                <p className="text-xs text-gray-600 dark:text-white/60">Always ready to help</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -212,7 +212,7 @@ export function PqrixChatbot() {
                 onClick={clearChat}
                 variant="ghost"
                 size="sm"
-                className="text-white/60 hover:text-white hover:bg-white/10 h-8 w-8 p-0"
+                className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 h-8 w-8 p-0"
                 title="Clear chat"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,7 +223,7 @@ export function PqrixChatbot() {
                 onClick={toggleChat}
                 variant="ghost"
                 size="sm"
-                className="text-white/60 hover:text-white hover:bg-white/10 h-8 w-8 p-0"
+                className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 h-8 w-8 p-0"
               >
                 <X className="h-5 w-5" />
               </Button>
@@ -231,7 +231,7 @@ export function PqrixChatbot() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-3 xs:p-4 space-y-3 xs:space-y-4 bg-black/40 backdrop-blur-xl">
+          <div className="flex-1 overflow-y-auto p-3 xs:p-4 space-y-3 xs:space-y-4 !bg-gray-50 dark:!bg-black/40 backdrop-blur-xl">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -251,7 +251,7 @@ export function PqrixChatbot() {
                   className={`max-w-[85%] xs:max-w-[80%] rounded-2xl px-3 py-2 xs:px-4 ${
                     message.role === "user"
                       ? "bg-gradient-to-r from-lime-400 to-green-500 text-black"
-                      : "bg-white/10 text-white border border-white/20"
+                      : "!bg-white dark:!bg-white/10 !text-gray-900 dark:!text-white border !border-gray-200 dark:!border-white/20"
                   }`}
                 >
                   <p className="text-xs xs:text-sm whitespace-pre-wrap break-words">
@@ -259,7 +259,7 @@ export function PqrixChatbot() {
                   </p>
                   <p
                     className={`text-[10px] xs:text-xs mt-1 ${
-                      message.role === "user" ? "text-black/60" : "text-white/40"
+                      message.role === "user" ? "!text-black/60" : "!text-gray-600 dark:!text-white/40"
                     }`}
                   >
                     {message.timestamp.toLocaleTimeString([], {
@@ -271,8 +271,8 @@ export function PqrixChatbot() {
 
                 {message.role === "user" && (
                   <div className="flex-shrink-0">
-                    <div className="h-6 w-6 xs:h-8 xs:w-8 rounded-full bg-white/20 flex items-center justify-center">
-                      <User className="h-4 w-4 xs:h-5 xs:w-5 text-white" />
+                    <div className="h-6 w-6 xs:h-8 xs:w-8 rounded-full !bg-gray-200 dark:!bg-white/20 flex items-center justify-center">
+                      <User className="h-4 w-4 xs:h-5 xs:w-5 !text-gray-700 dark:!text-white" />
                     </div>
                   </div>
                 )}
@@ -287,7 +287,7 @@ export function PqrixChatbot() {
                     <Bot className="h-4 w-4 xs:h-5 xs:w-5 text-black" />
                   </div>
                 </div>
-                <div className="bg-white/10 text-white border border-white/20 rounded-2xl px-4 py-2">
+                <div className="!bg-white dark:!bg-white/10 !text-gray-900 dark:!text-white border !border-gray-200 dark:!border-white/20 rounded-2xl px-4 py-2">
                   <div className="flex gap-1">
                     <div className="h-2 w-2 bg-lime-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                     <div className="h-2 w-2 bg-lime-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -301,7 +301,7 @@ export function PqrixChatbot() {
           </div>
 
           {/* Input */}
-          <div className="p-3 xs:p-4 border-t border-white/10 bg-black/60">
+          <div className="p-3 xs:p-4 border-t !border-gray-200 dark:!border-white/10 !bg-gray-100 dark:!bg-black/60">
             <div className="flex gap-2">
               <Input
                 ref={inputRef}
@@ -309,7 +309,7 @@ export function PqrixChatbot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything about Pqrix..."
-                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-lime-400 text-xs xs:text-sm h-9 xs:h-10"
+                className="flex-1 !bg-white dark:!bg-white/10 !border-gray-300 dark:!border-white/20 !text-gray-900 dark:!text-white placeholder:!text-gray-500 dark:placeholder:!text-white/40 focus:!border-lime-400 text-xs xs:text-sm h-9 xs:h-10"
                 disabled={isLoading}
               />
               <Button
@@ -324,7 +324,7 @@ export function PqrixChatbot() {
                 )}
               </Button>
             </div>
-            <p className="text-[10px] xs:text-xs text-white/40 mt-2 text-center">
+            <p className="text-[10px] xs:text-xs !text-gray-500 dark:!text-white/40 mt-2 text-center">
               Powered by Google Gemini AI
             </p>
           </div>

@@ -432,7 +432,7 @@ export default async function ServicesPage() {
               return (
               <Card
                 key={service.id}
-                className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl overflow-hidden"
+                className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden"
               >
                 <div className={`grid gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}>
                   {/* Image */}
@@ -492,7 +492,7 @@ export default async function ServicesPage() {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
+          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Start Your Project?</h2>
             <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's discuss how we can bring your vision to life</p>
             <Button
@@ -500,7 +500,7 @@ export default async function ServicesPage() {
               size="lg"
               className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
             >
-              <Link href="https://wa.link/65mf3i">Get in Touch</Link>
+              <Link href="https://wa.me/8801401658685">Get in Touch</Link>
             </Button>
           </Card>
         </section>

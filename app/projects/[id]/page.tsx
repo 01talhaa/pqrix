@@ -285,7 +285,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               {project.metrics.map((metric: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-gradient-to-br from-white/80 to-white/60 dark:from-white/10 dark:to-white/5 backdrop-blur-xl text-center p-6 hover:scale-105 transition-transform"
+                  className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-6 hover:scale-105 transition-transform"
                 >
                   <TrendingUp className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
                   <p className="text-3xl font-bold text-black dark:text-white mb-2">{metric.value}</p>
@@ -300,7 +300,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <section className="container mx-auto px-4 pb-12">
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag: any) => (
-              <span key={tag} className="rounded-full bg-gray-100 dark:bg-white/10 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-white/20">
+              <span key={tag} className="rounded-full bg-gray-100 dark:bg-black/30 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-white/20">
                 {tag}
               </span>
             ))}
@@ -310,7 +310,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Technologies Used */}
         {project.technologies && project.technologies.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Code2 className="h-6 w-6 text-green-500 dark:text-lime-400" />
                 <h2 className="text-2xl font-bold text-black dark:text-white">Technologies & Tools</h2>
@@ -339,7 +339,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 {project.timeline.map((phase: any, idx: number) => (
                   <Card
                     key={idx}
-                    className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-6 hover:bg-white dark:hover:bg-white/10 transition-colors"
+                    className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-6 hover:bg-white dark:hover:bg-white/10 transition-colors"
                   >
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 dark:bg-lime-400/20 border border-green-300 dark:border-lime-400/30 flex items-center justify-center">
@@ -408,7 +408,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Deliverables */}
         {project.deliverables && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="h-6 w-6 text-green-500 dark:text-lime-400" />
                 <h2 className="text-2xl font-bold text-black dark:text-white">Deliverables</h2>
@@ -453,7 +453,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               {project.results.map((result: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl text-center p-6"
+                  className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl text-center p-6"
                 >
                   <Check className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
                   <p className="text-lg font-semibold text-black dark:text-white">{result}</p>
@@ -466,7 +466,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Testimonial */}
         {project.testimonial && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl p-8 sm:p-12 max-w-4xl mx-auto">
+            <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl p-8 sm:p-12 max-w-4xl mx-auto">
               <div className="flex justify-center mb-6">
                 <div className="h-16 w-16 rounded-full bg-green-100 dark:bg-lime-400/20 border-2 border-green-300 dark:border-lime-400/30 flex items-center justify-center">
                   <Quote className="h-8 w-8 text-green-600 dark:text-lime-400" />
@@ -507,7 +507,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Team Members */}
         {project.teamMembers && project.teamMembers.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Users className="h-6 w-6 text-green-500 dark:text-lime-400" />
                 <h2 className="text-2xl font-bold text-black dark:text-white">Project Team</h2>
@@ -552,7 +552,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 size="lg"
                 className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
               >
-                <Link href="https://wa.link/65mf3i">Get in Touch via WhatsApp</Link>
+                <Link href="https://wa.me/8801401658685">Get in Touch via WhatsApp</Link>
               </Button>
               <Button
                 asChild

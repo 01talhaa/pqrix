@@ -143,7 +143,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
         {/* Expertise */}
         {member.expertise && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Award className="h-6 w-6 text-green-500 dark:text-lime-400" />
                 <h2 className="text-2xl font-bold text-black dark:text-white">Expertise</h2>
@@ -166,7 +166,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
         {/* Experience */}
         {member.experience && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Briefcase className="h-6 w-6 text-green-500 dark:text-lime-400" />
                 <h2 className="text-2xl font-bold text-black dark:text-white">Experience</h2>
@@ -190,7 +190,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
           <div className="grid gap-6 md:grid-cols-2">
             {/* Education */}
             {member.education && (
-              <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+              <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <GraduationCap className="h-6 w-6 text-green-500 dark:text-lime-400" />
                   <h2 className="text-2xl font-bold text-black dark:text-white">Education</h2>
@@ -209,7 +209,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
 
             {/* Awards */}
             {member.awards && (
-              <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+              <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Award className="h-6 w-6 text-green-500 dark:text-lime-400" />
                   <h2 className="text-2xl font-bold text-black dark:text-white">Awards & Recognition</h2>
@@ -272,7 +272,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
           if (memberProjects.length > 0) {
             return (
               <section className="container mx-auto px-4 pb-12">
-                <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+                <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <FolderOpen className="h-6 w-6 text-green-500 dark:text-lime-400" />
                     <h2 className="text-2xl font-bold text-black dark:text-white">Projects</h2>
@@ -280,7 +280,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {memberProjects.map((project: any) => (
                       <Link key={project.id} href={`/projects/${project.id}`}>
-                        <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors overflow-hidden h-full">
+                        <Card className="liquid-glass border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors overflow-hidden h-full">
                           <div className="relative aspect-video overflow-hidden">
                             {project.images && project.images.length > 0 ? (
                               <img
@@ -326,7 +326,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
               size="lg"
               className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
             >
-              <Link href="https://wa.link/65mf3i">Contact Us</Link>
+              <Link href="https://wa.me/8801401658685">Contact Us</Link>
             </Button>
           </Card>
         </section>

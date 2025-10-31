@@ -185,7 +185,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 return (
                   <Card
                     key={idx}
-                    className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl text-center p-6"
+                    className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl text-center p-6"
                   >
                     <StatIcon className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
                     <div className="text-2xl font-bold text-black dark:text-white mb-1">{stat.value}</div>
@@ -199,7 +199,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
         {/* Features */}
         <section className="container mx-auto px-4 pb-12">
-          <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-8">
+          <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
             <h2 className="text-2xl font-bold text-black dark:text-white mb-6">What's Included</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {service.features.map((feature: string, idx: number) => (
@@ -220,7 +220,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               {service.process.map((item: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl p-6 text-center"
+                  className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-6 text-center"
                 >
                   <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-lime-400/20 text-green-600 dark:text-lime-400 font-bold">
                     {idx + 1}
@@ -284,7 +284,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         {/* Booking Form */}
         {service.packages && (
           <section id="booking" className="container mx-auto px-4 pb-16 sm:pb-24">
-            <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl p-8 sm:p-12 max-w-3xl mx-auto">
+            <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl p-8 sm:p-12 max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold text-black dark:text-white mb-4 text-center">Book This Service</h2>
               <p className="text-gray-700 dark:text-gray-300 mb-8 text-center">
                 Fill out the form below and we'll get back to you within 24 hours

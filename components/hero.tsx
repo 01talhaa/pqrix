@@ -47,13 +47,13 @@ export function Hero() {
 
   const displayBanners = banners.length > 0 ? banners : phoneData
 
-  const buttonNew = (
-    <Button asChild className="rounded-full bg-green-500 dark:bg-lime-400 px-6 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
-      <a href="https://wa.link/rc25na" target="_blank" rel="noopener noreferrer">
-        Chat With Us
-      </a>
-    </Button>
-  )
+  // const buttonNew = (
+  //   <Button asChild className="rounded-full bg-green-500 dark:bg-lime-400 px-6 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
+  //     <a href="https://wa.me/8801878377992" target="_blank" rel="noopener noreferrer">
+  //       Chat With Us
+  //     </a>
+  //   </Button>
+  // )
 
   return (
     <section className="relative isolate overflow-hidden">
@@ -81,7 +81,7 @@ export function Hero() {
           </h1>
 
           {/* CTA */}
-          <div className="mt-6">{buttonNew}</div>
+          {/* <div className="mt-6">{buttonNew}</div> */}
 
           {/* Phone Grid */}
           <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">

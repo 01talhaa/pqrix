@@ -73,7 +73,7 @@ export function BlogSection() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {blogs.map((blog) => (
           <Link key={blog.id} href={`/blogs/${blog.slug}`}>
-            <Card className="border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl hover:bg-white dark:hover:bg-white/10 transition-all group cursor-pointer h-full">
+            <Card className="border-gray-200 dark:border-white/10 backdrop-blur-xl hover:bg-white dark:hover:bg-white/10 transition-all group cursor-pointer h-full">
               {/* Cover Image */}
               {blog.coverImage ? (
                 <div className="relative h-48 w-full overflow-hidden rounded-t-lg">

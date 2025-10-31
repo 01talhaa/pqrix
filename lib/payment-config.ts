@@ -46,7 +46,7 @@ export const DEFAULT_INVOICE_TERMS = `
 5. Contact:
    - For payment queries, contact: billing@pqrix.com
    - For technical queries, contact: support@pqrix.com
-   - WhatsApp: https://wa.link/65mf3i
+   - WhatsApp: https://wa.me/8801401658685
 `.trim()
 
 // Generate invoice number

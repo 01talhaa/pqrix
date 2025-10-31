@@ -53,7 +53,7 @@ export function TechStackMarquee() {
       onMouseEnter={() => setPausedRow(rowId)}
       onMouseLeave={() => setPausedRow(null)}
     >
-      <div className="group w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl bg-white/80 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-xl flex flex-col items-center justify-center gap-2 hover:bg-white dark:hover:bg-white/10 hover:border-green-500/30 dark:hover:border-lime-400/30 transition-all duration-300 hover:scale-105">
+      <div className="group w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl border border-gray-200 dark:border-white/10 backdrop-blur-xl flex flex-col items-center justify-center gap-2 hover:bg-white dark:hover:bg-white/10 hover:border-green-500/30 dark:hover:border-lime-400/30 transition-all duration-300 hover:scale-105">
         {tech.bg ? (
           <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl ${tech.bg} flex items-center justify-center border border-gray-300 dark:border-white/20`}>
             <span className={`text-2xl sm:text-3xl font-bold ${tech.color}`}>{tech.icon}</span>

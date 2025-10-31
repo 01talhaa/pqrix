@@ -98,7 +98,7 @@ export function Features() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Adaptability Card - Hidden on mobile */}
-        <Card className="hidden md:block liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl">
+        <Card className="hidden md:block liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl">
           <CardHeader>
             <p className="text-[11px] tracking-widest text-gray-600 dark:text-neutral-400">ADAPTABILITY</p>
             <CardTitle className="mt-1 text-xl text-black dark:text-white">Make the experience truly intuitive</CardTitle>
@@ -130,7 +130,7 @@ export function Features() {
         </Card>
 
         {/* Client Love Card - Always visible */}
-        <Card className="liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl">
+        <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl">
           <CardHeader>
             <p className="text-[11px] tracking-widest text-gray-600 dark:text-neutral-400">CLIENT LOVE</p>
             <CardTitle className="mt-1 text-xl text-black dark:text-white">

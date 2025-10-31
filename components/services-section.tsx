@@ -65,7 +65,7 @@ export function ServicesSection() {
           return (
           <Card
             key={service.id}
-            className="group liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white/90 dark:hover:bg-white/10"
+            className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white/90 dark:hover:bg-white/10"
           >
             <CardHeader>
               <div

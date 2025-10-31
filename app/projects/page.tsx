@@ -368,7 +368,7 @@ export default async function ProjectsPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {allProjects.map((project: Project) => (
               <Link key={project.id} href={`/projects/${project.id}`}>
-                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
+                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
                   <div className="relative aspect-video overflow-hidden bg-gray-200 dark:bg-gray-900">
                     {project.video ? (
                       <>
@@ -438,7 +438,7 @@ export default async function ProjectsPage() {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-white/80 dark:bg-white/10 backdrop-blur-xl text-center p-8 sm:p-12">
+          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
             <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's bring your vision to life with our creative expertise</p>
             <Button
@@ -446,7 +446,7 @@ export default async function ProjectsPage() {
               size="lg"
               className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
             >
-              <Link href="https://wa.link/65mf3i">Start Your Project</Link>
+              <Link href="https://wa.me/8801401658685">Start Your Project</Link>
             </Button>
           </Card>
         </section>
