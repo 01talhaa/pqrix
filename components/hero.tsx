@@ -76,8 +76,8 @@ export function Hero() {
           {/* CTA */}
           {/* <div className="mt-6">{buttonNew}</div> */}
 
-          {/* Phone Grid */}
-          <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+          {/* Phone Grid - Added items-stretch and ensured child div is h-full */}
+          <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
             {loading ? (
               <div className="col-span-full flex justify-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 dark:border-lime-400"></div>
@@ -100,7 +100,8 @@ export function Hero() {
                   const banner = item as BannerDocument
                   
                   return (
-                    <div key={banner.id} className={visibility}>
+                    // Ensure this wrapper div is also h-full
+                    <div key={banner.id} className={`${visibility} h-full`}> 
                       <PhoneCard
                         title={banner.title}
                         sub={banner.subtitle}
@@ -113,7 +114,8 @@ export function Hero() {
                   )
                 } else {
                   return (
-                    <div key={i} className={visibility}>
+                    // Ensure this wrapper div is also h-full
+                    <div key={i} className={`${visibility} h-full`}>
                       <PhoneCard {...(item as any)} />
                     </div>
                   )
@@ -168,14 +170,33 @@ function PhoneCard({
   const finalPoster = currentMedia?.type === 'video' ? currentMedia.posterUrl : poster
 
   return (
-    <div className="relative rounded-[32px] p-3 shadow-2xl dark-glass-card" style={{
+    // Added flex-col and justify-between/stretch to ensure content fills vertically
+    <div className="relative rounded-[32px] p-3 shadow-2xl dark-glass-card flex flex-col h-full" style={{
       background: 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 100%)',
       backdropFilter: 'blur(24px)',
       WebkitBackdropFilter: 'blur(24px)',
       border: '3px solid rgba(255,255,255,0.6)',
       boxShadow: '0 8px 32px 0 rgba(0,0,0,0.2), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
     }}>
-      <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[24px] bg-white dark:bg-black" style={{
+      {/* Title Section - Outside the phone */}
+      <div className="mb-3 space-y-1.5 px-2">
+        <h3 className="text-lg font-black leading-tight text-black dark:text-white tracking-tight">
+          {title}
+        </h3>
+        <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+          {sub}
+        </p>
+        <div className="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-md" style={{
+          background: 'linear-gradient(135deg, rgba(34,197,94,1) 0%, rgba(22,163,74,1) 100%)',
+          color: 'white',
+          border: '1.5px solid rgba(255,255,255,0.4)'
+        }}>
+          {tone}
+        </div>
+      </div>
+
+      {/* Phone Display - Added flex-grow to ensure it takes available space */}
+      <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[24px] bg-white dark:bg-black flex-grow" style={{
         boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.1)'
       }}>
         {finalImageSrc ? (
@@ -200,22 +221,11 @@ function PhoneCard({
           />
         )}
 
-        <div className="relative z-10 p-4">
-          <div className="mx-auto mb-3 h-2 w-20 rounded-full bg-black/40 dark:bg-white/40" style={{
-            boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+        {/* Dynamic Island / Notch */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
+          <div className="h-1.5 w-16 rounded-full bg-black/30 dark:bg-white/20" style={{
+            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
           }} />
-          <div className="space-y-2 px-1">
-            <div className="text-3xl font-extrabold leading-tight text-black dark:text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_3px_10px_rgba(255,255,255,0.3)] [text-shadow:_1px_1px_2px_rgb(0_0_0_/_40%)]">{title}</div>
-            <p className="text-sm font-bold text-black dark:text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)] [text-shadow:_1px_1px_1px_rgb(0_0_0_/_30%)]">{sub}</p>
-            <div className="mt-4 inline-flex items-center rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-wider shadow-xl dark-badge" style={{
-              background: 'linear-gradient(135deg, rgba(34,197,94,1) 0%, rgba(22,163,74,1) 100%)',
-              color: 'white',
-              border: '2px solid rgba(255,255,255,0.5)',
-              boxShadow: '0 4px 12px rgba(34,197,94,0.4), inset 0 1px 2px rgba(255,255,255,0.3)'
-            }}>
-              {tone}
-            </div>
-          </div>
         </div>
 
         {/* Slider Indicators */}
