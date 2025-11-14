@@ -44,9 +44,15 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 p-4">
+    <header className="sticky top-0 z-50 p-4 transition-all duration-300">
       <div className="container mx-auto max-w-4xl">
-        <div className="flex h-14 items-center justify-between px-6 liquid-glass-header rounded-full">
+        <div className="flex h-14 items-center justify-between px-6 rounded-full thick-glass-header" style={{
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
+          backdropFilter: 'blur(32px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+          border: '2px solid rgba(255,255,255,0.5)',
+          boxShadow: '0 8px 32px 0 rgba(0,0,0,0.12), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
+        }}>
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-1.5">
             <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={20} height={20} className="h-5 w-5 dark:invert-0 invert" />

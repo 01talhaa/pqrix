@@ -47,13 +47,6 @@ export function Hero() {
 
   const displayBanners = banners.length > 0 ? banners : phoneData
 
-  // const buttonNew = (
-  //   <Button asChild className="rounded-full bg-green-500 dark:bg-lime-400 px-6 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
-  //     <a href="https://wa.me/8801878377992" target="_blank" rel="noopener noreferrer">
-  //       Chat With Us
-  //     </a>
-  //   </Button>
-  // )
 
   return (
     <section className="relative isolate overflow-hidden">
@@ -73,11 +66,11 @@ export function Hero() {
 
           {/* Heading */}
           <h1 className="mt-3 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl">
-            <span className="block">HIGH-IMPACT</span>
+            <span className="block">PREMIUM CUSTOM</span>
             <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">
-              3D ANIMATION
+              SOFTWARE SOLUTIONS
             </span>
-            <span className="block">FOR BRANDS</span>
+            <span className="block">FOR YOUR BUSINESS</span>
           </h1>
 
           {/* CTA */}
@@ -175,8 +168,16 @@ function PhoneCard({
   const finalPoster = currentMedia?.type === 'video' ? currentMedia.posterUrl : poster
 
   return (
-    <div className="relative rounded-[28px] glass-border bg-gray-100 dark:bg-neutral-900 p-2">
-      <div className="relative aspect-[9/19] w-full overflow-hidden rounded-2xl bg-white dark:bg-black">
+    <div className="relative rounded-[32px] p-3 shadow-2xl dark-glass-card" style={{
+      background: 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 100%)',
+      backdropFilter: 'blur(24px)',
+      WebkitBackdropFilter: 'blur(24px)',
+      border: '3px solid rgba(255,255,255,0.6)',
+      boxShadow: '0 8px 32px 0 rgba(0,0,0,0.2), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
+    }}>
+      <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[24px] bg-white dark:bg-black" style={{
+        boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.1)'
+      }}>
         {finalImageSrc ? (
           // Static Image
           <img
@@ -199,12 +200,19 @@ function PhoneCard({
           />
         )}
 
-        <div className="relative z-10 p-3">
-          <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-black/20 dark:bg-white/20" />
-          <div className="space-y-1 px-1">
-            <div className="text-3xl font-bold leading-snug text-black/90 dark:text-white/90">{title}</div>
-            <p className="text-xs text-black/70 dark:text-white/70">{sub}</p>
-            <div className="mt-3 inline-flex items-center rounded-full bg-white/60 dark:bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-green-700 dark:text-lime-300">
+        <div className="relative z-10 p-4">
+          <div className="mx-auto mb-3 h-2 w-20 rounded-full bg-black/40 dark:bg-white/40" style={{
+            boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+          }} />
+          <div className="space-y-2 px-1">
+            <div className="text-3xl font-extrabold leading-tight text-black dark:text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_3px_10px_rgba(255,255,255,0.3)] [text-shadow:_1px_1px_2px_rgb(0_0_0_/_40%)]">{title}</div>
+            <p className="text-sm font-bold text-black dark:text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)] [text-shadow:_1px_1px_1px_rgb(0_0_0_/_30%)]">{sub}</p>
+            <div className="mt-4 inline-flex items-center rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-wider shadow-xl dark-badge" style={{
+              background: 'linear-gradient(135deg, rgba(34,197,94,1) 0%, rgba(22,163,74,1) 100%)',
+              color: 'white',
+              border: '2px solid rgba(255,255,255,0.5)',
+              boxShadow: '0 4px 12px rgba(34,197,94,0.4), inset 0 1px 2px rgba(255,255,255,0.3)'
+            }}>
               {tone}
             </div>
           </div>
@@ -234,41 +242,41 @@ function PhoneCard({
 
 const phoneData = [
   {
-    title: "Conversions",
-    sub: "Turn clicks into paying customers.",
-    tone: "results",
+    title: "Web Apps",
+    sub: "Custom websites & SaaS platforms",
+    tone: "Web Development",
     gradient: "from-[#0b0b0b] via-[#0f172a] to-[#020617]",
     videoSrc:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/A%20new%20chapter%20in%20the%20story%20of%20success.__Introducing%20the%20new%20TAG%20Heuer%20Carrera%20Day-Date%20collection%2C%20reimagined%20with%20bold%20colors%2C%20refined%20finishes%2C%20and%20upgraded%20functionality%20to%20keep%20you%20focused%20on%20your%20goals.%20__Six%20-nDNoRQyFaZ8oaaoty4XaQz8W8E5bqA.mp4",
     poster: "/thumbnails/conversions.jpg",
   },
   {
-    title: "Speed",
-    sub: "Launch in days, not weeks.",
-    tone: "speed",
+    title: "3D Web",
+    sub: "Immersive 3D experiences & XR",
+    tone: "3D Development",
     gradient: "from-[#0b1a0b] via-[#052e16] to-[#022c22]",
     poster: "/thumbnails/speed.jpg",
   },
   {
-    title: "Social-Ready",
-    sub: "Made for IG, TikTok, and Meta.",
-    tone: "social",
+    title: "Mobile Apps",
+    sub: "iOS & Android applications",
+    tone: "Mobile Development",
     gradient: "from-[#001028] via-[#0b355e] to-[#052e5e]",
     videoSrc:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Timeline%201-Ku3Y2Hgaw8hCiFEFg1ELtYp631rSzR.webm",
     poster: "/thumbnails/social.jpg",
   },
   {
-    title: "Standout",
-    sub: "Be the product no one scrolls past.",
-    tone: "standout",
+    title: "Desktop Apps",
+    sub: "Windows, macOS & Linux software",
+    tone: "Desktop Development",
     gradient: "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
     poster: "/thumbnails/standout.jpg",
   },
   {
-    title: "Premium",
-    sub: "Look like the market leader.",
-    tone: "premium",
+    title: "Custom Software",
+    sub: "Tailored solutions for your needs",
+    tone: "Enterprise Solutions",
     gradient: "from-[#0b0b0b] via-[#111827] to-[#052e16]",
     poster: "/thumbnails/premium.jpg",
   },

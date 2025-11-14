@@ -97,12 +97,11 @@ Remember: You have access to LIVE database information above. Use it to give acc
     console.log("📊 Pqrix context preview (first 300 chars):", pqrixContext.substring(0, 300))
 
     // Initialize Gemini model with proper configuration
-    // Try multiple models in order of preference
+    // Try multiple models in order of preference with correct v1 API
     const modelsToTry = [
-      "gemini-2.0-flash-exp",
-      "gemini-1.5-flash", 
-      "gemini-1.5-flash-latest",
-      "gemini-pro"
+      "gemini-2.5-flash",
+      "gemini-1.5-flash-8b",
+      "gemini-1.5-pro"
     ]
     
     let lastError: any = null

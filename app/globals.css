@@ -142,11 +142,63 @@
 }
 
 .dark .liquid-glass-header {
-  background: rgba(0, 0, 0, 0.2) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(23, 23, 23, 0.95) 100%
+  ) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Thick glass header */
+.thick-glass-header {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+}
+
+.dark .thick-glass-header {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(23, 23, 23, 0.95) 100%
+  ) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Dark glass card for hero */
+.dark .dark-glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.98) 0%,
+    rgba(38, 38, 38, 0.92) 100%
+  ) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 3px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Dark badge for hero cards */
+.dark .dark-badge {
+  background: linear-gradient(
+    135deg,
+    rgba(163, 230, 53, 1) 0%,
+    rgba(132, 204, 22, 1) 100%
+  ) !important;
+  color: black !important;
+  border: 2px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(163, 230, 53, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Apple-style glass border utilities - Clean and minimal */
