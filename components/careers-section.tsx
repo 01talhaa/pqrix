@@ -25,6 +25,7 @@ function CareersSection() {
   }, [selectedDepartment])
 
   const fetchJobs = async () => {
+    setLoading(true) // Ensure loading is true when fetching
     try {
       const params = new URLSearchParams({
         status: "active",
@@ -39,16 +40,20 @@ function CareersSection() {
 
       if (data.success) {
         setJobs(data.data.slice(0, 6)) // Show max 6 on homepage
+      } else {
+        setJobs([]); // Clear jobs on error or no success
       }
     } catch (error) {
       console.error("Error fetching jobs:", error)
+      setJobs([]); // Clear jobs on error
     } finally {
       setLoading(false)
     }
   }
 
   // Extract unique departments from jobs
-  const departments = ["all", ...Array.from(new Set(jobs.map(job => job.department)))]
+  // Filter out null/undefined departments and ensure 'all' is always first
+  const departments = ["all", ...Array.from(new Set(jobs.map(job => job.department).filter(Boolean)))]
 
   return (
     <section className="relative py-16 sm:py-24">
@@ -119,22 +124,25 @@ function CareersSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {jobs.map((job, index) => (
               <motion.article
-                key={job.id}
+                key={job.id || `job-${index}`} // Ensure unique key with fallback
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 className="group"
               >
-                <Link href={`/careers/${job.id}`} className="block">
+                <Link href={`/careers/${job.id}`} className="block h-full"> {/* Ensure link takes full height */}
                   <div
-                    className="relative overflow-hidden rounded-3xl p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 h-full"
+                    // Combined styles for consistency with InsightsSection
+                    className="relative overflow-hidden rounded-3xl p-6 transition-all duration-300
+                               group-hover:shadow-2xl group-hover:-translate-y-2 h-full flex flex-col
+                               bg-white/90 dark:bg-black/70 border border-gray-200 dark:border-white/10
+                               hover:border-gray-300 dark:hover:border-white/20 hover:bg-white/95 dark:hover:bg-black/80"
                     style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,245,245,0.9) 100%)",
                       backdropFilter: "blur(20px)",
                       WebkitBackdropFilter: "blur(20px)",
-                      border: "2px solid rgba(255,255,255,0.5)",
-                      boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)",
+                      boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)", // Light mode shadow
+                      // Dark mode shadow will be handled by data-theme in global CSS or a dedicated dark class
                     }}
                   >
                     {/* Header */}
@@ -164,7 +172,7 @@ function CareersSection() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">
+                    <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2 flex-grow"> {/* flex-grow to push content down */}
                       {job.description}
                     </p>
 
@@ -212,7 +220,7 @@ function CareersSection() {
                     )}
 
                     {/* Apply Button */}
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 mt-auto"> {/* mt-auto to push to bottom */}
                       <div className="flex items-center gap-2 text-green-600 dark:text-lime-400 font-semibold text-sm group-hover:gap-3 transition-all">
                         <span>View Details & Apply</span>
                         <ArrowRight className="h-4 w-4" />
@@ -257,8 +265,8 @@ function CareersSection() {
           </motion.div>
         )}
 
-        {/* Dark Mode Styles */}
-        <style jsx global>{`
+        {/* Dark Mode Styles - Removed as classes are now inline or derived */}
+        {/* <style jsx global>{`
           @media (prefers-color-scheme: dark) {
             .group > a > div {
               background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(20,20,20,0.7) 100%) !important;
@@ -266,7 +274,7 @@ function CareersSection() {
               box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4) !important;
             }
           }
-        `}</style>
+        `}</style> */}
       </div>
     </section>
   )

@@ -26,7 +26,8 @@ export function SiteHeader() {
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/team", label: "Team", icon: Users },
     { href: "/careers", label: "Careers", icon: Briefcase },
-    { href: "/faq", label: "FAQ", icon: HelpCircle },
+    { href: "/insights", label: "Insights", icon: Lightbulb },
+    // { href: "/faq", label: "FAQ", icon: HelpCircle },
   ]
 
   const getInitials = (name: string) => {
