@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone, Receipt, Layout } from "lucide-react"
+import { LayoutDashboard, Briefcase, FolderKanban, Users, LogOut, FlaskConical, UserCog, Package, MessageSquare, FileText, Megaphone, Receipt, Layout, Lightbulb, UsersRound, Clipboard } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth()
@@ -102,6 +102,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 >
                   <FileText className="w-4 h-4" />
                   Blogs
+                </Link>
+                <Link
+                  href="/admin/insights"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Lightbulb className="w-4 h-4" />
+                  Insights
+                </Link>
+                <Link
+                  href="/admin/careers"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <UsersRound className="w-4 h-4" />
+                  Careers
+                </Link>
+                <Link
+                  href="/admin/applications"
+                  className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <Clipboard className="w-4 h-4" />
+                  Applications
                 </Link>
                 <Link
                   href="/admin/ads"

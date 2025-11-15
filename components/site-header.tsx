@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
-import { Menu, Briefcase, Tag, HelpCircle, Wrench, FolderOpen, Users, LogOut, LayoutDashboard } from "lucide-react"
+import { Menu, Briefcase, Tag, HelpCircle, Wrench, FolderOpen, Users, LogOut, LayoutDashboard, Lightbulb } from "lucide-react"
 import { useClientAuth } from "@/lib/client-auth"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -21,12 +21,12 @@ export function SiteHeader() {
   const { client, isAuthenticated, logout } = useClientAuth()
   
   const links = [
-    { href: "/", label: "Home", icon: Briefcase },
+    { href: "/", label: "Home", icon: LayoutDashboard },
     { href: "/services", label: "Services", icon: Wrench },
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/team", label: "Team", icon: Users },
-    // { href: "#pricing", label: "Pricing", icon: Tag },
-    { href: "faq", label: "FAQ", icon: HelpCircle },
+    { href: "/careers", label: "Careers", icon: Briefcase },
+    { href: "/faq", label: "FAQ", icon: HelpCircle },
   ]
 
   const getInitials = (name: string) => {

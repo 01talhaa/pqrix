@@ -26,7 +26,11 @@ import {
   Briefcase,
   Package,
   Star,
-  MessageSquare
+  MessageSquare,
+  MapPin,
+  Calendar,
+  FileText,
+  ExternalLink
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -45,6 +49,8 @@ export default function ClientDashboard() {
     rating: 5,
     review: ""
   })
+  const [applications, setApplications] = useState<any[]>([])
+  const [loadingApplications, setLoadingApplications] = useState(true)
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -52,6 +58,7 @@ export default function ClientDashboard() {
     } else if (client) {
       fetchBookings()
       fetchTestimonials()
+      fetchApplications()
     }
   }, [isAuthenticated, isLoading, router, client])
 
@@ -88,6 +95,23 @@ export default function ClientDashboard() {
       console.error("Error fetching testimonials:", error)
     } finally {
       setLoadingTestimonials(false)
+    }
+  }
+
+  const fetchApplications = async () => {
+    if (!client) return
+    
+    setLoadingApplications(true)
+    try {
+      const response = await fetch(`/api/applications?userId=${client.id}`)
+      const data = await response.json()
+      if (data.success) {
+        setApplications(data.data)
+      }
+    } catch (error) {
+      console.error("Error fetching applications:", error)
+    } finally {
+      setLoadingApplications(false)
     }
   }
 
@@ -400,7 +424,7 @@ export default function ClientDashboard() {
 
         {/* Projects and Services Tabs */}
         <Tabs defaultValue="projects" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-6">
             <TabsTrigger value="projects">
               <FolderKanban className="mr-2 h-4 w-4" />
               Projects
@@ -408,6 +432,10 @@ export default function ClientDashboard() {
             <TabsTrigger value="services">
               <Package className="mr-2 h-4 w-4" />
               Services
+            </TabsTrigger>
+            <TabsTrigger value="applications">
+              <Briefcase className="mr-2 h-4 w-4" />
+              Applications ({applications.length})
             </TabsTrigger>
           </TabsList>
 
@@ -669,6 +697,155 @@ export default function ClientDashboard() {
                               </Button>
                             </div>
                           )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Applications Tab */}
+          <TabsContent value="applications">
+            <Card className="border-white/10 bg-black/40 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="text-white">Job Applications</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loadingApplications ? (
+                  <div className="text-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-white/40 mx-auto" />
+                  </div>
+                ) : applications.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Briefcase className="h-16 w-16 text-white/20 mx-auto mb-4" />
+                    <p className="text-white/60">No job applications yet</p>
+                    <p className="text-white/40 text-sm mt-2">
+                      Browse open positions and apply
+                    </p>
+                    <Button asChild className="mt-4 bg-lime-400 text-black hover:bg-lime-300">
+                      <Link href="/careers">View Openings</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {applications.map((application: any) => (
+                      <Card key={application.id} className="border-white/10 bg-white/5">
+                        <CardContent className="pt-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge className={`${
+                                  application.status === 'pending' ? 'bg-yellow-500' :
+                                  application.status === 'reviewing' ? 'bg-blue-500' :
+                                  application.status === 'shortlisted' ? 'bg-purple-500' :
+                                  application.status === 'interview-scheduled' ? 'bg-green-500' :
+                                  application.status === 'rejected' ? 'bg-red-500' :
+                                  application.status === 'accepted' ? 'bg-green-600' :
+                                  'bg-gray-500'
+                                } text-white`}>
+                                  {application.status === 'pending' ? 'Pending Review' :
+                                   application.status === 'reviewing' ? 'Under Review' :
+                                   application.status === 'shortlisted' ? 'Shortlisted' :
+                                   application.status === 'interview-scheduled' ? 'Interview Scheduled' :
+                                   application.status === 'rejected' ? 'Not Selected' :
+                                   application.status === 'accepted' ? 'Accepted' :
+                                   application.status}
+                                </Badge>
+                              </div>
+                              <h3 className="text-xl font-bold text-white mb-2">
+                                {application.job?.title || "Position No Longer Available"}
+                              </h3>
+                              {application.job && (
+                                <div className="flex flex-wrap gap-4 text-sm text-white/60">
+                                  <div className="flex items-center gap-1">
+                                    <Briefcase className="h-4 w-4" />
+                                    <span>{application.job.department}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <MapPin className="h-4 w-4" />
+                                    <span>{application.job.location}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="h-4 w-4" />
+                                    <span className="capitalize">{application.job.type.replace('-', ' ')}</span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mb-4 p-4 bg-white/5 rounded-lg">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                              <div>
+                                <div className="text-white/60 mb-1">Applied On</div>
+                                <div className="font-medium text-white flex items-center gap-1">
+                                  <Calendar className="h-4 w-4" />
+                                  {new Date(application.createdAt).toLocaleDateString()}
+                                </div>
+                              </div>
+                              <div>
+                                <div className="text-white/60 mb-1">Experience</div>
+                                <div className="font-medium text-white">{application.yearsOfExperience} years</div>
+                              </div>
+                              {application.currentCompany && (
+                                <div>
+                                  <div className="text-white/60 mb-1">Current Company</div>
+                                  <div className="font-medium text-white">{application.currentCompany}</div>
+                                </div>
+                              )}
+                              {application.expectedSalary && application.expectedSalary > 0 && (
+                                <div>
+                                  <div className="text-white/60 mb-1">Expected Salary</div>
+                                  <div className="font-medium text-white">৳{application.expectedSalary.toLocaleString()}</div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mb-4">
+                            <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                              <FileText className="h-4 w-4" />
+                              Cover Letter
+                            </h4>
+                            <p className="text-sm text-white/80 line-clamp-3">
+                              {application.coverLetter}
+                            </p>
+                          </div>
+
+                          <div className="flex flex-wrap gap-2">
+                            <a href={application.resumeUrl} target="_blank" rel="noopener noreferrer">
+                              <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white hover:bg-white/10">
+                                <ExternalLink className="h-4 w-4" />
+                                View Resume
+                              </Button>
+                            </a>
+                            {application.portfolioUrl && (
+                              <a href={application.portfolioUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white hover:bg-white/10">
+                                  <ExternalLink className="h-4 w-4" />
+                                  Portfolio
+                                </Button>
+                              </a>
+                            )}
+                            {application.linkedinUrl && (
+                              <a href={application.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white hover:bg-white/10">
+                                  <ExternalLink className="h-4 w-4" />
+                                  LinkedIn
+                                </Button>
+                              </a>
+                            )}
+                            {application.githubUrl && (
+                              <a href={application.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white hover:bg-white/10">
+                                  <ExternalLink className="h-4 w-4" />
+                                  GitHub
+                                </Button>
+                              </a>
+                            )}
+                          </div>
                         </CardContent>
                       </Card>
                     ))}
