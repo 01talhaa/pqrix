@@ -614,7 +614,7 @@ export default function RootLayout({
         <Providers>
           {/* Plasma background - hidden on mobile devices for better performance */}
           <div className="fixed inset-0 z-0 bg-white dark:bg-black">
-            <div className="hidden min-[500px]:block h-full w-full">
+            {/* <div className="hidden min-[500px]:block h-full w-full">
               <Plasma
                 color="#8b5cf6"
                 speed={0.8}
@@ -623,7 +623,7 @@ export default function RootLayout({
                 opacity={0.4}
                 mouseInteractive={true}
               />
-            </div>
+            </div> */}
           </div>
           <div className="relative z-10">{children}</div>
           <Toaster />

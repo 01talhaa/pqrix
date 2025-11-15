@@ -5,8 +5,27 @@ import { uploadToCloudinary } from '@/lib/cloudinary'
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
+    
+    // Support both single file and multiple files
+    const file = formData.get('file') as File | null
     const files = formData.getAll('files') as File[]
 
+    // Handle single file upload
+    if (file) {
+      console.log(`Processing single file: ${file.name}, size: ${file.size}, type: ${file.type}`)
+      const arrayBuffer = await file.arrayBuffer()
+      const buffer = Buffer.from(arrayBuffer)
+      
+      const url = await uploadToCloudinary(buffer, 'pqrix-uploads')
+      console.log(`Successfully uploaded: ${file.name}`)
+      
+      return NextResponse.json({
+        success: true,
+        data: { url },
+      })
+    }
+
+    // Handle multiple files upload
     if (!files || files.length === 0) {
       return NextResponse.json(
         { success: false, error: 'No files provided' },
