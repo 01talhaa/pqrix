@@ -35,6 +35,7 @@ export interface ServiceDocument {
   pricing?: string
   color: string  // Tailwind gradient classes
   image: string
+  priority?: number  // Display priority (lower number = higher priority, 0 is highest)
   createdAt?: Date
   updatedAt?: Date
 }

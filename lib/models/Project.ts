@@ -5,7 +5,8 @@ export interface ProjectDocument {
   id: string
   title: string
   client: string
-  category: string
+  category: string  // Legacy field, now using serviceCategory
+  serviceCategory?: string  // Service-based category (matches service ID)
   description: string
   longDescription?: string
   image: string

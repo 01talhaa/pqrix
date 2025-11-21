@@ -282,7 +282,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         )}
 
         {/* Booking Form */}
-        {service.packages && (
+        {/* {service.packages && (
           <section id="booking" className="container mx-auto px-4 pb-16 sm:pb-24">
             <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl p-8 sm:p-12 max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold text-black dark:text-white mb-4 text-center">Book This Service</h2>
@@ -292,7 +292,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <BookingForm serviceId={service.id} serviceName={service.title} packages={service.packages} />
             </Card>
           </section>
-        )}
+        )} */}
 
         <AppverseFooter />
       </main>

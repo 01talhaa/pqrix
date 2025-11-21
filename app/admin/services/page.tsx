@@ -101,9 +101,14 @@ export default function AdminServicesPage() {
                   </div>
                 )}
                 <p className="text-white/60 text-sm line-clamp-2">{service.description}</p>
-                {service.pricing && (
-                  <div className="text-lime-400 font-semibold text-sm">{service.pricing}</div>
-                )}
+                <div className="flex items-center justify-between">
+                  {service.pricing && (
+                    <div className="text-lime-400 font-semibold text-sm">{service.pricing}</div>
+                  )}
+                  <div className="text-xs text-gray-400">
+                    Priority: {service.priority !== undefined ? service.priority : 0}
+                  </div>
+                </div>
                 <div className="flex gap-2">
                   <Button asChild size="sm" variant="outline" className="flex-1 bg-transparent border-white/10 hover:bg-white/5 text-white hover:text-white">
                     <Link href={`/services/${service.id}`} target="_blank">

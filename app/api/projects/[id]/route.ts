@@ -52,6 +52,11 @@ export async function PUT(
     const body = await request.json()
     const { db } = await connectToDatabase()
 
+    // Clean serviceCategory to prevent empty strings
+    if (body.serviceCategory === "" || body.serviceCategory === null) {
+      delete body.serviceCategory
+    }
+
     // Update project document
     const updateData = {
       ...body,
