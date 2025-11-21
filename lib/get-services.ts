@@ -11,7 +11,7 @@ export async function getAllServicesForBuild() {
         const services = await db
           .collection(SERVICES_COLLECTION)
           .find({})
-          .sort({ order: 1, createdAt: -1 })
+          .sort({ priority: 1, createdAt: -1 })
           .toArray()
 
         // Convert MongoDB documents to plain objects

@@ -27,7 +27,7 @@ export default function CreateCareerPage() {
     requirements: "",
     niceToHave: "",
     benefits: "",
-    active: true,
+    status: "active" as 'active' | 'closed' | 'draft',
     featured: false,
     remote: false,
   })
@@ -233,18 +233,29 @@ export default function CreateCareerPage() {
               />
             </div>
 
+            {/* Status */}
+            <div className="space-y-2">
+              <Label htmlFor="status">Job Status *</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: 'active' | 'closed' | 'draft') => setFormData({ ...formData, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Active (Visible on website)</SelectItem>
+                  <SelectItem value="draft">Draft (Not visible)</SelectItem>
+                  <SelectItem value="closed">Closed (No longer accepting)</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Only "Active" jobs will be visible on the homepage and careers page
+              </p>
+            </div>
+
             {/* Checkboxes */}
             <div className="flex gap-6">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.active}
-                  onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                  className="w-4 h-4"
-                />
-                <span>Active</span>
-              </label>
-
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -252,7 +263,7 @@ export default function CreateCareerPage() {
                   onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
                   className="w-4 h-4"
                 />
-                <span>Featured</span>
+                <span>Featured (Highlight on careers page)</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer">

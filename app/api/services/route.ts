@@ -10,7 +10,7 @@ export async function GET() {
     const services = await db
       .collection(SERVICES_COLLECTION)
       .find({})
-      .sort({ createdAt: -1 })
+      .sort({ priority: 1, createdAt: -1 })
       .toArray()
 
     // Convert ObjectId to string

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -12,7 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 
-export default function EditCareerPage({ params }: { params: { id: string } }) {
+export default function EditCareerPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(true)
@@ -28,7 +29,7 @@ export default function EditCareerPage({ params }: { params: { id: string } }) {
     requirements: "",
     niceToHave: "",
     benefits: "",
-    active: true,
+    status: "active" as 'active' | 'closed' | 'draft',
     featured: false,
     remote: false,
   })
@@ -39,7 +40,7 @@ export default function EditCareerPage({ params }: { params: { id: string } }) {
 
   const fetchJob = async () => {
     try {
-      const response = await fetch(`/api/careers/${params.id}`)
+      const response = await fetch(`/api/careers/${id}`)
       const data = await response.json()
 
       if (data.success) {
@@ -56,7 +57,7 @@ export default function EditCareerPage({ params }: { params: { id: string } }) {
           requirements: job.requirements?.join("\n") || "",
           niceToHave: job.niceToHave?.join("\n") || "",
           benefits: job.benefits?.join("\n") || "",
-          active: job.active,
+          status: job.status || "active",
           featured: job.featured,
           remote: job.remote,
         })
@@ -81,7 +82,7 @@ export default function EditCareerPage({ params }: { params: { id: string } }) {
       const niceToHaveArray = formData.niceToHave.split("\n").map(item => item.trim()).filter(item => item)
       const benefitsArray = formData.benefits.split("\n").map(item => item.trim()).filter(item => item)
 
-      const response = await fetch(`/api/careers/${params.id}`, {
+      const response = await fetch(`/api/careers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -269,18 +270,29 @@ export default function EditCareerPage({ params }: { params: { id: string } }) {
               />
             </div>
 
+            {/* Status */}
+            <div className="space-y-2">
+              <Label htmlFor="status">Job Status *</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: 'active' | 'closed' | 'draft') => setFormData({ ...formData, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Active (Visible on website)</SelectItem>
+                  <SelectItem value="draft">Draft (Not visible)</SelectItem>
+                  <SelectItem value="closed">Closed (No longer accepting)</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Only "Active" jobs will be visible on the homepage and careers page
+              </p>
+            </div>
+
             {/* Checkboxes */}
             <div className="flex gap-6">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.active}
-                  onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                  className="w-4 h-4"
-                />
-                <span>Active</span>
-              </label>
-
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -288,7 +300,7 @@ export default function EditCareerPage({ params }: { params: { id: string } }) {
                   onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
                   className="w-4 h-4"
                 />
-                <span>Featured</span>
+                <span>Featured (Highlight on careers page)</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer">

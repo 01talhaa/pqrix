@@ -15,6 +15,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -43,6 +53,7 @@ import {
   Eye,
   Search,
   Filter,
+  UserPlus,
 } from "lucide-react"
 import Link from "next/link"
 import { JobApplicationDocument } from "@/lib/models/JobApplication"
@@ -63,6 +74,7 @@ export default function ApplicationsManagementPage() {
   const [selectedApplication, setSelectedApplication] = useState<EnrichedApplication | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [showInterviewModal, setShowInterviewModal] = useState(false)
+  const [showAcceptConfirmDialog, setShowAcceptConfirmDialog] = useState(false)
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [searchQuery, setSearchQuery] = useState("")
   
@@ -142,7 +154,13 @@ export default function ApplicationsManagementPage() {
             app.id === applicationId ? { ...app, status, notes: notes || app.notes } : app
           )
         )
-        alert("Status updated successfully!")
+        
+        // Show special message if applicant was accepted and added to team
+        if (status === "accepted" && data.teamMemberCreated) {
+          alert("✅ Application accepted successfully!\n\n🎉 Applicant has been automatically added to the team section and is now visible on the team page.")
+        } else {
+          alert("Status updated successfully!")
+        }
       } else {
         alert(data.error || "Failed to update status")
       }
@@ -647,13 +665,11 @@ export default function ApplicationsManagementPage() {
                   Schedule Interview
                 </Button>
                 <Button
-                  onClick={() =>
-                    updateApplicationStatus(selectedApplication.id, "accepted")
-                  }
+                  onClick={() => setShowAcceptConfirmDialog(true)}
                   className="bg-green-500 hover:bg-green-600 flex items-center gap-2"
                 >
-                  <CheckCircle className="h-4 w-4" />
-                  Accept
+                  <UserPlus className="h-4 w-4" />
+                  Accept & Add to Team
                 </Button>
                 <Button
                   onClick={() =>
@@ -791,6 +807,52 @@ export default function ApplicationsManagementPage() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Accept Confirmation Dialog */}
+      <AlertDialog open={showAcceptConfirmDialog} onOpenChange={setShowAcceptConfirmDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <UserPlus className="h-5 w-5 text-green-500" />
+              Accept Application & Add to Team
+            </AlertDialogTitle>
+            <AlertDialogDescription className="space-y-3 pt-2">
+              <p>
+                You are about to accept <strong>{selectedApplication?.applicantName}</strong>'s application.
+              </p>
+              <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                <p className="text-sm text-green-800 dark:text-green-200 font-medium mb-2">
+                  ✓ Automatic Actions:
+                </p>
+                <ul className="text-sm text-green-700 dark:text-green-300 space-y-1 list-disc list-inside">
+                  <li>Application status will be marked as "Accepted"</li>
+                  <li>Applicant will be automatically added to the Team section</li>
+                  <li>Their profile will be visible on the public Team page</li>
+                  <li>You can edit their team profile details later if needed</li>
+                </ul>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Are you sure you want to proceed?
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (selectedApplication) {
+                  updateApplicationStatus(selectedApplication.id, "accepted")
+                  setShowAcceptConfirmDialog(false)
+                }
+              }}
+              className="bg-green-500 hover:bg-green-600 dark:bg-lime-400 dark:hover:bg-lime-300 dark:text-black"
+            >
+              <UserPlus className="h-4 w-4 mr-2" />
+              Accept & Add to Team
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
