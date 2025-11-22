@@ -119,6 +119,7 @@ export const cacheKeys = {
     all: () => 'services:all',
     byId: (id: string) => `services:${id}`,
     featured: () => 'services:featured',
+    filter: () => 'services:filter',
   },
   team: {
     all: () => 'team:all',
