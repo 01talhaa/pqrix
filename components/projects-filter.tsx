@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Play } from "lucide-react"
@@ -27,30 +27,11 @@ interface Service {
 
 interface ProjectsFilterProps {
   initialProjects: Project[]
+  initialServices: Service[]
 }
 
-export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
-  const [services, setServices] = useState<Service[]>([])
+export function ProjectsFilter({ initialProjects, initialServices }: ProjectsFilterProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-  const [isTransitioning, setIsTransitioning] = useState(false)
-
-  useEffect(() => {
-    fetchServices()
-  }, [])
-
-  const fetchServices = async () => {
-    try {
-      const response = await fetch('/api/services', {
-        cache: 'force-cache'
-      })
-      const data = await response.json()
-      if (data.success) {
-        setServices(data.data.map((s: any) => ({ id: s.id, title: s.title })))
-      }
-    } catch (error) {
-      console.error('Error fetching services:', error)
-    }
-  }
 
   // Memoize filtered projects to prevent unnecessary recalculations
   const filteredProjects = useMemo(() => {
@@ -65,9 +46,9 @@ export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
   // Memoize service map for O(1) lookup
   const serviceMap = useMemo(() => {
     const map = new Map<string, string>()
-    services.forEach(s => map.set(s.id, s.title))
+    initialServices.forEach(s => map.set(s.id, s.title))
     return map
-  }, [services])
+  }, [initialServices])
 
   // Handle category change
   const handleCategoryChange = useCallback((category: string) => {
@@ -91,7 +72,7 @@ export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
           >
             All Projects
           </Button>
-          {services.map((service) => (
+          {initialServices.map((service) => (
             <Button
               key={service.id}
               onClick={() => handleCategoryChange(service.id)}
