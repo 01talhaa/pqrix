@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Play } from "lucide-react"
@@ -30,30 +30,19 @@ interface ProjectsFilterProps {
 }
 
 export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
-  const [projects] = useState<Project[]>(initialProjects)
   const [services, setServices] = useState<Service[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(initialProjects)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
     fetchServices()
   }, [])
 
-  useEffect(() => {
-    if (selectedCategory === "all") {
-      setFilteredProjects(projects)
-    } else {
-      setFilteredProjects(
-        projects.filter(
-          (project) => project.serviceCategory === selectedCategory
-        )
-      )
-    }
-  }, [selectedCategory, projects])
-
   const fetchServices = async () => {
     try {
-      const response = await fetch('/api/services')
+      const response = await fetch('/api/services', {
+        cache: 'force-cache'
+      })
       const data = await response.json()
       if (data.success) {
         setServices(data.data.map((s: any) => ({ id: s.id, title: s.title })))
@@ -63,18 +52,41 @@ export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
     }
   }
 
+  // Memoize filtered projects to prevent unnecessary recalculations
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "all") {
+      return initialProjects
+    }
+    return initialProjects.filter(
+      (project) => project.serviceCategory === selectedCategory
+    )
+  }, [selectedCategory, initialProjects])
+
+  // Memoize service map for O(1) lookup
+  const serviceMap = useMemo(() => {
+    const map = new Map<string, string>()
+    services.forEach(s => map.set(s.id, s.title))
+    return map
+  }, [services])
+
+  // Handle category change
+  const handleCategoryChange = useCallback((category: string) => {
+    if (category === selectedCategory) return
+    setSelectedCategory(category)
+  }, [selectedCategory])
+
   return (
     <>
       {/* Filter Tabs */}
       <section className="container mx-auto px-4 pb-8">
         <div className="flex flex-wrap justify-center gap-3">
           <Button
-            onClick={() => setSelectedCategory("all")}
+            onClick={() => handleCategoryChange("all")}
             variant={selectedCategory === "all" ? "default" : "outline"}
             className={
               selectedCategory === "all"
-                ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
-                : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300 transition-colors duration-150"
+                : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-150"
             }
           >
             All Projects
@@ -82,12 +94,12 @@ export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
           {services.map((service) => (
             <Button
               key={service.id}
-              onClick={() => setSelectedCategory(service.id)}
+              onClick={() => handleCategoryChange(service.id)}
               variant={selectedCategory === service.id ? "default" : "outline"}
               className={
                 selectedCategory === service.id
-                  ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
-                  : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                  ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300 transition-colors duration-150"
+                  : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-150"
               }
             >
               {service.title}
@@ -98,18 +110,19 @@ export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
 
       {/* Projects Grid */}
       <section className="container mx-auto px-4 pb-16 sm:pb-24">
-        {filteredProjects.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              No projects found for this category.
-            </p>
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="min-h-[400px]">
+          {filteredProjects.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                No projects found for this category.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project: Project) => {
-              // Find the service title for display
+              // Use memoized service map for O(1) lookup instead of array.find()
               const serviceTitle = project.serviceCategory 
-                ? services.find(s => s.id === project.serviceCategory)?.title 
+                ? serviceMap.get(project.serviceCategory)
                 : project.category
 
               return (
@@ -180,8 +193,9 @@ export function ProjectsFilter({ initialProjects }: ProjectsFilterProps) {
                 </Link>
               )
             })}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </section>
     </>
   )
