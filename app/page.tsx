@@ -16,6 +16,7 @@ import { BlogSection } from "@/components/blog-section"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { AdDisplay } from "@/components/ad-display"
 import { PqrixChatbot } from "@/components/pqrix-chatbot"
+import { PartnerSection } from "@/components/partner-section"
 
 // ✅ Force static generation for low TTFB
 export const dynamic = "force-static"
@@ -101,6 +102,7 @@ export default function Page() {
         <InsightsSection />
         {/* <LatestInsightsSection /> */}
         <CareersSection />
+        <PartnerSection />
         <BlogSection />
         <Features />
         {/* <LogoMarquee /> */}
