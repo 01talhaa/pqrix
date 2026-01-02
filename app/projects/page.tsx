@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { getAllProjectsForBuild } from "@/lib/get-projects"
+import { getServicesForFilter } from "@/lib/get-services"
 import { ProjectsFilter } from "@/components/projects-filter"
 
 export const metadata = {
@@ -305,10 +306,16 @@ async function getProjects(): Promise<any[]> {
 }
 
 export default async function ProjectsPage() {
-  const allProjects = await getProjects()
+  const [allProjects, allServices] = await Promise.all([
+    getProjects(),
+    getServicesForFilter()
+  ])
   
-  // Ensure allProjects is always an array
+  // Ensure data is always arrays with proper typing
   const projects = Array.isArray(allProjects) ? allProjects : []
+  const services: Array<{id: string, title: string}> = Array.isArray(allServices) 
+    ? allServices.map(s => ({ id: s.id || '', title: s.title || '' }))
+    : []
   
   return (
     <>
@@ -329,7 +336,7 @@ export default async function ProjectsPage() {
         </section>
 
         {/* Interactive Filter and Projects Grid */}
-        <ProjectsFilter initialProjects={projects} />
+        <ProjectsFilter initialProjects={projects} initialServices={services} />
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
