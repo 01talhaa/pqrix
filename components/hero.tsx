@@ -51,21 +51,21 @@ export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-center py-8 sm:py-12">
+        <div className="flex flex-col items-center justify-center py-14 sm:py-20">
           {/* Logo */}
-          <div className="mb-1 flex items-center gap-2">
+          {/* <div className="mb-5 flex items-center gap-3">
             <Image
-              src="/icons/pqrix-white.svg"
+              src="/images/pqrix-logo.png"
               alt="Pqrix logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 dark:invert-0 invert"
+              width={40}
+              height={40}
+              className="h-16 w-16"
             />
-            <p className="text-sm uppercase tracking-[0.25em] text-green-600 dark:text-lime-300/80">pqrix</p>
-          </div>
+            <p className="text-lg font-bold uppercase tracking-[0.3em] text-green-600 dark:text-lime-300">pqrix</p>
+          </div> */}
 
           {/* Heading */}
-          <h1 className="mt-0 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl">
+          <h1 className="mt-3 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl">
             <span className="block">PREMIUM CUSTOM</span>
             <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">
               SOFTWARE SOLUTIONS
@@ -77,7 +77,7 @@ export function Hero() {
           {/* <div className="mt-6">{buttonNew}</div> */}
 
           {/* Phone Grid - Added items-stretch and ensured child div is h-full */}
-          <div className="mt-6 grid w-full gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
+          <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
             {loading ? (
               <div className="col-span-full flex justify-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 dark:border-lime-400"></div>
@@ -178,6 +178,22 @@ function PhoneCard({
       border: '3px solid rgba(255,255,255,0.6)',
       boxShadow: '0 8px 32px 0 rgba(0,0,0,0.2), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
     }}>
+      {/* Title Section - Outside the phone */}
+      <div className="mb-3 space-y-1.5 px-2">
+        <h3 className="text-lg font-black leading-tight text-black dark:text-white tracking-tight">
+          {title}
+        </h3>
+        <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
+          {sub}
+        </p>
+        <div className="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-md" style={{
+          background: 'linear-gradient(135deg, rgba(34,197,94,1) 0%, rgba(22,163,74,1) 100%)',
+          color: 'white',
+          border: '1.5px solid rgba(255,255,255,0.4)'
+        }}>
+          {tone}
+        </div>
+      </div>
 
       {/* Phone Display - Added flex-grow to ensure it takes available space */}
       <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[24px] bg-white dark:bg-black flex-grow" style={{

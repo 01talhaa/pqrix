@@ -15,7 +15,7 @@ interface FooterContent {
 
 const defaultContent: FooterContent = {
   tagline:
-    "Experience 3D animation like never before. We craft cinematic visuals for brands and products.",
+    "Professional software development company delivering custom web, mobile, and desktop solutions tailored to your business needs.",
   copyright: "© 2025 — Pqrix",
 }
 
@@ -63,14 +63,14 @@ export function AppverseFooter() {
             {/* Left copy */}
             <div>
               <p className="mb-2 text-[11px] tracking-widest text-green-600 dark:text-lime-300">
-                STREAMLINE YOUR LAUNCHES
+                STREAMLINE YOUR WORKFLOW
               </p>
               <h3 className="text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
-                Preview &amp; approve high-end 3D visuals from anywhere
+                Collaborate &amp; manage your software projects from anywhere
               </h3>
               <p className="mt-2 max-w-prose text-sm text-gray-600 dark:text-neutral-400">
-                Review renders, leave timestamped comments, and approve scenes
-                from anywhere using our revision &amp; collaboration tools.
+                Track progress, review deliverables, provide feedback, and approve milestones
+                using our project management &amp; collaboration platform.
               </p>
             </div>
 
@@ -88,13 +88,13 @@ export function AppverseFooter() {
                     <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/20" />
                     <div className="space-y-1 px-1">
                       <div className="text-5xl font-extrabold text-green-500 dark:text-lime-300">
-                        Approvals Made Easy
+                        Project Management
                       </div>
                       <p className="text-xs text-white/80">
-                        From feedback to approval in a single flow
+                        From concept to deployment in one place
                       </p>
                       <div className="mt-3 inline-flex items-center rounded-full bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-green-400 dark:text-lime-300">
-                        Zero Hassle
+                        Seamless Workflow
                       </div>
                     </div>
                   </div>
@@ -112,13 +112,13 @@ export function AppverseFooter() {
             {/* Brand */}
             <div className="space-y-3">
               <div className="flex items-center gap-1.5">
-                <Image
-                  src="/icons/pqrix-white.svg"
-                  alt="Pqrix logo"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6 dark:invert-0 invert"
-                />
+                {/* <Image
+                  src="/icons/pqrix-icon.svg"
+                  alt="Pqrix Logo"
+                  width={48}
+                  height={48}
+                  className="h-12 w-12"
+                /> */}
                 <span className="text-xl font-semibold text-green-600 dark:text-lime-300">
                   Pqrix
                 </span>

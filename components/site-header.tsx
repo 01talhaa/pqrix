@@ -55,15 +55,15 @@ export function SiteHeader() {
           boxShadow: '0 8px 32px 0 rgba(0,0,0,0.12), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
         }}>
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-1.5">
-            <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={20} height={20} className="h-5 w-5 dark:invert-0 invert" />
-            <span className="font-semibold tracking-wide text-black dark:text-white">Pqrix</span>
+          <Link href="/" className="flex items-center gap-2">
+            {/* <Image src="/images/pqrix-logo.png" alt="Pqrix logo" width={28} height={28} className="h-7 w-7" /> */}
+            <span className="text-base font-bold tracking-wide text-green-600 dark:text-lime-300">PQRIX</span>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden items-center gap-6 text-sm text-gray-700 dark:text-gray-300 md:flex">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-green-600 dark:hover:text-purple-300 transition-colors">
+              <Link key={l.href} href={l.href} className="hover:text-green-600 dark:hover:text-lime-300 transition-colors">
                 {l.label}
               </Link>
             ))}
@@ -137,7 +137,8 @@ export function SiteHeader() {
               <SheetContent side="right" className="liquid-glass border-gray-200 dark:border-gray-800 p-0 w-64 flex flex-col">
                 {/* Brand Header */}
                 <div className="flex items-center gap-1.5 px-4 py-4 border-b border-gray-200 dark:border-gray-800">
-                  <Image src="/icons/pqrix-white.svg" alt="Pqrix logo" width={24} height={24} className="h-6 w-6 dark:invert-0 invert" />
+                  <Image src="/icons/pqrix-icon.svg" alt="Pqrix logo" width={32} height={32} className="h-8 w-8" />
+                  <span className="text-lg font-bold tracking-wide text-green-600 dark:text-lime-300">PQRIX</span>
                   <span className="font-semibold tracking-wide text-black dark:text-white text-lg">Pqrix</span>
                 </div>
 
@@ -147,7 +148,7 @@ export function SiteHeader() {
                     <Link
                       key={l.href}
                       href={l.href}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-green-600 dark:hover:text-purple-300 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-green-600 dark:hover:text-lime-300 transition-colors"
                     >
                       <span className="inline-flex items-center justify-center w-5 h-5 text-gray-600 dark:text-gray-400">
                         <l.icon className="h-4 w-4" />
