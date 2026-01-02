@@ -53,16 +53,16 @@ export function Hero() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center py-14 sm:py-20">
           {/* Logo */}
-          <div className="mb-5 flex items-center gap-2">
+          {/* <div className="mb-5 flex items-center gap-3">
             <Image
-              src="/icons/pqrix-white.svg"
+              src="/images/pqrix-logo.png"
               alt="Pqrix logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 dark:invert-0 invert"
+              width={40}
+              height={40}
+              className="h-16 w-16"
             />
-            <p className="text-sm uppercase tracking-[0.25em] text-green-600 dark:text-lime-300/80">pqrix</p>
-          </div>
+            <p className="text-lg font-bold uppercase tracking-[0.3em] text-green-600 dark:text-lime-300">pqrix</p>
+          </div> */}
 
           {/* Heading */}
           <h1 className="mt-3 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl">

@@ -12,11 +12,11 @@ const inter = Inter({ subsets: ["latin"], display: "swap" })
 export const metadata: Metadata = {
   metadataBase: new URL('https://pqrix.com'),
   title: {
-    default: "Pqrix | Software Development Company in Bangladesh | Web, Mobile & Desktop Solutions",
-    template: "%s | Pqrix"
+    default: "Pqrix | Best Software Development Company in Bangladesh | #1 Web, Mobile & Desktop Solutions | Top Tech Company",
+    template: "%s | Pqrix - Leading Tech Company Bangladesh"
   },
   description:
-    "Leading software development company in Bangladesh offering Discovery & Strategy, Web/SaaS Development, Mobile App Development (iOS/Android), Custom 3D Web/XR, and Desktop Application Solutions. Local payment gateway integration (bKash/Nagad). Affordable pricing starting ৳8,500.",
+    "🏆 Best & Top-rated software development company in Bangladesh. Expert tech solutions: Web Development, Mobile Apps, SaaS, Cloud, AI/ML, Blockchain, IoT, Desktop Software, 3D/XR. Award-winning IT company with 500+ projects. Local payment (bKash/Nagad). Affordable pricing from ৳8,500. Trusted by leading brands. #1 Technology partner for startups & enterprises.",
   keywords: [
     // Company & Location
     "software development company Bangladesh",
@@ -387,7 +387,397 @@ export const metadata: Metadata = {
     "NGO software",
     "non-profit software",
     "software for agencies",
-    "white label solutions"
+    "white label solutions",
+    
+    // Best/Top Rankings - Critical for "best software company" searches
+    "best software company in Bangladesh",
+    "best software development company Bangladesh",
+    "top software company in Bangladesh",
+    "top software development company BD",
+    "best IT company Bangladesh",
+    "top IT company Bangladesh",
+    "best tech company Bangladesh",
+    "top tech company Bangladesh",
+    "leading software company Bangladesh",
+    "top rated software company",
+    "best web development company Bangladesh",
+    "best mobile app development company Bangladesh",
+    "best software house Bangladesh",
+    "top software firm Bangladesh",
+    "award winning software company",
+    "trusted software company Bangladesh",
+    "reliable software company",
+    "professional software company",
+    "#1 software company Bangladesh",
+    "number 1 software company",
+    "premier software company",
+    "elite software company",
+    
+    // Technology Keywords - Broad Coverage for ANY tech search
+    "technology",
+    "tech",
+    "IT",
+    "information technology",
+    "software",
+    "hardware",
+    "computer science",
+    "computer engineering",
+    "IT solutions",
+    "tech solutions",
+    "technology solutions",
+    "digital solutions",
+    "innovation",
+    "tech innovation",
+    "digital innovation",
+    
+    // Emerging Tech - AI, ML, Blockchain, IoT, etc.
+    "artificial intelligence",
+    "AI development",
+    "machine learning",
+    "ML development",
+    "deep learning",
+    "neural networks",
+    "natural language processing",
+    "NLP",
+    "computer vision",
+    "chatbot development",
+    "AI chatbot",
+    "conversational AI",
+    "blockchain development",
+    "cryptocurrency",
+    "smart contracts",
+    "web3 development",
+    "NFT development",
+    "DeFi platform",
+    "IoT development",
+    "Internet of Things",
+    "IoT solutions",
+    "smart home",
+    "industrial IoT",
+    "edge computing",
+    "quantum computing",
+    "big data",
+    "data science",
+    "data analytics",
+    "business intelligence",
+    "predictive analytics",
+    "data visualization",
+    "data warehouse",
+    "ETL development",
+    
+    // Cloud & DevOps - Comprehensive
+    "cloud computing",
+    "cloud solutions",
+    "cloud services",
+    "AWS",
+    "Amazon Web Services",
+    "Microsoft Azure",
+    "Google Cloud Platform",
+    "GCP",
+    "cloud migration",
+    "cloud architecture",
+    "cloud native",
+    "serverless computing",
+    "function as a service",
+    "FaaS",
+    "platform as a service",
+    "PaaS",
+    "infrastructure as a service",
+    "IaaS",
+    "DevOps",
+    "CI/CD",
+    "continuous integration",
+    "continuous deployment",
+    "docker containers",
+    "kubernetes orchestration",
+    "microservices architecture",
+    "containerization",
+    "infrastructure automation",
+    "configuration management",
+    "terraform",
+    "ansible",
+    "jenkins",
+    "gitlab CI",
+    "github actions",
+    
+    // Cybersecurity & Privacy
+    "cybersecurity",
+    "information security",
+    "network security",
+    "application security",
+    "web security",
+    "mobile security",
+    "cloud security",
+    "data protection",
+    "privacy compliance",
+    "GDPR compliance",
+    "HIPAA compliance",
+    "ISO 27001",
+    "penetration testing",
+    "ethical hacking",
+    "security audit",
+    "vulnerability assessment",
+    "threat detection",
+    "incident response",
+    "security monitoring",
+    "firewall",
+    "intrusion detection",
+    "encryption services",
+    "SSL certificate",
+    "two-factor authentication",
+    "biometric authentication",
+    
+    // Database & Storage
+    "database development",
+    "database design",
+    "database optimization",
+    "MySQL",
+    "PostgreSQL",
+    "MongoDB",
+    "NoSQL database",
+    "SQL database",
+    "Redis",
+    "Elasticsearch",
+    "Cassandra",
+    "Oracle database",
+    "SQL Server",
+    "database migration",
+    "database administration",
+    "DBA services",
+    "data modeling",
+    "database tuning",
+    "query optimization",
+    "data storage",
+    "cloud storage",
+    "object storage",
+    "block storage",
+    
+    // UI/UX & Design
+    "UI UX design",
+    "user interface design",
+    "user experience design",
+    "graphic design",
+    "web design",
+    "mobile app design",
+    "product design",
+    "interaction design",
+    "visual design",
+    "design thinking",
+    "wireframing",
+    "prototyping",
+    "figma design",
+    "adobe XD",
+    "sketch design",
+    "responsive design",
+    "mobile-first design",
+    "accessibility design",
+    "usability testing",
+    "A/B testing",
+    "conversion optimization",
+    "branding",
+    "logo design",
+    "brand identity",
+    
+    // E-commerce & Digital Marketing
+    "e-commerce development",
+    "online store",
+    "shopping cart",
+    "payment gateway",
+    "digital payment",
+    "mobile payment",
+    "bKash integration",
+    "Nagad integration",
+    "Rocket integration",
+    "Stripe payment",
+    "PayPal integration",
+    "SSL Commerz",
+    "payment processing",
+    "inventory management system",
+    "order management",
+    "shipping integration",
+    "marketplace platform",
+    "multi-vendor marketplace",
+    "B2B marketplace",
+    "B2C ecommerce",
+    "headless commerce",
+    "shopify development",
+    "woocommerce development",
+    "magento development",
+    "digital marketing",
+    "SEO services",
+    "search engine optimization",
+    "SEM",
+    "search engine marketing",
+    "social media marketing",
+    "content marketing",
+    "email marketing",
+    "marketing automation",
+    "CRM integration",
+    "analytics integration",
+    "Google Analytics",
+    "Facebook Pixel",
+    
+    // Gaming & Entertainment
+    "game development",
+    "mobile game",
+    "web game",
+    "2D game",
+    "3D game",
+    "Unity development",
+    "Unreal Engine",
+    "game design",
+    "multiplayer game",
+    "casual games",
+    "AR games",
+    "VR games",
+    "esports platform",
+    "gaming server",
+    "video streaming",
+    "live streaming",
+    "OTT platform",
+    "media streaming",
+    "content delivery network",
+    "CDN",
+    "video processing",
+    "audio processing",
+    
+    // Enterprise & Business Tools
+    "enterprise resource planning",
+    "ERP system",
+    "customer relationship management",
+    "CRM system",
+    "human resource management",
+    "HRMS",
+    "payroll management",
+    "attendance system",
+    "leave management",
+    "performance management",
+    "recruitment software",
+    "ATS",
+    "applicant tracking system",
+    "project management tool",
+    "time tracking",
+    "expense management",
+    "invoice management",
+    "accounting software",
+    "financial management",
+    "budgeting software",
+    "reporting dashboard",
+    "business analytics",
+    "KPI dashboard",
+    "workflow management",
+    "document management system",
+    "DMS",
+    "electronic signature",
+    "contract management",
+    "vendor management",
+    "procurement system",
+    
+    // Automation & Integration
+    "automation",
+    "business process automation",
+    "robotic process automation",
+    "RPA",
+    "workflow automation",
+    "task automation",
+    "email automation",
+    "marketing automation",
+    "sales automation",
+    "API integration",
+    "third-party integration",
+    "webhook integration",
+    "Zapier integration",
+    "IFTTT",
+    "middleware development",
+    "integration platform",
+    "iPaaS",
+    "data integration",
+    "system integration",
+    "legacy system integration",
+    
+    // Location-specific & Local SEO
+    "software company Dhaka",
+    "IT company Dhaka",
+    "tech company Dhaka",
+    "Dhaka software development",
+    "Bangladesh software industry",
+    "Bangladeshi IT company",
+    "Bangladesh tech startup",
+    "outsourcing to Bangladesh",
+    "offshore development Bangladesh",
+    "nearshore Bangladesh",
+    "Bangladesh IT sector",
+    "South Asian software company",
+    "Asian IT company",
+    "affordable software development Asia",
+    "quality software Bangladesh",
+    
+    // Service Delivery & Quality
+    "agile methodology",
+    "scrum framework",
+    "kanban",
+    "lean development",
+    "DevOps culture",
+    "continuous improvement",
+    "code quality",
+    "clean code",
+    "SOLID principles",
+    "design patterns",
+    "software architecture patterns",
+    "test-driven development",
+    "TDD",
+    "behavior-driven development",
+    "BDD",
+    "unit testing",
+    "integration testing",
+    "end-to-end testing",
+    "automated testing",
+    "manual testing",
+    "performance testing",
+    "load testing",
+    "stress testing",
+    "security testing",
+    "regression testing",
+    "smoke testing",
+    "sanity testing",
+    
+    // Support & Maintenance
+    "technical support",
+    "IT support",
+    "software maintenance",
+    "application maintenance",
+    "bug fixing service",
+    "software updates",
+    "version upgrade",
+    "patch management",
+    "monitoring service",
+    "24/7 support",
+    "helpdesk",
+    "IT helpdesk",
+    "incident management",
+    "problem management",
+    "change management",
+    "release management",
+    "SLA",
+    "service level agreement",
+    
+    // Consultation & Advisory
+    "IT consultation",
+    "technology consultation",
+    "software consultation",
+    "digital transformation consulting",
+    "cloud consulting",
+    "security consulting",
+    "architecture consulting",
+    "strategy consulting",
+    "technical advisory",
+    "technology advisory",
+    "CTO as a service",
+    "fractional CTO",
+    "IT audit",
+    "technology assessment",
+    "vendor selection",
+    "technology evaluation"
   ],
   authors: [{ name: "Pqrix Studio" }],
   creator: "Pqrix",
@@ -433,17 +823,20 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icons/pqrix-icon.svg", type: "image/svg+xml" },
-      { url: "/icons/pqrix-icon.svg", sizes: "32x32", type: "image/svg+xml" },
-      { url: "/icons/pqrix-icon.svg", sizes: "16x16", type: "image/svg+xml" },
+      { url: "/icons/pqrix-ico.ico", sizes: "64x64", type: "image/x-icon" },
+      { url: "/icons/pqrix-ico.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/icons/pqrix-ico.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/icons/pqrix-ico.ico", sizes: "16x16", type: "image/x-icon" },
     ],
     apple: [
       { url: "/icons/pqrix-icon.svg", sizes: "180x180", type: "image/svg+xml" },
+      { url: "/icons/pqrix-ico.ico", sizes: "192x192", type: "image/x-icon" },
     ],
     other: [
       {
         rel: "mask-icon",
-        url: "/icons/pqrix-white.svg",
+        url: "/icons/pqrix-icon.svg",
+        color: "#10B981",
       },
     ],
   },
@@ -490,39 +883,127 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Pqrix",
+              alternateName: ["Pqrix Software", "Pqrix Tech", "Pqrix Bangladesh"],
               url: "https://pqrix.com",
               logo: "https://pqrix.com/icons/pqrix-logo.png",
-              description: "Professional software development company in Bangladesh specializing in Discovery & Strategy, Web/SaaS Development, Mobile App Development, Custom 3D Web/XR, and Desktop Application Solutions with local payment gateway integration.",
+              description: "Best and top-rated software development company in Bangladesh. Expert in Web Development, Mobile Apps, SaaS, AI/ML, Blockchain, IoT, Cloud Computing, Desktop Software, and 3D/XR solutions. Award-winning technology partner serving 500+ clients worldwide.",
+              foundingDate: "2020",
+              slogan: "Premium Custom Software Solutions For Your Business",
               sameAs: [
                 "https://twitter.com/pqrix",
                 "https://www.youtube.com/@pqrix",
                 "https://instagram.com/pqrix",
-                "https://linkedin.com/company/pqrix"
+                "https://linkedin.com/company/pqrix",
+                "https://facebook.com/pqrix",
+                "https://github.com/pqrix"
               ],
               contactPoint: {
                 "@type": "ContactPoint",
                 telephone: "+880-1401-658685",
                 contactType: "customer service",
+                contactOption: ["TollFree", "HearingImpairedSupported"],
                 availableLanguage: ["English", "Bengali"],
-                areaServed: "BD"
+                areaServed: ["BD", "US", "GB", "CA", "AU", "SG", "AE"],
+                hoursAvailable: {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                  opens: "00:00",
+                  closes: "23:59"
+                }
               },
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "BD",
-                addressRegion: "Dhaka"
+                addressRegion: "Dhaka",
+                addressLocality: "Dhaka"
               },
-              areaServed: ["BD", "Worldwide"],
-              serviceType: [
-                "Discovery & Strategy Services",
-                "Web Development",
-                "SaaS Development",
-                "Mobile App Development",
-                "Custom 3D Web Development",
-                "WebGL Development",
-                "Desktop Application Development",
-                "Software Consultation"
+              areaServed: [
+                { "@type": "Country", name: "Bangladesh" },
+                { "@type": "Country", name: "United States" },
+                { "@type": "Country", name: "United Kingdom" },
+                { "@type": "Country", name: "Canada" },
+                { "@type": "Country", name: "Australia" },
+                { "@type": "Country", name: "Singapore" },
+                { "@type": "Country", name: "United Arab Emirates" }
               ],
-              priceRange: "৳৳৳"
+              serviceType: [
+                "Software Development",
+                "Web Development",
+                "Mobile App Development",
+                "SaaS Development",
+                "Cloud Computing",
+                "AI & Machine Learning",
+                "Blockchain Development",
+                "IoT Solutions",
+                "Desktop Application Development",
+                "3D Web Development",
+                "WebGL Development",
+                "AR/VR Development",
+                "E-commerce Development",
+                "Digital Transformation",
+                "IT Consulting",
+                "DevOps Services",
+                "Cybersecurity",
+                "UI/UX Design",
+                "API Development",
+                "Database Development"
+              ],
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Software Development Services",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Discovery & Strategy",
+                      description: "Technical blueprint, wireframing, and project planning"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Web & SaaS Development",
+                      description: "Custom web applications, CRM, ERP, and cloud solutions"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Mobile App Development",
+                      description: "iOS, Android, and cross-platform applications"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "AI & ML Solutions",
+                      description: "Artificial Intelligence and Machine Learning implementation"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Blockchain Development",
+                      description: "Smart contracts, DeFi, NFT, and Web3 solutions"
+                    }
+                  }
+                ]
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.9",
+                ratingCount: "500",
+                bestRating: "5",
+                worstRating: "1"
+              },
+              priceRange: "৳৳৳",
+              paymentAccepted: ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash", "Credit Card", "PayPal"],
+              currenciesAccepted: "BDT, USD, EUR, GBP"
             })
           }}
         />
@@ -541,11 +1022,12 @@ export default function RootLayout({
               "@id": "https://pqrix.com",
               url: "https://pqrix.com",
               telephone: "+880-1401-658685",
-              priceRange: "৳8,500 - ৳3,00,000+",
+              priceRange: "৳8,500 - ৳5,00,000+",
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "BD",
-                addressRegion: "Dhaka"
+                addressRegion: "Dhaka",
+                addressLocality: "Dhaka"
               },
               geo: {
                 "@type": "GeoCoordinates",
@@ -566,12 +1048,131 @@ export default function RootLayout({
                 opens: "00:00",
                 closes: "23:59"
               },
-              paymentAccepted: ["bKash", "Nagad", "Bank Transfer", "Cash"],
-              currenciesAccepted: "BDT",
+              paymentAccepted: ["bKash", "Nagad", "Rocket", "Bank Transfer", "Cash", "Credit Card"],
+              currenciesAccepted: "BDT, USD",
               sameAs: [
                 "https://twitter.com/pqrix",
                 "https://www.youtube.com/@pqrix",
                 "https://instagram.com/pqrix"
+              ],
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Tech Services",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Web Development",
+                      provider: { "@type": "Organization", name: "Pqrix" },
+                      areaServed: "Worldwide",
+                      availableChannel: { "@type": "ServiceChannel", serviceUrl: "https://pqrix.com/services" }
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Mobile App Development",
+                      provider: { "@type": "Organization", name: "Pqrix" },
+                      areaServed: "Worldwide"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Cloud Computing",
+                      provider: { "@type": "Organization", name: "Pqrix" },
+                      areaServed: "Worldwide"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "AI & Machine Learning",
+                      provider: { "@type": "Organization", name: "Pqrix" },
+                      areaServed: "Worldwide"
+                    }
+                  }
+                ]
+              }
+            })
+          }}
+        />
+
+        {/* LocalBusiness Schema for Bangladesh Local SEO */}
+        <Script
+          id="local-business-schema"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Pqrix - Best Software Company in Bangladesh",
+              description: "Top-rated software development company in Bangladesh. Expert in web, mobile, cloud, AI/ML, and blockchain solutions.",
+              image: "https://pqrix.com/icons/pqrix-logo.png",
+              telephone: "+880-1401-658685",
+              email: "info@pqrix.com",
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "Bangladesh",
+                addressRegion: "Dhaka Division",
+                addressLocality: "Dhaka"
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: 23.8103,
+                longitude: 90.4125
+              },
+              url: "https://pqrix.com",
+              priceRange: "৳৳৳",
+              openingHours: "Mo-Su 00:00-23:59",
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.9",
+                reviewCount: "500"
+              }
+            })
+          }}
+        />
+
+        {/* BreadcrumbList for better navigation understanding */}
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://pqrix.com"
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Services",
+                  item: "https://pqrix.com/services"
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: "Projects",
+                  item: "https://pqrix.com/projects"
+                },
+                {
+                  "@type": "ListItem",
+                  position: 4,
+                  name: "Team",
+                  item: "https://pqrix.com/team"
+                }
               ]
             })
           }}
