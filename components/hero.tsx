@@ -1,293 +1,240 @@
-"use client"
-
+'use client'
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
-import LazyVideo from "./lazy-video"
 import { useEffect, useState } from "react"
-import type { BannerDocument } from "@/lib/models/Banner"
+import { 
+  Star, 
+  ArrowRight, 
+  Sparkles, 
+  Zap, 
+  Shield, 
+  Flame, 
+  Cpu, 
+  Terminal, 
+  Database, 
+  Code 
+} from "lucide-react"
+import dynamic from 'next/dynamic'
 
-export function Hero() {
-  const [banners, setBanners] = useState<BannerDocument[]>([])
-  const [loading, setLoading] = useState(true)
+const Tech3DScene = dynamic(() => import('@/components/tech-3d-scene'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 z-0 flex items-center justify-center">
+      <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+})
+
+export default function RedHero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
-    fetchBanners()
-    
-    // Listen for banner updates
-    const handleBannerUpdate = () => {
-      fetchBanners()
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
     }
-    
-    window.addEventListener('banner-published', handleBannerUpdate)
-    
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener('banner-published', handleBannerUpdate)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
-  const fetchBanners = async () => {
-    try {
-      const response = await fetch("/api/banners", {
-        next: { revalidate: 300 }, // 🚀 Cache for 5 minutes
-      })
-      const data = await response.json()
-      if (data.success && data.data.length > 0) {
-        setBanners(data.data)
-      } else {
-        // Fallback to default banners
-        setBanners([])
-      }
-    } catch (error) {
-      console.error("Error fetching banners:", error)
-      setBanners([])
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const displayBanners = banners.length > 0 ? banners : phoneData
-
-
   return (
-    <section className="relative isolate overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-center py-14 sm:py-20">
-          {/* Logo */}
-          {/* <div className="mb-5 flex items-center gap-3">
-            <Image
-              src="/images/pqrix-logo.png"
-              alt="Pqrix logo"
-              width={40}
-              height={40}
-              className="h-16 w-16"
-            />
-            <p className="text-lg font-bold uppercase tracking-[0.3em] text-green-600 dark:text-lime-300">pqrix</p>
-          </div> */}
+    <section className="relative min-h-screen bg-[#050000] overflow-hidden text-white font-sans">
+      
+      {/* 3D Scene Background */}
+      <div className="absolute inset-0 z-0 opacity-60">
+        <Tech3DScene />
+      </div>
 
-          {/* Heading */}
-          <h1 className="mt-3 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl">
-            <span className="block">PREMIUM CUSTOM</span>
-            <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">
-              SOFTWARE SOLUTIONS
+      {/* Advanced Background with 3D Depth */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        <div 
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(220, 38, 38, 0.35) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(220, 38, 38, 0.35) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+            transform: `perspective(1000px) rotateX(60deg) translateZ(${scrollY * 0.5}px)`,
+            transformOrigin: 'center top'
+          }}
+        />
+        
+        <div 
+          className="absolute top-1/3 left-1/3 w-[1000px] h-[1000px] rounded-full blur-[200px] opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(220, 38, 38, 0.4) 0%, transparent 70%)',
+            transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`
+          }}
+        />
+        
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-red-500/30 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4">
+        {/* Hero Content */}
+        <div className="flex flex-col items-center justify-center pt-24 pb-20 text-center">
+          
+          <div className="mb-8 inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-red-950/30 border border-red-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(220,38,38,0.2)]">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
             </span>
-            <span className="block">FOR YOUR BUSINESS</span>
+            <span className="text-[11px] font-black text-red-400 uppercase tracking-[0.25em]">Quantum Core v3.0 Online</span>
+            <Terminal size={14} className="text-red-500" />
+          </div>
+
+          <h1 className="max-w-5xl text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8">
+            <span className="inline-block bg-gradient-to-r from-white via-red-100 to-white bg-clip-text text-transparent">
+              Work Smarter
+            </span>
+            <br />
+            <span className="inline-block bg-gradient-to-r from-red-600 via-red-500 to-red-800 bg-clip-text text-transparent">
+              Achieve More
+            </span>
           </h1>
+          
+          <p className="mt-6 max-w-2xl text-xl text-gray-400 leading-relaxed font-medium">
+            Transform your workflow with adaptive AI that learns, evolves, and scales with your ambitions. 
+            <span className="text-red-500"> The future is intelligent.</span>
+          </p>
 
-          {/* CTA */}
-          {/* <div className="mt-6">{buttonNew}</div> */}
+          <div className="flex flex-col sm:flex-row gap-5 mt-12">
+            <Button className="group relative overflow-hidden bg-red-600 hover:bg-red-700 text-white font-bold px-10 py-7 rounded-full text-lg shadow-[0_20px_60px_rgba(220,38,38,0.3)] transition-all duration-500 hover:scale-105 border border-red-400/20">
+              <span className="relative z-10 flex items-center gap-2">
+                Try Now Free
+                <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
+              </span>
+            </Button>
+            
+            <Button variant="outline" className="border-2 border-white/10 hover:border-red-500/50 bg-white/5 backdrop-blur-xl text-white font-semibold px-10 py-7 rounded-full text-lg transition-all duration-500">
+              Watch Demo
+            </Button>
+          </div>
 
-          {/* Phone Grid - Added items-stretch and ensured child div is h-full */}
-          <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
-            {loading ? (
-              <div className="col-span-full flex justify-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 dark:border-lime-400"></div>
+          {/* Stats Bar */}
+          <div className="mt-20 flex flex-wrap justify-center gap-12 px-10 py-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl">
+            {[
+              { val: '500K+', lab: 'Active Users' },
+              { val: '99.9%', lab: 'System Uptime' },
+              { val: '150+', lab: 'Global Regions' }
+            ].map((stat, i) => (
+              <div key={i} className="flex items-center gap-12">
+                <div className="text-center">
+                  <div className="text-3xl font-black text-red-500">{stat.val}</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500 mt-1 font-bold">{stat.lab}</div>
+                </div>
+                {i < 2 && <div className="hidden md:block h-10 w-px bg-white/10" />}
               </div>
-            ) : (
-              displayBanners.map((item, i) => {
-                const visibility =
-                  i <= 2
-                    ? "block"
-                    : i === 3
-                    ? "hidden md:block"
-                    : i === 4
-                    ? "hidden xl:block"
-                    : "hidden"
+            ))}
+          </div>
+        </div>
 
-                // Check if item is a banner or phoneData
-                const isBanner = 'media' in item
-                
-                if (isBanner) {
-                  const banner = item as BannerDocument
-                  
-                  return (
-                    // Ensure this wrapper div is also h-full
-                    <div key={banner.id} className={`${visibility} h-full`}> 
-                      <PhoneCard
-                        title={banner.title}
-                        sub={banner.subtitle}
-                        tone={banner.tone}
-                        gradient={banner.gradient || "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]"}
-                        media={banner.media}
-                        displayStyle={banner.displayStyle}
-                      />
-                    </div>
-                  )
-                } else {
-                  return (
-                    // Ensure this wrapper div is also h-full
-                    <div key={i} className={`${visibility} h-full`}>
-                      <PhoneCard {...(item as any)} />
-                    </div>
-                  )
-                }
-              })
-            )}
+        {/* Brand Showcase */}
+        <div className="mt-10 flex flex-col items-center">
+          <div className="flex gap-1.5 mb-6">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={18} className="fill-red-500 text-red-500 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
+            ))}
+          </div>
+          <p className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-12">Trusted by industry leaders worldwide</p>
+          <div className="flex flex-wrap justify-center items-center gap-16 opacity-30 hover:opacity-100 transition-all duration-700">
+            {['TESLA', 'NVIDIA', 'OPENAI', 'STRIPE', 'VERCEL'].map((name) => (
+              <div key={name} className="text-2xl font-black tracking-tighter text-white hover:text-red-500 transition-colors">
+                {name}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature Section */}
+        <div className="mt-48 grid md:grid-cols-2 gap-20 items-center pb-40">
+          <div className="space-y-8">
+            <div className="flex items-center gap-4">
+              <div className="h-14 w-1.5 bg-red-600 rounded-full" />
+              <span className="text-xs font-black tracking-[0.3em] uppercase text-red-500">Intelligent Platform</span>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-black leading-tight tracking-tight">
+              The Future of
+              <br />
+              <span className="text-red-600">Automation</span>
+            </h2>
+            <p className="text-xl text-gray-400 leading-relaxed max-w-lg">
+              Harness the power of adaptive AI that transforms complex workflows into seamless experiences. Built for scale, designed for brilliance.
+            </p>
+            <div className="grid grid-cols-2 gap-6 pt-4">
+              <div className="flex items-center gap-3 text-sm font-bold text-gray-300">
+                <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <Shield size={18} className="text-red-500" />
+                </div>
+                Secure Core
+              </div>
+              <div className="flex items-center gap-3 text-sm font-bold text-gray-300">
+                <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <Flame size={18} className="text-red-500" />
+                </div>
+                High Velocity
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative group">
+            {/* 3D Card */}
+            <div 
+              className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-black p-3 shadow-[0_40px_100px_rgba(220,38,38,0.2)] transition-all duration-700"
+              style={{
+                transform: `perspective(1000px) rotateY(${(mousePosition.x - (typeof window !== 'undefined' ? window.innerWidth : 0) / 2) * 0.01}deg) rotateX(${(mousePosition.y - (typeof window !== 'undefined' ? window.innerHeight : 0) / 2) * -0.01}deg)`
+              }}
+            >
+              <div className="rounded-[2rem] overflow-hidden relative aspect-video">
+                <img 
+                  src="https://images.unsplash.com/photo-1676299081847-824916ef030a?q=80&w=2070&auto=format&fit=crop" 
+                  alt="AI Technology" 
+                  className="object-cover w-full h-full opacity-60 group-hover:scale-110 transition-transform duration-[2s]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+              </div>
+              
+              <div className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl bg-red-950/40 backdrop-blur-3xl border border-red-500/20 transform group-hover:-translate-y-2 transition-transform duration-500">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-1">Process Speed</div>
+                    <div className="text-3xl font-black text-white tracking-tighter">0.02<span className="text-red-500 text-xl">ms</span></div>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
+                    <Sparkles className="text-white" size={20} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="absolute -inset-10 bg-red-600/10 blur-[100px] -z-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+      `}</style>
     </section>
   )
 }
-
-function PhoneCard({
-  title,
-  sub,
-  tone,
-  gradient,
-  videoSrc,
-  imageSrc,
-  poster,
-  media,
-  displayStyle,
-}: {
-  title: string
-  sub: string
-  tone: string
-  gradient: string
-  videoSrc?: string
-  imageSrc?: string
-  poster?: string
-  media?: { url: string; type: 'image' | 'video'; posterUrl?: string }[]
-  displayStyle?: 'autoplay' | 'slider' | 'static'
-}) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  // Slider functionality - auto cycle through media items
-  useEffect(() => {
-    if (displayStyle === 'slider' && media && media.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % media.length)
-      }, 4000) // Change slide every 4 seconds
-
-      return () => clearInterval(interval)
-    }
-  }, [displayStyle, media])
-
-  // Determine what to display
-  const currentMedia = media && media.length > 0 ? media[currentIndex] : null
-  const finalVideoSrc = currentMedia?.type === 'video' ? currentMedia.url : videoSrc
-  const finalImageSrc = currentMedia?.type === 'image' ? currentMedia.url : imageSrc
-  const finalPoster = currentMedia?.type === 'video' ? currentMedia.posterUrl : poster
-
-  return (
-    // Added flex-col and justify-between/stretch to ensure content fills vertically
-    <div className="relative rounded-[32px] p-3 shadow-2xl dark-glass-card flex flex-col h-full" style={{
-      background: 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 100%)',
-      backdropFilter: 'blur(24px)',
-      WebkitBackdropFilter: 'blur(24px)',
-      border: '3px solid rgba(255,255,255,0.6)',
-      boxShadow: '0 8px 32px 0 rgba(0,0,0,0.2), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
-    }}>
-      {/* Title Section - Outside the phone */}
-      <div className="mb-3 space-y-1.5 px-2">
-        <h3 className="text-lg font-black leading-tight text-black dark:text-white tracking-tight">
-          {title}
-        </h3>
-        <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 leading-relaxed">
-          {sub}
-        </p>
-        <div className="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-md" style={{
-          background: 'linear-gradient(135deg, rgba(34,197,94,1) 0%, rgba(22,163,74,1) 100%)',
-          color: 'white',
-          border: '1.5px solid rgba(255,255,255,0.4)'
-        }}>
-          {tone}
-        </div>
-      </div>
-
-      {/* Phone Display - Added flex-grow to ensure it takes available space */}
-      <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[24px] bg-white dark:bg-black flex-grow" style={{
-        boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.1)'
-      }}>
-        {finalImageSrc ? (
-          // Static Image
-          <img
-            src={finalImageSrc}
-            alt={`${title} - ${sub}`}
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
-          />
-        ) : (
-          // Video
-          <LazyVideo
-            key={finalVideoSrc} // Key forces re-render when video changes
-            src={
-              finalVideoSrc ??
-              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b0f3222371106db366a14ca1c29cef55-1b1EWVSa4w3FL2zslcaCGYTy9vcxjF.mp4"
-            }
-            poster={finalPoster ?? "/thumbnails/default.jpg"}
-            className="absolute inset-0 h-full w-full object-cover"
-            {...({ autoPlay: true, loop: true, muted: true, playsInline: true } as any)}
-            aria-label={`${title} - ${sub}`}
-          />
-        )}
-
-        {/* Dynamic Island / Notch */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
-          <div className="h-1.5 w-16 rounded-full bg-black/30 dark:bg-white/20" style={{
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-          }} />
-        </div>
-
-        {/* Slider Indicators */}
-        {displayStyle === 'slider' && media && media.length > 1 && (
-          <div className="absolute bottom-16 left-0 right-0 z-20 flex justify-center gap-1.5">
-            {media.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  idx === currentIndex
-                    ? 'w-6 bg-green-500 dark:bg-lime-400'
-                    : 'w-1.5 bg-black/30 dark:bg-white/30 hover:bg-black/50 dark:hover:bg-white/50'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-const phoneData = [
-  {
-    title: "Web Apps",
-    sub: "Custom websites & SaaS platforms",
-    tone: "Web Development",
-    gradient: "from-[#0b0b0b] via-[#0f172a] to-[#020617]",
-    videoSrc:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/A%20new%20chapter%20in%20the%20story%20of%20success.__Introducing%20the%20new%20TAG%20Heuer%20Carrera%20Day-Date%20collection%2C%20reimagined%20with%20bold%20colors%2C%20refined%20finishes%2C%20and%20upgraded%20functionality%20to%20keep%20you%20focused%20on%20your%20goals.%20__Six%20-nDNoRQyFaZ8oaaoty4XaQz8W8E5bqA.mp4",
-    poster: "/thumbnails/conversions.jpg",
-  },
-  {
-    title: "3D Web",
-    sub: "Immersive 3D experiences & XR",
-    tone: "3D Development",
-    gradient: "from-[#0b1a0b] via-[#052e16] to-[#022c22]",
-    poster: "/thumbnails/speed.jpg",
-  },
-  {
-    title: "Mobile Apps",
-    sub: "iOS & Android applications",
-    tone: "Mobile Development",
-    gradient: "from-[#001028] via-[#0b355e] to-[#052e5e]",
-    videoSrc:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Timeline%201-Ku3Y2Hgaw8hCiFEFg1ELtYp631rSzR.webm",
-    poster: "/thumbnails/social.jpg",
-  },
-  {
-    title: "Desktop Apps",
-    sub: "Windows, macOS & Linux software",
-    tone: "Desktop Development",
-    gradient: "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
-    poster: "/thumbnails/standout.jpg",
-  },
-  {
-    title: "Custom Software",
-    sub: "Tailored solutions for your needs",
-    tone: "Enterprise Solutions",
-    gradient: "from-[#0b0b0b] via-[#111827] to-[#052e16]",
-    poster: "/thumbnails/premium.jpg",
-  },
-]

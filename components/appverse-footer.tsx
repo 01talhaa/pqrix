@@ -43,7 +43,7 @@ export function AppverseFooter() {
         <div className="flex justify-center">
           <Button
             asChild
-            className="rounded-full bg-green-500 dark:bg-lime-400 px-6 py-2 text-sm font-medium text-white dark:text-black shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:shadow-[0_0_20px_rgba(163,230,53,0.35)] hover:bg-green-600 dark:hover:bg-lime-300"
+            className="rounded-full bg-red-600 dark:bg-red-500 px-6 py-2 text-sm font-medium text-white dark:text-black shadow-[0_0_20px_rgba(220,38,38,0.35)] dark:shadow-[0_0_20px_rgba(220,38,38,0.35)] hover:bg-red-700 dark:hover:bg-red-600"
           >
             <a
               href="https://wa.me/8801878377992"
@@ -62,7 +62,7 @@ export function AppverseFooter() {
           <div className="relative grid items-center gap-8 md:grid-cols-2">
             {/* Left copy */}
             <div>
-              <p className="mb-2 text-[11px] tracking-widest text-green-600 dark:text-lime-300">
+              <p className="mb-2 text-[11px] tracking-widest text-red-600 dark:text-red-400">
                 STREAMLINE YOUR WORKFLOW
               </p>
               <h3 className="text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
@@ -87,13 +87,13 @@ export function AppverseFooter() {
                   <div className="relative p-3">
                     <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/20" />
                     <div className="space-y-1 px-1">
-                      <div className="text-5xl font-extrabold text-green-500 dark:text-lime-300">
+                      <div className="text-5xl font-extrabold text-red-600 dark:text-red-400">
                         Project Management
                       </div>
                       <p className="text-xs text-white/80">
                         From concept to deployment in one place
                       </p>
-                      <div className="mt-3 inline-flex items-center rounded-full bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-green-400 dark:text-lime-300">
+                      <div className="mt-3 inline-flex items-center rounded-full bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-red-400 dark:text-red-400">
                         Seamless Workflow
                       </div>
                     </div>
@@ -119,7 +119,7 @@ export function AppverseFooter() {
                   height={48}
                   className="h-12 w-12"
                 /> */}
-                <span className="text-xl font-semibold text-green-600 dark:text-lime-300">
+                <span className="text-xl font-semibold text-red-600 dark:text-red-400">
                   Pqrix
                 </span>
               </div>
@@ -146,7 +146,7 @@ export function AppverseFooter() {
                     <li key={item}>
                       <Link
                         href={`#${item.toLowerCase()}`}
-                        className="hover:text-lime-300"
+                        className="hover:text-red-400"
                       >
                         {item}
                       </Link>
@@ -165,7 +165,7 @@ export function AppverseFooter() {
                       href="https://twitter.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-green-600 dark:hover:text-red-400"
                       aria-label="Follow pqrix on Twitter"
                     >
                       X/Twitter
@@ -177,7 +177,7 @@ export function AppverseFooter() {
                       href="https://www.youtube.com/@pqrixinternational"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-green-600 dark:hover:text-red-400"
                       aria-label="Subscribe to pqrix on YouTube"
                     >
                       YouTube
@@ -189,7 +189,7 @@ export function AppverseFooter() {
                       href="https://instagram.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-green-600 dark:hover:text-red-400"
                       aria-label="Follow pqrix on Instagram"
                     >
                       Instagram
@@ -201,7 +201,7 @@ export function AppverseFooter() {
                       href="https://threads.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-green-600 dark:hover:text-red-400"
                       aria-label="Follow pqrix on Threads"
                     >
                       Threads
@@ -216,10 +216,10 @@ export function AppverseFooter() {
           <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-gray-200 dark:border-white/10 pt-6 text-xs text-gray-600 dark:text-neutral-500 sm:flex-row">
             <p>{content.copyright}</p>
             <div className="flex items-center gap-6">
-              <Link href="/revisions" className="hover:text-green-600 dark:hover:text-lime-300">
+              <Link href="/revisions" className="hover:text-green-600 dark:hover:text-red-400">
                 Revision Policy
               </Link>
-              <Link href="/t&c" className="hover:text-green-600 dark:hover:text-lime-300">
+              <Link href="/t&c" className="hover:text-green-600 dark:hover:text-red-400">
                 Terms & Conditions
               </Link>
             </div>

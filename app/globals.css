@@ -376,3 +376,101 @@ a[href*="v0.dev"] *,
   background-image: none !important;
 }
 
+/* Premium 3D Hero Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-40px) translateX(-10px); }
+  75% { transform: translateY(-20px) translateX(10px); }
+}
+
+@keyframes rain {
+  0% { transform: translateY(-100px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.3),
+                0 0 40px rgba(220, 38, 38, 0.2),
+                0 0 60px rgba(220, 38, 38, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.5),
+                0 0 60px rgba(220, 38, 38, 0.3),
+                0 0 90px rgba(220, 38, 38, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes rotate-3d {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+@keyframes tech-grid-move {
+  0% { transform: perspective(1200px) rotateX(60deg) translateZ(0px); }
+  100% { transform: perspective(1200px) rotateX(60deg) translateZ(100px); }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hardware acceleration for smooth performance */
+.smooth-3d {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Red glow utilities */
+.glow-red {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+}
+
+.glow-red-intense {
+  box-shadow: 0 0 30px rgba(220, 38, 38, 0.6),
+              0 0 60px rgba(220, 38, 38, 0.4);
+}
+
+/* Text glow */
+.text-glow-red {
+  text-shadow: 0 0 20px rgba(220, 38, 38, 0.5),
+               0 0 40px rgba(220, 38, 38, 0.3);
+}
+
+/* Gradient animations */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* 3D transform utilities */
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+/* Canvas smooth rendering */
+canvas {
+  display: block;
+  outline: none;
+}

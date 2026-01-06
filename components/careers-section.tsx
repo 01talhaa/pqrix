@@ -66,13 +66,13 @@ function CareersSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-lime-900/30 text-green-700 dark:text-lime-400 font-semibold text-sm mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-semibold text-sm mb-4">
             <Users className="h-4 w-4" />
             <span>Join Our Team</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
-            Open <span className="text-green-600 dark:text-lime-400">Positions</span>
+            Open <span className="text-red-600 dark:text-red-400">Positions</span>
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8">
             Build the future of software with talented individuals from around the world
@@ -87,7 +87,7 @@ function CareersSection() {
                   onClick={() => setSelectedDepartment(dept)}
                   className={`px-4 py-2 rounded-full font-semibold text-sm transition-all duration-300 ${
                     selectedDepartment === dept
-                      ? "bg-green-600 dark:bg-lime-400 text-white dark:text-black shadow-lg scale-105"
+                      ? "bg-red-600 dark:bg-red-500 text-white shadow-lg scale-105"
                       : "bg-white/80 dark:bg-black/60 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-black/80 border border-gray-200 dark:border-gray-700"
                   }`}
                   style={{
@@ -117,7 +117,7 @@ function CareersSection() {
               No open positions at the moment.
             </p>
             <p className="text-gray-500 dark:text-gray-500 text-sm">
-              Check back soon or send us your resume at <a href="mailto:careers@pqrix.com" className="text-green-600 dark:text-lime-400 hover:underline">careers@pqrix.com</a>
+              Check back soon or send us your resume at <a href="mailto:careers@pqrix.com" className="text-red-600 dark:text-red-400 hover:underline">careers@pqrix.com</a>
             </p>
           </div>
         ) : (
@@ -148,7 +148,7 @@ function CareersSection() {
                     {/* Header */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-black dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
+                        <h3 className="text-2xl font-bold text-black dark:text-white mb-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                           {job.title}
                         </h3>
                         <div
@@ -182,7 +182,7 @@ function CareersSection() {
                         <MapPin className="h-4 w-4" />
                         <span>{job.location}</span>
                         {job.remote && (
-                          <span className="ml-1 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded text-xs font-semibold">
+                          <span className="ml-1 px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded text-xs font-semibold">
                             Remote
                           </span>
                         )}
@@ -206,7 +206,7 @@ function CareersSection() {
                         <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                           {job.requirements.slice(0, 3).map((req, idx) => (
                             <li key={idx} className="flex items-start gap-2">
-                              <span className="text-green-600 dark:text-lime-400 mt-0.5">•</span>
+                              <span className="text-red-600 dark:text-red-400 mt-0.5">•</span>
                               <span className="line-clamp-1">{req}</span>
                             </li>
                           ))}
@@ -221,7 +221,7 @@ function CareersSection() {
 
                     {/* Apply Button */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 mt-auto"> {/* mt-auto to push to bottom */}
-                      <div className="flex items-center gap-2 text-green-600 dark:text-lime-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                      <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-semibold text-sm group-hover:gap-3 transition-all">
                         <span>View Details & Apply</span>
                         <ArrowRight className="h-4 w-4" />
                       </div>
@@ -236,7 +236,7 @@ function CareersSection() {
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                       style={{
-                        background: "radial-gradient(circle at top right, rgba(34,197,94,0.15), transparent 60%)",
+                        background: "radial-gradient(circle at top right, rgba(220,38,38,0.15), transparent 60%)",
                       }}
                     />
                   </div>
@@ -257,7 +257,7 @@ function CareersSection() {
           >
             <Link
               href="/careers"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 dark:bg-lime-400 text-white dark:text-black font-bold rounded-full hover:scale-105 transition-transform shadow-xl"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 dark:bg-red-500 text-white font-bold rounded-full hover:scale-105 transition-transform shadow-xl"
             >
               <span>View All Openings</span>
               <ArrowRight className="h-5 w-5" />

@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+import SiteHeader from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"

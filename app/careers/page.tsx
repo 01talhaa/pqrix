@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { SiteHeader } from '@/components/site-header'
+import SiteHeader from '@/components/site-header'
 import { AppverseFooter } from '@/components/appverse-footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'

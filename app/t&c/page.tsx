@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+import SiteHeader from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import Link from "next/link"
 import type { Metadata } from "next"

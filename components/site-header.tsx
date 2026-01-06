@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { useEffect, useState } from "react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,22 +12,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Image from "next/image"
-import { Menu, Briefcase, Tag, HelpCircle, Wrench, FolderOpen, Users, LogOut, LayoutDashboard, Lightbulb } from "lucide-react"
-import { useClientAuth } from "@/lib/client-auth"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { Menu, Briefcase, Wrench, FolderOpen, Users, LogOut, LayoutDashboard, Lightbulb, Sparkles } from "lucide-react"
 
-export function SiteHeader() {
-  const { client, isAuthenticated, logout } = useClientAuth()
+export default function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const client = { name: "John Doe", email: "john@example.com", image: "" }
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   
   const links = [
-    { href: "/", label: "Home", icon: LayoutDashboard },
-    { href: "/services", label: "Services", icon: Wrench },
-    { href: "/projects", label: "Projects", icon: FolderOpen },
-    { href: "/team", label: "Team", icon: Users },
-    { href: "/careers", label: "Careers", icon: Briefcase },
-    { href: "/insights", label: "Insights", icon: Lightbulb },
-    // { href: "/faq", label: "FAQ", icon: HelpCircle },
+    { href: "/", label: "Home" },
+    { href: "/services", label: "Services" },
+    { href: "/projects", label: "Projects" },
+    { href: "/team", label: "Team" },
+    { href: "/careers", label: "Careers" },
+    { href: "/insights", label: "Insights" },
   ]
 
   const getInitials = (name: string) => {
@@ -39,52 +45,98 @@ export function SiteHeader() {
       .slice(0, 2)
   }
 
-  const handleLogout = async () => {
-    await logout()
-    window.location.href = "/"
-  }
-
   return (
-    <header className="sticky top-0 z-50 p-4 transition-all duration-300">
-      <div className="container mx-auto max-w-4xl">
-        <div className="flex h-14 items-center justify-between px-6 rounded-full thick-glass-header" style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
-          backdropFilter: 'blur(32px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-          border: '2px solid rgba(255,255,255,0.5)',
-          boxShadow: '0 8px 32px 0 rgba(0,0,0,0.12), inset 0 1px 2px 0 rgba(255,255,255,0.7)'
-        }}>
-          {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            {/* <Image src="/images/pqrix-logo.png" alt="Pqrix logo" width={28} height={28} className="h-7 w-7" /> */}
-            <span className="text-base font-bold tracking-wide text-green-600 dark:text-lime-300">PQRIX</span>
-          </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 pt-6 pb-4 transition-all duration-700">
+      <div className="relative flex items-center justify-between min-h-[60px]">
+      <div className="container mx-auto max-w-7xl">
+        <div className="relative flex items-center justify-between min-h-[60px]">
+          
+          {/* Background Pill - Morphs smoothly */}
+          <div 
+            className="absolute inset-0 rounded-full transition-all duration-700 ease-out"
+            style={{
+              background: scrolled 
+                ? 'rgba(0, 0, 0, 0.7)' 
+                : 'rgba(5, 0, 0, 0.4)',
+              backdropFilter: scrolled ? 'blur(32px) saturate(180%)' : 'blur(20px) saturate(150%)',
+              WebkitBackdropFilter: scrolled ? 'blur(32px) saturate(180%)' : 'blur(20px) saturate(150%)',
+              border: scrolled 
+                ? '1px solid rgba(220, 38, 38, 0.3)' 
+                : '1px solid rgba(220, 38, 38, 0.15)',
+              boxShadow: scrolled 
+                ? '0 8px 32px rgba(220, 38, 38, 0.2)' 
+                : '0 4px 16px rgba(220, 38, 38, 0.08)',
+              left: scrolled ? '16%' : '20%',
+              right: scrolled ? '12%' : '20%',
+            }}
+          />
 
-          {/* Desktop Nav */}
-          <nav className="hidden items-center gap-6 text-sm text-gray-700 dark:text-gray-300 md:flex">
+          {/* Logo - Slides from outside left to inside */}
+          <div 
+            className="relative z-10 flex items-center gap-1 transition-all duration-700 ease-out left-4"
+            style={{
+              transform: scrolled 
+                ? 'translateX(180%) scale(1)' 
+                : 'translateX(-40%) scale(1.3)',
+              paddingLeft: scrolled ? '1.5rem' : '0',
+            }}
+          >
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
+              <Sparkles size={18} className="text-white" />
+            </div>
+            <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
+              PQRIX
+            </span>
+          </div>
+
+          {/* Desktop Nav - Always visible with enhanced styling */}
+          <nav 
+            className="hidden md:flex absolute inset-y-0 left-1/2 items-center gap-8 text-sm font-semibold transition-all duration-700 ease-out"
+            style={{
+              opacity: scrolled ? 1 : 0.85,
+              transform: scrolled 
+                ? 'translateX(-50%) scale(1.0)' 
+                : 'translateX(-50%) scale(1.0)',
+            }}
+          >
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-green-600 dark:hover:text-lime-300 transition-colors">
+              <a 
+                key={l.href} 
+                href={l.href} 
+                className="relative text-gray-300 hover:text-white transition-all duration-300 group"
+              >
                 {l.label}
-              </Link>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-red-600 to-red-500 group-hover:w-full transition-all duration-300 shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
+              </a>
             ))}
           </nav>
 
-          {/* Desktop CTA / Avatar */}
-          <div className="hidden md:flex items-center gap-3">
-            <ThemeToggle />
+          {/* CTA Button - Slides from outside right to inside */}
+          <div 
+            className="relative z-10 hidden md:flex items-center gap-3 transition-all duration-700 ease-out right-4"
+            style={{
+              transform: scrolled 
+                ? 'translateX(-100%) scale(1)' 
+                : 'translateX(40%) scale(1.05)',
+              paddingRight: scrolled ? '1.5rem' : '0',
+            }}
+          >
             {isAuthenticated && client ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
-                    <Avatar className="h-10 w-10 border-2 border-lime-400">
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 hover:scale-105 transition-transform">
+                    <Avatar className="h-10 w-10 border-2 border-red-500 shadow-lg shadow-red-500/20">
                       <AvatarImage src={client.image} alt={client.name} />
-                      <AvatarFallback className="bg-lime-400 text-black font-semibold">
+                      <AvatarFallback className="bg-gradient-to-br from-red-600 to-red-900 text-white font-bold">
                         {getInitials(client.name)}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 bg-black/95 border-white/10">
+                <DropdownMenuContent 
+                  align="end" 
+                  className="w-56 bg-black/95 backdrop-blur-xl border-white/10 shadow-xl"
+                >
                   <DropdownMenuLabel className="text-white">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium">{client.name}</p>
@@ -92,17 +144,12 @@ export function SiteHeader() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem asChild className="text-white hover:bg-white/10 cursor-pointer">
-                    <Link href="/client/dashboard" className="flex items-center">
-                      <LayoutDashboard className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </Link>
+                  <DropdownMenuItem className="text-white hover:bg-white/10 cursor-pointer focus:bg-white/10">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    Dashboard
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem 
-                    onClick={handleLogout}
-                    className="text-red-400 hover:bg-white/10 cursor-pointer"
-                  >
+                  <DropdownMenuItem className="text-red-400 hover:bg-white/10 cursor-pointer focus:bg-white/10">
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </DropdownMenuItem>
@@ -110,81 +157,81 @@ export function SiteHeader() {
               </DropdownMenu>
             ) : (
               <Button
-                asChild
-                className="bg-green-500 dark:bg-lime-400 text-white dark:text-black font-medium rounded-lg px-6 py-2.5
-                           hover:bg-green-600 dark:hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
-                           transition-all"
+                className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold px-8 py-5 rounded-full text-sm shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
               >
-                <Link href="/client/login">Login / Sign Up</Link>
+                <span className="relative z-10 flex items-center gap-2">
+                  Get Started
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </Button>
             )}
           </div>
 
-          {/* Mobile Nav */}
-          <div className="md:hidden flex items-center gap-2">
-            <ThemeToggle />
+          {/* Mobile Menu Button */}
+          <div className="md:hidden relative z-10 pr-4">
             <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="border-red-500/30 bg-black/50 text-white hover:bg-black/70 hover:border-red-500/50 rounded-full transition-all duration-300 shadow-lg shadow-red-500/10"
                 >
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="liquid-glass border-gray-200 dark:border-gray-800 p-0 w-64 flex flex-col">
+              <SheetContent 
+                side="right" 
+                className="border-red-500/20 p-0 w-80 flex flex-col bg-gradient-to-b from-[#050000] via-[#0a0000] to-black backdrop-blur-xl"
+              >
                 {/* Brand Header */}
-                <div className="flex items-center gap-1.5 px-4 py-4 border-b border-gray-200 dark:border-gray-800">
-                  <Image src="/icons/pqrix-icon.svg" alt="Pqrix logo" width={32} height={32} className="h-8 w-8" />
-                  <span className="text-lg font-bold tracking-wide text-green-600 dark:text-lime-300">PQRIX</span>
-                  <span className="font-semibold tracking-wide text-black dark:text-white text-lg">Pqrix</span>
+                <div className="flex items-center gap-2 px-6 py-6 border-b border-red-500/20">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
+                    <Sparkles size={20} className="text-white" />
+                  </div>
+                  <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
+                    PQRIX
+                  </span>
                 </div>
 
                 {/* Nav Links */}
-                <nav className="flex flex-col gap-1 mt-2 text-gray-800 dark:text-gray-200">
+                <nav className="flex flex-col gap-1 mt-4 px-3 text-gray-300">
                   {links.map((l) => (
-                    <Link
+                    <a
                       key={l.href}
                       href={l.href}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-green-600 dark:hover:text-lime-300 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3.5 rounded-xl hover:bg-red-500/10 hover:text-white transition-all duration-300 group"
                     >
-                      <span className="inline-flex items-center justify-center w-5 h-5 text-gray-600 dark:text-gray-400">
-                        <l.icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-sm">{l.label}</span>
-                    </Link>
+                      <span className="text-sm font-semibold">{l.label}</span>
+                      <div className="ml-auto w-0 h-0.5 bg-red-500 group-hover:w-6 transition-all duration-300 shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
+                    </a>
                   ))}
                 </nav>
 
-                {/* CTA Button / Client Info at Bottom */}
-                <div className="mt-auto border-t border-gray-200 dark:border-gray-800 p-4">
+                {/* CTA at Bottom */}
+                <div className="mt-auto border-t border-red-500/20 p-6">
                   {isAuthenticated && client ? (
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3 px-2">
-                        <Avatar className="h-10 w-10 border-2 border-green-500 dark:border-lime-400">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/5">
+                        <Avatar className="h-12 w-12 border-2 border-red-500 shadow-lg shadow-red-500/20">
                           <AvatarImage src={client.image} alt={client.name} />
-                          <AvatarFallback className="bg-green-500 dark:bg-lime-400 text-white dark:text-black font-semibold">
+                          <AvatarFallback className="bg-gradient-to-br from-red-600 to-red-900 text-white font-bold">
                             {getInitials(client.name)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-black dark:text-white truncate">{client.name}</p>
-                          <p className="text-xs text-gray-600 dark:text-white/60 truncate">{client.email}</p>
+                          <p className="text-sm font-semibold text-white truncate">{client.name}</p>
+                          <p className="text-xs text-white/60 truncate">{client.email}</p>
                         </div>
                       </div>
                       <Button
-                        asChild
-                        className="w-full bg-green-500 dark:bg-lime-400 text-white dark:text-black font-medium rounded-lg
-                                   hover:bg-green-600 dark:hover:bg-lime-300 transition-all"
+                        className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 transition-all duration-300 hover:scale-105 shadow-lg shadow-red-500/30 border border-red-400/20"
                       >
-                        <Link href="/client/dashboard">Dashboard</Link>
+                        Dashboard
                       </Button>
                       <Button
-                        onClick={handleLogout}
                         variant="outline"
-                        className="w-full border-red-400/50 text-red-400 hover:bg-red-400/10"
+                        className="w-full border-red-400/50 text-red-400 hover:bg-red-400/10 rounded-full py-6 transition-all duration-300"
                       >
                         <LogOut className="mr-2 h-4 w-4" />
                         Logout
@@ -192,12 +239,9 @@ export function SiteHeader() {
                     </div>
                   ) : (
                     <Button
-                      asChild
-                      className="w-full bg-green-500 dark:bg-lime-400 text-white dark:text-black font-medium rounded-lg px-6 py-2.5
-                                 hover:bg-green-600 dark:hover:bg-lime-300 hover:shadow-md hover:scale-[1.02]
-                                 transition-all"
+                      className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
                     >
-                      <Link href="/client/login">Login / Sign Up</Link>
+                      Get Started
                     </Button>
                   )}
                 </div>
@@ -205,6 +249,7 @@ export function SiteHeader() {
             </Sheet>
           </div>
         </div>
+      </div>
       </div>
     </header>
   )

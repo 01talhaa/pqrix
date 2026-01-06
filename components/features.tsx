@@ -139,10 +139,10 @@ export function Features() {
           </CardHeader>
           <CardContent>
             <div className="mb-6 flex items-end gap-4">
-              <div className="text-5xl font-bold text-green-600 dark:text-lime-300">{averageRating}</div>
+              <div className="text-5xl font-bold text-red-600 dark:text-red-400">{averageRating}</div>
               <div className="flex items-center gap-1">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-green-500 dark:fill-lime-300 text-green-500 dark:text-lime-300" />
+                  <Star key={i} className="h-5 w-5 fill-red-500 dark:fill-red-400 text-red-500 dark:text-red-400" />
                 ))}
               </div>
               <span className="text-sm text-gray-600 dark:text-white/60 mb-1">({testimonials.length} reviews)</span>
@@ -159,11 +159,11 @@ export function Features() {
                         <img
                           src={testimonials[currentTestimonial].clientImage}
                           alt={testimonials[currentTestimonial].clientName}
-                          className="h-16 w-16 rounded-full object-cover border-2 border-green-500 dark:border-lime-300"
+                          className="h-16 w-16 rounded-full object-cover border-2 border-red-500 dark:border-red-400"
                         />
                       ) : (
-                        <div className="h-16 w-16 rounded-full bg-green-100 dark:bg-lime-300/20 flex items-center justify-center border-2 border-green-500 dark:border-lime-300">
-                          <span className="text-green-600 dark:text-lime-300 font-bold text-xl">
+                        <div className="h-16 w-16 rounded-full bg-red-100 dark:bg-red-400/20 flex items-center justify-center border-2 border-red-500 dark:border-red-400">
+                          <span className="text-red-600 dark:text-red-400 font-bold text-xl">
                             {testimonials[currentTestimonial].clientName.charAt(0)}
                           </span>
                         </div>
@@ -178,7 +178,7 @@ export function Features() {
                               key={i}
                               className={`h-4 w-4 ${
                                 i < testimonials[currentTestimonial].rating
-                                  ? "fill-green-500 dark:fill-lime-300 text-green-500 dark:text-lime-300"
+                                  ? "fill-red-500 dark:fill-red-400 text-red-500 dark:text-red-400"
                                   : "text-gray-400 dark:text-white/40"
                               }`}
                             />
@@ -201,12 +201,12 @@ export function Features() {
                             key={idx}
                             src={image}
                             alt={`Review image ${idx + 1}`}
-                            className="h-20 w-20 rounded-lg object-cover border border-green-300 dark:border-lime-300/30"
+                            className="h-20 w-20 rounded-lg object-cover border border-red-300 dark:border-red-400/30"
                           />
                         ))}
                         {testimonials[currentTestimonial].images!.length > 3 && (
-                          <div className="h-20 w-20 rounded-lg bg-green-50 dark:bg-white/10 flex items-center justify-center border border-green-300 dark:border-lime-300/30">
-                            <span className="text-green-600 dark:text-lime-300 text-sm font-semibold">
+                          <div className="h-20 w-20 rounded-lg bg-red-50 dark:bg-white/10 flex items-center justify-center border border-red-300 dark:border-red-400/30">
+                            <span className="text-red-600 dark:text-red-400 text-sm font-semibold">
                               +{testimonials[currentTestimonial].images!.length - 3}
                             </span>
                           </div>
@@ -236,7 +236,7 @@ export function Features() {
                             }}
                             className={`h-2 rounded-full transition-all ${
                               index === currentTestimonial
-                                ? "w-8 bg-green-500 dark:bg-lime-300"
+                                ? "w-8 bg-red-500 dark:bg-red-400"
                                 : "w-2 bg-gray-400 dark:bg-white/40 hover:bg-gray-600 dark:hover:bg-white/60"
                             }`}
                             aria-label={`Go to testimonial ${index + 1}`}
