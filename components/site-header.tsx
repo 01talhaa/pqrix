@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,12 +47,107 @@ export default function SiteHeader() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pt-6 pb-4 transition-all duration-700">
-      <div className="relative flex items-center justify-between min-h-[60px]">
+    <header className="fixed top-0 left-0 right-0 z-50 pt-4 pb-4 transition-all duration-700">
       <div className="container mx-auto max-w-7xl">
-        <div className="relative flex items-center justify-between min-h-[60px]">
+        {/* Mobile/Tablet: Simple Header with Icon Logo + Menu (below 1100px) */}
+        <div className="xl:hidden px-4 flex items-center justify-between min-h-[60px]">
+          {/* Icon Logo Only */}
+          <Link href="/">
+          <div className="flex items-center gap-2 px-6 border-b border-red-500/20">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
+                  <Sparkles size={20} className="text-white" />
+                </div>
+                <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
+                  PQRIX
+                </span>
+              </div>
+          </Link>
           
-          {/* Background Pill - Morphs smoothly */}
+          
+          {/* Menu Button */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="border-red-500/30 bg-black/50 text-white hover:bg-black/70 hover:border-red-500/50 rounded-full transition-all duration-300 shadow-lg shadow-red-500/10"
+              >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent 
+              side="right" 
+              className="border-red-500/20 p-0 w-80 flex flex-col bg-gradient-to-b from-[#050000] via-[#0a0000] to-black backdrop-blur-xl"
+            >
+              {/* Brand Header */}
+              <div className="flex items-center gap-2 px-6 py-6 border-b border-red-500/20">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
+                  <Sparkles size={20} className="text-white" />
+                </div>
+                <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
+                  PQRIX
+                </span>
+              </div>
+
+              {/* Nav Links */}
+              <nav className="flex flex-col gap-1 mt-4 px-3 text-gray-300">
+                {links.map((l) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl hover:bg-red-500/10 hover:text-white transition-all duration-300 group"
+                  >
+                    <span className="text-sm font-semibold">{l.label}</span>
+                    <div className="ml-auto w-0 h-0.5 bg-red-500 group-hover:w-6 transition-all duration-300 shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
+                  </a>
+                ))}
+              </nav>
+
+              {/* CTA at Bottom */}
+              <div className="mt-auto border-t border-red-500/20 p-6">
+                {isAuthenticated && client ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/5">
+                      <Avatar className="h-12 w-12 border-2 border-red-500 shadow-lg shadow-red-500/20">
+                        <AvatarImage src={client.image} alt={client.name} />
+                        <AvatarFallback className="bg-gradient-to-br from-red-600 to-red-900 text-white font-bold">
+                          {getInitials(client.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-white truncate">{client.name}</p>
+                        <p className="text-xs text-white/60 truncate">{client.email}</p>
+                      </div>
+                    </div>
+                    <Button
+                      className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 transition-all duration-300 hover:scale-105 shadow-lg shadow-red-500/30 border border-red-400/20"
+                    >
+                      Dashboard
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full border-red-400/50 text-red-400 hover:bg-red-400/10 rounded-full py-6 transition-all duration-300"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
+                  >
+                    Get Started
+                  </Button>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Desktop/Laptop: Full Header with Animations (1100px and above) */}
+        <div className="hidden xl:block relative min-h-[60px]">
+          {/* Background Pill - Morphs smoothly with responsive positioning */}
           <div 
             className="absolute inset-0 rounded-full transition-all duration-700 ease-out"
             style={{
@@ -66,32 +162,39 @@ export default function SiteHeader() {
               boxShadow: scrolled 
                 ? '0 8px 32px rgba(220, 38, 38, 0.2)' 
                 : '0 4px 16px rgba(220, 38, 38, 0.08)',
-              left: scrolled ? '16%' : '20%',
-              right: scrolled ? '12%' : '20%',
+              left: scrolled ? 'clamp(10%, 16%, 18%)' : 'clamp(12%, 20%, 22%)',
+              right: scrolled ? 'clamp(8%, 12%, 14%)' : 'clamp(12%, 20%, 22%)',
             }}
           />
 
-          {/* Logo - Slides from outside left to inside */}
+          {/* Logo - Slides from outside left to inside with responsive scaling */}
           <div 
-            className="relative z-10 flex items-center gap-1 transition-all duration-700 ease-out left-4"
+            className="absolute z-10 flex items-center gap-1 transition-all duration-700 ease-out"
             style={{
               transform: scrolled 
-                ? 'translateX(180%) scale(1)' 
+                ? 'translateX(clamp(120%, 180%, 200%)) scale(1)' 
                 : 'translateX(-40%) scale(1.3)',
-              paddingLeft: scrolled ? '1.5rem' : '0',
+              paddingLeft: scrolled ? '1rem' : '0',
+              top: '50%',
+              marginTop: '-15px',
+              left: '1rem',
             }}
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
-              <Sparkles size={18} className="text-white" />
-            </div>
-            <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
-              PQRIX
-            </span>
+            <Link href="/">
+          <div className="flex items-center gap-2 px-6 border-b border-red-500/20">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
+                  <Sparkles size={20} className="text-white" />
+                </div>
+                <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
+                  PQRIX
+                </span>
+              </div>
+          </Link>
           </div>
 
-          {/* Desktop Nav - Always visible with enhanced styling */}
+          {/* Desktop Nav - Always visible with enhanced styling and responsive gap */}
           <nav 
-            className="hidden md:flex absolute inset-y-0 left-1/2 items-center gap-8 text-sm font-semibold transition-all duration-700 ease-out"
+            className="absolute inset-y-0 left-1/2 flex items-center xl:gap-6 2xl:gap-8 text-sm font-semibold transition-all duration-700 ease-out"
             style={{
               opacity: scrolled ? 1 : 0.85,
               transform: scrolled 
@@ -110,15 +213,17 @@ export default function SiteHeader() {
               </a>
             ))}
           </nav>
-
-          {/* CTA Button - Slides from outside right to inside */}
+{/* with responsive sizing  */}
           <div 
-            className="relative z-10 hidden md:flex items-center gap-3 transition-all duration-700 ease-out right-4"
+            className="absolute z-10 flex items-center gap-3 transition-all duration-700 ease-out"
             style={{
               transform: scrolled 
-                ? 'translateX(-100%) scale(1)' 
+                ? 'translateX(clamp(-80%, -100%, -110%)) scale(1)' 
                 : 'translateX(40%) scale(1.05)',
-              paddingRight: scrolled ? '1.5rem' : '0',
+              paddingRight: scrolled ? '1.2rem' : '0',
+              top: '50%',
+              marginTop: '-20px',
+              right: '1rem',
             }}
           >
             {isAuthenticated && client ? (
@@ -157,7 +262,7 @@ export default function SiteHeader() {
               </DropdownMenu>
             ) : (
               <Button
-                className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold px-8 py-5 rounded-full text-sm shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
+                className="relative overflow-hidden bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold px-8 py-5 rounded-full text-sm shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Get Started
@@ -166,90 +271,7 @@ export default function SiteHeader() {
               </Button>
             )}
           </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden relative z-10 pr-4">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="border-red-500/30 bg-black/50 text-white hover:bg-black/70 hover:border-red-500/50 rounded-full transition-all duration-300 shadow-lg shadow-red-500/10"
-                >
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent 
-                side="right" 
-                className="border-red-500/20 p-0 w-80 flex flex-col bg-gradient-to-b from-[#050000] via-[#0a0000] to-black backdrop-blur-xl"
-              >
-                {/* Brand Header */}
-                <div className="flex items-center gap-2 px-6 py-6 border-b border-red-500/20">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
-                    <Sparkles size={20} className="text-white" />
-                  </div>
-                  <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
-                    PQRIX
-                  </span>
-                </div>
-
-                {/* Nav Links */}
-                <nav className="flex flex-col gap-1 mt-4 px-3 text-gray-300">
-                  {links.map((l) => (
-                    <a
-                      key={l.href}
-                      href={l.href}
-                      className="flex items-center gap-3 px-4 py-3.5 rounded-xl hover:bg-red-500/10 hover:text-white transition-all duration-300 group"
-                    >
-                      <span className="text-sm font-semibold">{l.label}</span>
-                      <div className="ml-auto w-0 h-0.5 bg-red-500 group-hover:w-6 transition-all duration-300 shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
-                    </a>
-                  ))}
-                </nav>
-
-                {/* CTA at Bottom */}
-                <div className="mt-auto border-t border-red-500/20 p-6">
-                  {isAuthenticated && client ? (
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/5">
-                        <Avatar className="h-12 w-12 border-2 border-red-500 shadow-lg shadow-red-500/20">
-                          <AvatarImage src={client.image} alt={client.name} />
-                          <AvatarFallback className="bg-gradient-to-br from-red-600 to-red-900 text-white font-bold">
-                            {getInitials(client.name)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-white truncate">{client.name}</p>
-                          <p className="text-xs text-white/60 truncate">{client.email}</p>
-                        </div>
-                      </div>
-                      <Button
-                        className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 transition-all duration-300 hover:scale-105 shadow-lg shadow-red-500/30 border border-red-400/20"
-                      >
-                        Dashboard
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full border-red-400/50 text-red-400 hover:bg-red-400/10 rounded-full py-6 transition-all duration-300"
-                      >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Logout
-                      </Button>
-                    </div>
-                  ) : (
-                    <Button
-                      className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
-                    >
-                      Get Started
-                    </Button>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
-      </div>
       </div>
     </header>
   )
