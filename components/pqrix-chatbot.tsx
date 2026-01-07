@@ -175,13 +175,17 @@ export function PqrixChatbot() {
       {!isOpen && (
         <Button
           onClick={toggleChat}
-          className="fixed bottom-4 left-4 xs:bottom-6 xs:left-6 z-[9998] h-12 w-12 xs:h-14 xs:w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-r from-lime-400 to-green-500 text-black shadow-2xl hover:shadow-lime-400/50 hover:scale-110 transition-all duration-300 p-0"
+          className="fixed bottom-10 left-4 xs:bottom-6 xs:left-6 z-[9998] h-12 w-12 xs:h-14 xs:w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white shadow-2xl hover:shadow-red-500/50 hover:scale-110 transition-all duration-300 p-0"
           aria-label="Open chat"
           title={isContextLoaded ? "Chat with Pqrix AI" : "Loading AI..."}
         >
           <MessageCircle className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7" />
+          {/* Always visible AI indicator */}
+          <span className="absolute -bottom-0.5 -right-0.5 h-6 w-6 xs:h-5 xs:w-5 bg-white dark:bg-black rounded-full flex items-center justify-center border-2 border-red-500">
+            <span className="text-[8px] xs:text-[9px] font-bold text-white">AI</span>
+          </span>
           {isContextLoaded && (
-            <span className="absolute -top-1 -right-1 h-3 w-3 xs:h-4 xs:w-4 bg-green-500 rounded-full animate-pulse" />
+            <span className="absolute -top-1 -right-1 h-3 w-3 xs:h-4 xs:w-4 bg-red-500 rounded-full animate-pulse" />
           )}
           {!isContextLoaded && (
             <span className="absolute -top-1 -right-1 h-3 w-3 xs:h-4 xs:w-4 bg-yellow-500 rounded-full animate-pulse" />
@@ -193,16 +197,16 @@ export function PqrixChatbot() {
       {isOpen && (
   <Card className="fixed bottom-2 left-2 xs:bottom-4 xs:left-4 sm:bottom-6 sm:left-6 z-[9998] w-[calc(100vw-1rem)] xs:w-[calc(100vw-2rem)] sm:w-[calc(100vw-3rem)] md:w-96 lg:w-[420px] xl:w-[450px] h-[calc(100vh-1rem)] xs:h-[calc(100vh-2rem)] sm:h-[600px] max-h-[calc(100vh-1rem)] xs:max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] !bg-white dark:!bg-black !border-gray-200 dark:!border-white/20 shadow-2xl flex flex-col overflow-hidden max-[500px]:w-72 max-[500px]:h-100 max-[500px]:left-3 max-[500px]:bottom-3">
           {/* Header */}
-          <div className="flex items-center justify-between p-3 xs:p-4 border-b !border-gray-200 dark:!border-white/10 bg-gradient-to-r from-lime-400/10 to-green-500/10">
+          <div className="flex items-center justify-between p-3 xs:p-4 border-b !border-gray-200 dark:!border-white/10 bg-gradient-to-r from-red-500/10 to-red-600/10">
             <div className="flex items-center gap-2 xs:gap-3">
               <div className="relative">
-                <Bot className="h-6 w-6 xs:h-8 xs:w-8 text-lime-400" />
-                <span className="absolute -bottom-1 -right-1 h-2 w-2 xs:h-3 xs:w-3 bg-green-500 rounded-full border-2 border-white dark:border-black" />
+                <Bot className="h-6 w-6 xs:h-8 xs:w-8 text-red-400" />
+                <span className="absolute -bottom-1 -right-1 h-2 w-2 xs:h-3 xs:w-3 bg-red-500 rounded-full border-2 border-white dark:border-black" />
               </div>
               <div>
                 <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-1 xs:gap-2 text-sm xs:text-base">
                   Pqrix AI
-                  <Sparkles className="h-3 w-3 xs:h-4 xs:w-4 text-lime-400" />
+                  <Sparkles className="h-3 w-3 xs:h-4 xs:w-4 text-red-400" />
                 </h3>
                 <p className="text-xs text-gray-600 dark:text-white/60">Always ready to help</p>
               </div>
@@ -241,7 +245,7 @@ export function PqrixChatbot() {
               >
                 {message.role === "assistant" && (
                   <div className="flex-shrink-0">
-                    <div className="h-6 w-6 xs:h-8 xs:w-8 rounded-full bg-gradient-to-br from-lime-400 to-green-500 flex items-center justify-center">
+                    <div className="h-6 w-6 xs:h-8 xs:w-8 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
                       <Bot className="h-4 w-4 xs:h-5 xs:w-5 text-black" />
                     </div>
                   </div>
@@ -250,7 +254,7 @@ export function PqrixChatbot() {
                 <div
                   className={`max-w-[85%] xs:max-w-[80%] rounded-2xl px-3 py-2 xs:px-4 ${
                     message.role === "user"
-                      ? "bg-gradient-to-r from-lime-400 to-green-500 text-black"
+                      ? "bg-gradient-to-r from-red-500 to-red-600 text-black"
                       : "!bg-white dark:!bg-white/10 !text-gray-900 dark:!text-white border !border-gray-200 dark:!border-white/20"
                   }`}
                 >
@@ -283,7 +287,7 @@ export function PqrixChatbot() {
             {isLoading && (
               <div className="flex gap-2 xs:gap-3 justify-start">
                 <div className="flex-shrink-0">
-                  <div className="h-6 w-6 xs:h-8 xs:w-8 rounded-full bg-gradient-to-br from-lime-400 to-green-500 flex items-center justify-center">
+                  <div className="h-6 w-6 xs:h-8 xs:w-8 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
                     <Bot className="h-4 w-4 xs:h-5 xs:w-5 text-black" />
                   </div>
                 </div>
@@ -309,13 +313,13 @@ export function PqrixChatbot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything about Pqrix..."
-                className="flex-1 !bg-white dark:!bg-white/10 !border-gray-300 dark:!border-white/20 !text-gray-900 dark:!text-white placeholder:!text-gray-500 dark:placeholder:!text-white/40 focus:!border-lime-400 text-xs xs:text-sm h-9 xs:h-10"
+                className="flex-1 !bg-white dark:!bg-white/10 !border-gray-300 dark:!border-white/20 !text-gray-900 dark:!text-white placeholder:!text-gray-500 dark:placeholder:!text-white/40 focus:!border-red-500 text-xs xs:text-sm h-9 xs:h-10"
                 disabled={isLoading}
               />
               <Button
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
-                className="bg-gradient-to-r from-lime-400 to-green-500 text-black hover:opacity-90 disabled:opacity-50 h-9 w-9 xs:h-10 xs:w-10 p-0"
+                className="bg-gradient-to-r from-red-500 to-red-600 text-black hover:opacity-90 disabled:opacity-50 h-9 w-9 xs:h-10 xs:w-10 p-0"
               >
                 {isLoading ? (
                   <Loader2 className="h-4 w-4 xs:h-5 xs:w-5 animate-spin" />

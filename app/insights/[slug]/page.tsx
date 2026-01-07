@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import { SiteHeader } from '@/components/site-header'
+import SiteHeader from '@/components/site-header'
 import { AppverseFooter } from '@/components/appverse-footer'
 import Image from 'next/image'
 import Link from 'next/link'

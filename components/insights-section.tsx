@@ -46,7 +46,7 @@ export function InsightsSection() {
       <section className="container mx-auto px-4 py-16 sm:py-20">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">
-            Industry <span className="text-green-600 dark:text-lime-300">Insights</span>
+            Industry <span className="text-red-600 dark:text-red-400">Insights</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-700 dark:text-gray-300">
             Thought leadership, technical guides, and industry trends from our experts
@@ -69,7 +69,7 @@ export function InsightsSection() {
     <section className="container mx-auto px-4 py-16 sm:py-20">
       <div className="mb-12 text-center">
         <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">
-          Industry <span className="text-green-600 dark:text-lime-300">Insights</span>
+          Industry <span className="text-red-600 dark:text-red-400">Insights</span>
         </h2>
         <p className="mx-auto max-w-2xl text-lg text-gray-700 dark:text-gray-300">
           Thought leadership, technical guides, and industry trends from our experts
@@ -90,8 +90,8 @@ export function InsightsSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-500 to-green-600 dark:from-lime-400 dark:to-lime-500">
-                    <span className="text-4xl font-bold text-white dark:text-black">
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-red-600 to-red-800 dark:from-red-500 dark:to-red-700">
+                    <span className="text-4xl font-bold text-white">
                       {insight.title.charAt(0)}
                     </span>
                   </div>
@@ -99,7 +99,7 @@ export function InsightsSection() {
                 {/* Category Badge */}
                 {insight.category && (
                   <div className="absolute top-3 left-3">
-                    <Badge className="bg-green-600 dark:bg-lime-400 text-white dark:text-black text-xs font-semibold">
+                    <Badge className="bg-red-600 dark:bg-red-500 text-white text-xs font-semibold">
                       {insight.category}
                     </Badge>
                   </div>
@@ -122,7 +122,7 @@ export function InsightsSection() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold text-black dark:text-white mb-2 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-lime-300 transition-colors">
+                <h3 className="text-xl font-bold text-black dark:text-white mb-2 line-clamp-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                   {insight.title}
                 </h3>
 
@@ -140,7 +140,7 @@ export function InsightsSection() {
                 )}
 
                 {/* Read More Link */}
-                <div className="flex items-center gap-2 text-green-600 dark:text-lime-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-semibold text-sm group-hover:gap-3 transition-all">
                   <span>Read More</span>
                   <ArrowRight className="h-4 w-4" />
                 </div>
@@ -154,7 +154,7 @@ export function InsightsSection() {
       <div className="mt-12 text-center">
         <Button
           asChild
-          className="rounded-full bg-green-500 dark:bg-lime-400 px-8 py-6 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+          className="rounded-full bg-red-600 dark:bg-red-500 px-8 py-6 text-base font-semibold text-white hover:bg-red-700 dark:hover:bg-red-600"
         >
           <Link href="/insights">
             View All Insights

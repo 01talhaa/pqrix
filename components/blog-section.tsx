@@ -49,7 +49,7 @@ export function BlogSection() {
     return (
       <section id="blogs" className="container mx-auto px-4 py-16 sm:py-20">
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-lime-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-red-400" />
         </div>
       </section>
     )
@@ -85,7 +85,7 @@ export function BlogSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
               ) : (
-                <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-gradient-to-br from-green-200/40 dark:from-purple-500/20 to-green-400/40 dark:to-lime-400/20 flex items-center justify-center">
+                <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-gradient-to-br from-red-200/40 dark:from-red-500/20 to-red-400/40 dark:to-red-400/20 flex items-center justify-center">
                   <FileText className="h-16 w-16 text-gray-600 dark:text-white/40" />
                 </div>
               )}
@@ -98,7 +98,7 @@ export function BlogSection() {
                       <Badge 
                         key={idx} 
                         variant="outline" 
-                        className="text-xs text-green-600 dark:text-lime-400 border-green-500/50 dark:border-lime-400/50"
+                        className="text-xs text-red-600 dark:text-red-400 border-red-500/50 dark:border-red-400/50"
                       >
                         {tag}
                       </Badge>
@@ -106,7 +106,7 @@ export function BlogSection() {
                   </div>
                 )}
 
-                <CardTitle className="text-xl text-black dark:text-white line-clamp-2 group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
+                <CardTitle className="text-xl text-black dark:text-white line-clamp-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                   {blog.title}
                 </CardTitle>
               </CardHeader>
@@ -153,7 +153,7 @@ export function BlogSection() {
                 </div>
 
                 {/* Read More */}
-                <div className="flex items-center text-green-600 dark:text-lime-400 text-sm font-semibold group-hover:gap-2 transition-all">
+                <div className="flex items-center text-red-600 dark:text-red-400 text-sm font-semibold group-hover:gap-2 transition-all">
                   Read More
                   <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -167,7 +167,7 @@ export function BlogSection() {
       {blogs.length >= 6 && (
         <div className="flex justify-center mt-12">
           <Link href="/blogs">
-            <Button className="bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
+            <Button className="bg-red-600 dark:bg-red-500 text-white hover:bg-red-700 dark:hover:bg-red-600">
               View All Blogs
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

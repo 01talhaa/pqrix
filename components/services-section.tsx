@@ -33,7 +33,7 @@ export function ServicesSection() {
     return (
       <section id="services" className="container mx-auto px-4 py-16 sm:py-20">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">Our <span className="text-green-600 dark:text-lime-300">Services</span></h2>
+          <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">Our <span className="text-red-600 dark:text-red-400">Services</span></h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-700 dark:text-gray-300">
             From concept to completion, we deliver premium creative solutions that drive results
           </p>
@@ -53,7 +53,7 @@ export function ServicesSection() {
   return (
     <section id="services" className="container mx-auto px-4 py-16 sm:py-20">
       <div className="mb-12 text-center">
-        <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">Our <span className="text-green-600 dark:text-lime-300">Services</span></h2>
+        <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">Our <span className="text-red-600 dark:text-red-400">Services</span></h2>
         <p className="mx-auto max-w-2xl text-lg text-gray-700 dark:text-gray-300">
           From concept to completion, we deliver premium creative solutions that drive results
         </p>
@@ -80,7 +80,7 @@ export function ServicesSection() {
               <ul className="space-y-2">
                 {service.features?.map((feature: string, idx: number) => (
                   <li key={idx} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                    <div className="h-1 w-1 rounded-full bg-green-500 dark:bg-lime-400" />
+                    <div className="h-1 w-1 rounded-full bg-red-500 dark:bg-red-400" />
                     {feature}
                   </li>
                 ))}
@@ -88,7 +88,7 @@ export function ServicesSection() {
               <Button
                 asChild
                 variant="ghost"
-                className="group/btn w-full justify-between text-green-600 dark:text-lime-400 hover:bg-green-500/10 dark:hover:bg-lime-400/10 hover:text-green-700 dark:hover:text-lime-300"
+                className="group/btn w-full justify-between text-red-600 dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-400/10 hover:text-red-700 dark:hover:text-red-300"
               >
                 <Link href={`/services/${service.id}`}>
                   Learn More
@@ -104,7 +104,7 @@ export function ServicesSection() {
       <div className="mt-12 text-center">
         <Button
           asChild
-          className="rounded-full bg-green-500 dark:bg-lime-400 px-8 py-6 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+          className="rounded-full bg-red-600 dark:bg-red-500 px-8 py-6 text-base font-semibold text-white hover:bg-red-700 dark:hover:bg-red-600"
         >
           <Link href="/services">View All Services</Link>
         </Button>

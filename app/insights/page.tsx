@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { SiteHeader } from '@/components/site-header'
+import SiteHeader from '@/components/site-header'
 import { AppverseFooter } from '@/components/appverse-footer'
 import Image from 'next/image'
 import Link from 'next/link'

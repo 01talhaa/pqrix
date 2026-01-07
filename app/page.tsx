@@ -1,5 +1,5 @@
-import { SiteHeader } from "@/components/site-header"
-import { Hero } from "@/components/hero"
+import SiteHeader from "@/components/site-header"
+import Hero from "@/components/hero"
 import Script from "next/script"
 import { StatsSection } from "@/components/stats-section"
 import { Features } from "@/components/features"
