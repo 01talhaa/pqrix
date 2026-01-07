@@ -180,16 +180,16 @@ export default function SiteHeader() {
               left: '1rem',
             }}
           >
-            <Link href="/">
-          <div className="flex items-center gap-2 px-6 border-b border-red-500/20">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
-                  <Sparkles size={20} className="text-white" />
-                </div>
-                <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
-                  PQRIX
-                </span>
-              </div>
-          </Link>
+
+            <Link href="/"  className="flex items-center gap-2">
+               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg shadow-red-500/30 border border-red-400/20">
+              <Sparkles size={18} className="text-white" />
+            </div>
+            <span className="text-xl font-black tracking-tight bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent whitespace-nowrap">
+              PQRIX
+            </span>
+            </Link>
+           
           </div>
 
           {/* Desktop Nav - Always visible with enhanced styling and responsive gap */}
