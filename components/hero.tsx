@@ -125,7 +125,7 @@ export default function RedHero() {
             </Button>
             
             <Button variant="outline" className="border-2 border-white/10 hover:border-red-500/50 bg-white/5 backdrop-blur-xl text-white font-semibold px-10 py-7 rounded-full text-lg transition-all duration-500">
-              View Portfolio
+              Talk to an Expert
             </Button>
           </div>
 

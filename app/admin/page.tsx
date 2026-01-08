@@ -51,6 +51,7 @@ export default function AdminDashboard() {
   const [clients, setClients] = useState<any[]>([])
   const [testimonials, setTestimonials] = useState<any[]>([])
   const [blogs, setBlogs] = useState<any[]>([])
+  const [caseStudies, setCaseStudies] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -69,7 +70,8 @@ export default function AdminDashboard() {
         applicationsRes,
         clientsRes,
         testimonialsRes,
-        blogsRes
+        blogsRes,
+        caseStudiesRes
       ] = await Promise.all([
         fetch('/api/services'),
         fetch('/api/projects'),
@@ -80,7 +82,8 @@ export default function AdminDashboard() {
         fetch('/api/careers/applications'),
         fetch('/api/clients'),
         fetch('/api/testimonials'),
-        fetch('/api/blogs')
+        fetch('/api/blogs'),
+        fetch('/api/case-studies')
       ])
 
       const servicesData = await servicesRes.json()
@@ -93,6 +96,7 @@ export default function AdminDashboard() {
       const clientsData = await clientsRes.json()
       const testimonialsData = await testimonialsRes.json()
       const blogsData = await blogsRes.json()
+      const caseStudiesData = await caseStudiesRes.json()
 
       setServices(servicesData.success ? servicesData.data : [])
       setProjects(projectsData.success ? projectsData.data : [])
@@ -104,7 +108,8 @@ export default function AdminDashboard() {
       setClients(clientsData.success ? clientsData.data : [])
       setTestimonials(testimonialsData.success ? testimonialsData.data : [])
       setBlogs(blogsData.success ? blogsData.data : [])
-    } catch (error) {
+      setCaseStudies(caseStudiesData.success ? caseStudiesData.data : [])
+      setCaseStudies(caseStudiesData.success ? caseStudiesData.data : [])
       console.error('Error fetching data:', error)
     } finally {
       setLoading(false)
@@ -199,6 +204,15 @@ export default function AdminDashboard() {
       color: "text-rose-600 dark:text-rose-400",
       bgColor: "bg-rose-500/10 dark:bg-rose-400/10",
     },
+    {
+      title: "Case Studies",
+      value: caseStudies.length,
+      icon: TrendingUp,
+      href: "/admin/case-studies",
+      color: "text-orange-600 dark:text-orange-400",
+      bgColor: "bg-orange-500/10 dark:bg-orange-400/10",
+      badge: caseStudies.filter(cs => cs.isActive).length > 0 ? `${caseStudies.filter(cs => cs.isActive).length} active` : undefined,
+    },
   ]
 
   // Chart data
@@ -208,6 +222,7 @@ export default function AdminDashboard() {
     { name: 'Insights', value: insights.length, color: '#eab308' },
     { name: 'Jobs', value: jobs.length, color: '#ec4899' },
     { name: 'Blogs', value: blogs.length, color: '#f97316' },
+    { name: 'Case Studies', value: caseStudies.length, color: '#fb923c' },
   ]
 
   const projectStatusData = [

@@ -22,6 +22,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Wallet,
+  TrendingUp,
 } from "lucide-react"
 
 interface NavItem {
@@ -55,6 +56,7 @@ const navigation: NavCategory[] = [
     items: [
       { label: "Services", href: "/admin/services", icon: Briefcase },
       { label: "Projects", href: "/admin/projects", icon: FolderKanban },
+      { label: "Case Studies", href: "/admin/case-studies", icon: TrendingUp },
       { label: "Team", href: "/admin/team", icon: Users },
       { label: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
       { label: "Blogs", href: "/admin/blogs", icon: Newspaper },
