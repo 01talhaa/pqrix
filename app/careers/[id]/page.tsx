@@ -162,16 +162,16 @@ export default function JobDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500" />
+      <div className="flex items-center justify-center min-h-screen bg-black">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500" />
       </div>
     )
   }
 
   if (!job) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold mb-4">Job Not Found</h1>
+      <div className="container mx-auto px-4 py-16 text-center bg-black min-h-screen">
+        <h1 className="text-2xl font-bold mb-4 text-white">Job Not Found</h1>
         <Link href="/careers">
           <Button>Back to Careers</Button>
         </Link>
@@ -180,10 +180,10 @@ export default function JobDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
-        <Link href="/careers" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white mb-6">
+        <Link href="/careers" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6">
           <ArrowLeft className="h-4 w-4" />
           Back to Careers
         </Link>
@@ -191,21 +191,21 @@ export default function JobDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            <Card>
+            <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl">
               <CardContent className="p-8">
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
+                    <h1 className="text-3xl font-bold mb-4 text-white">{job.title}</h1>
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <Badge className="bg-blue-500 text-white">{job.department}</Badge>
-                      <Badge className="bg-purple-500 text-white capitalize">{job.type.replace("-", " ")}</Badge>
-                      {job.remote && <Badge className="bg-green-500 text-white">Remote</Badge>}
-                      {job.featured && <Badge className="bg-yellow-500 text-white">Featured</Badge>}
+                      <Badge className="bg-gradient-to-r from-blue-600 to-blue-800 text-white border-0">{job.department}</Badge>
+                      <Badge className="bg-gradient-to-r from-purple-600 to-purple-800 text-white border-0 capitalize">{job.type.replace("-", " ")}</Badge>
+                      {job.remote && <Badge className="bg-gradient-to-r from-red-600 to-red-800 text-white border-0">Remote</Badge>}
+                      {job.featured && <Badge className="bg-yellow-500 text-white border-0">Featured</Badge>}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 mb-8">
+                <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-8">
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
                     <span>{job.location}</span>
@@ -226,18 +226,18 @@ export default function JobDetailPage() {
 
                 {/* Description */}
                 <div className="mb-8">
-                  <h2 className="text-xl font-bold mb-4">About the Role</h2>
-                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{job.description}</p>
+                  <h2 className="text-xl font-bold mb-4 text-white">About the Role</h2>
+                  <p className="text-gray-300 whitespace-pre-wrap">{job.description}</p>
                 </div>
 
                 {/* Responsibilities */}
                 <div className="mb-8">
-                  <h2 className="text-xl font-bold mb-4">Responsibilities</h2>
+                  <h2 className="text-xl font-bold mb-4 text-white">Responsibilities</h2>
                   <ul className="space-y-2">
                     {job.responsibilities.map((resp, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700 dark:text-gray-300">{resp}</span>
+                        <CheckCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-300">{resp}</span>
                       </li>
                     ))}
                   </ul>
@@ -245,12 +245,12 @@ export default function JobDetailPage() {
 
                 {/* Requirements */}
                 <div className="mb-8">
-                  <h2 className="text-xl font-bold mb-4">Requirements</h2>
+                  <h2 className="text-xl font-bold mb-4 text-white">Requirements</h2>
                   <ul className="space-y-2">
                     {job.requirements.map((req, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700 dark:text-gray-300">{req}</span>
+                        <CheckCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-300">{req}</span>
                       </li>
                     ))}
                   </ul>
@@ -259,12 +259,12 @@ export default function JobDetailPage() {
                 {/* Nice to Have */}
                 {job.niceToHave && job.niceToHave.length > 0 && (
                   <div className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">Nice to Have</h2>
+                    <h2 className="text-xl font-bold mb-4 text-white">Nice to Have</h2>
                     <ul className="space-y-2">
                       {job.niceToHave.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2">
                           <span className="text-gray-400">•</span>
-                          <span className="text-gray-700 dark:text-gray-300">{item}</span>
+                          <span className="text-gray-300">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -274,12 +274,12 @@ export default function JobDetailPage() {
                 {/* Benefits */}
                 {job.benefits && job.benefits.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-bold mb-4">Benefits</h2>
+                    <h2 className="text-xl font-bold mb-4 text-white">Benefits</h2>
                     <ul className="space-y-2">
                       {job.benefits.map((benefit, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                          <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                          <CheckCircle className="h-5 w-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-300">{benefit}</span>
                         </li>
                       ))}
                     </ul>
@@ -291,15 +291,15 @@ export default function JobDetailPage() {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-8">
+            <Card className="sticky top-8 liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl">
               <CardContent className="p-6">
-                <h3 className="text-lg font-bold mb-4">Apply for this position</h3>
+                <h3 className="text-lg font-bold mb-4 text-white">Apply for this position</h3>
                 
                 {hasApplied ? (
                   <div className="text-center py-4">
-                    <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-3" />
-                    <p className="font-semibold text-green-600 dark:text-green-400 mb-2">Application Submitted!</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    <CheckCircle className="h-12 w-12 text-red-400 mx-auto mb-3" />
+                    <p className="font-semibold text-red-400 mb-2">Application Submitted!</p>
+                    <p className="text-sm text-gray-400 mb-4">
                       You have already applied for this position. Check your dashboard for updates.
                     </p>
                     <Link href="/client/dashboard">
@@ -310,22 +310,22 @@ export default function JobDetailPage() {
                   </div>
                 ) : job.status !== "active" ? (
                   <div className="text-center py-4">
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-400">
                       This position is currently closed.
                     </p>
                   </div>
                 ) : (
-                  <Button onClick={handleApplyClick} className="w-full" size="lg">
+                  <Button onClick={handleApplyClick} className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900" size="lg">
                     Apply Now
                   </Button>
                 )}
 
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                <div className="mt-6 pt-6 border-t border-red-500/20">
+                  <p className="text-sm text-gray-400 mb-2">
                     <strong>{job.applicationsCount}</strong> applications received
                   </p>
                   {job.applicationDeadline && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-400">
                       Deadline: {new Date(job.applicationDeadline).toLocaleDateString()}
                     </p>
                   )}

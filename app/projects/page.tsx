@@ -326,10 +326,10 @@ export default async function ProjectsPage() {
         <section className="container mx-auto px-4 py-16 sm:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
-              <span className="block">Our Creative</span>
-              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Portfolio</span>
+              <span className="block text-white">Our Creative</span>
+              <span className="block bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">Portfolio</span>
             </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-300 sm:text-xl">
               Explore our latest work and see how we've helped brands create unforgettable experiences
             </p>
           </div>
@@ -340,13 +340,13 @@ export default async function ProjectsPage() {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
-            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's bring your vision to life with our creative expertise</p>
+          <Card className="liquid-glass-enhanced border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl text-center p-8 sm:p-12 shadow-xl shadow-red-900/20">
+            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
+            <p className="mb-8 text-lg text-gray-300">Let's bring your vision to life with our creative expertise</p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+              className="rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-8 text-base font-semibold text-white shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
             >
               <Link href="https://wa.me/8801401658685">Start Your Project</Link>
             </Button>

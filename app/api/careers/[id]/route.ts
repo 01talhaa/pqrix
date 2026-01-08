@@ -5,13 +5,14 @@ import { JobPostingDocument, JOB_POSTINGS_COLLECTION } from "@/lib/models/JobPos
 // GET /api/careers/[id] - Get single job posting
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
     const collection = db.collection<JobPostingDocument>(JOB_POSTINGS_COLLECTION)
 
-    const job = await collection.findOne({ id: params.id })
+    const job = await collection.findOne({ id: id })
 
     if (!job) {
       return NextResponse.json(
@@ -36,13 +37,14 @@ export async function GET(
 // PUT /api/careers/[id] - Update job posting
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
     const collection = db.collection<JobPostingDocument>(JOB_POSTINGS_COLLECTION)
 
-    const existing = await collection.findOne({ id: params.id })
+    const existing = await collection.findOne({ id: id })
 
     if (!existing) {
       return NextResponse.json(
@@ -61,7 +63,7 @@ export async function PUT(
     }
 
     const result = await collection.updateOne(
-      { id: params.id },
+      { id: id },
       {
         $set: {
           ...updateData,
@@ -77,7 +79,7 @@ export async function PUT(
       )
     }
 
-    const updated = await collection.findOne({ id: params.id })
+    const updated = await collection.findOne({ id: id })
 
     return NextResponse.json({
       success: true,
@@ -95,13 +97,14 @@ export async function PUT(
 // DELETE /api/careers/[id] - Delete job posting
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
     const collection = db.collection<JobPostingDocument>(JOB_POSTINGS_COLLECTION)
 
-    const result = await collection.deleteOne({ id: params.id })
+    const result = await collection.deleteOne({ id: id })
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

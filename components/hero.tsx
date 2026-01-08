@@ -97,44 +97,44 @@ export default function RedHero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
             </span>
-            <span className="text-[11px] font-black text-red-400 uppercase tracking-[0.25em]">Quantum Core v3.0 Online</span>
-            <Terminal size={14} className="text-red-500" />
+            <span className="text-[11px] font-black text-red-400 uppercase tracking-[0.25em]">PQRIX - we solve, you scale</span>
+            {/* <Terminal size={14} className="text-red-500" /> */}
           </div>
 
           <h1 className="max-w-5xl text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8">
             <span className="inline-block bg-gradient-to-r from-white via-red-100 to-white bg-clip-text text-transparent">
-              Work Smarter
+              Custom Software
             </span>
             <br />
             <span className="inline-block bg-gradient-to-r from-red-600 via-red-500 to-red-800 bg-clip-text text-transparent">
-              Achieve More
+              Built for Scale
             </span>
           </h1>
           
           <p className="mt-6 max-w-2xl text-xl text-gray-400 leading-relaxed font-medium">
-            Transform your workflow with adaptive AI that learns, evolves, and scales with your ambitions. 
-            <span className="text-red-500"> The future is intelligent.</span>
+            Enterprise-grade web & mobile solutions engineered for performance. From MVPs to complex systems.
+            <span className="text-red-500"> AI-powered when it matters.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5 mt-12">
             <Button className="group relative overflow-hidden bg-red-600 hover:bg-red-700 text-white font-bold px-10 py-7 rounded-full text-lg shadow-[0_20px_60px_rgba(220,38,38,0.3)] transition-all duration-500 hover:scale-105 border border-red-400/20">
               <span className="relative z-10 flex items-center gap-2">
-                Try Now Free
+                Start Your Project
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
               </span>
             </Button>
             
             <Button variant="outline" className="border-2 border-white/10 hover:border-red-500/50 bg-white/5 backdrop-blur-xl text-white font-semibold px-10 py-7 rounded-full text-lg transition-all duration-500">
-              Watch Demo
+              View Portfolio
             </Button>
           </div>
 
           {/* Stats Bar */}
           <div className="mt-20 flex flex-wrap justify-center gap-12 px-10 py-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl">
             {[
-              { val: '500K+', lab: 'Active Users' },
-              { val: '99.9%', lab: 'System Uptime' },
-              { val: '150+', lab: 'Global Regions' }
+              { val: '200+', lab: 'Projects Delivered' },
+              { val: '50+', lab: 'Enterprise Clients' },
+              { val: '15+', lab: 'Tech Stacks' }
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-12">
                 <div className="text-center">
@@ -154,9 +154,9 @@ export default function RedHero() {
               <Star key={i} size={18} className="fill-red-500 text-red-500 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
             ))}
           </div>
-          <p className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-12">Trusted by industry leaders worldwide</p>
+          <p className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-12">Powering innovative startups & enterprises</p>
           <div className="flex flex-wrap justify-center items-center gap-16 opacity-30 hover:opacity-100 transition-all duration-700">
-            {['TESLA', 'NVIDIA', 'OPENAI', 'STRIPE', 'VERCEL'].map((name) => (
+            {['SHILPOMARKET', 'PIXELPRIMP', 'ECOMMERZO', 'MEDIA-MIND', 'BASHA-LAGBE'].map((name) => (
               <div key={name} className="text-2xl font-black tracking-tighter text-white hover:text-red-500 transition-colors">
                 {name}
               </div>
@@ -169,28 +169,28 @@ export default function RedHero() {
           <div className="space-y-8">
             <div className="flex items-center gap-4">
               <div className="h-14 w-1.5 bg-red-600 rounded-full" />
-              <span className="text-xs font-black tracking-[0.3em] uppercase text-red-500">Intelligent Platform</span>
+              <span className="text-xs font-black tracking-[0.3em] uppercase text-red-500">End-to-End Development</span>
             </div>
             <h2 className="text-5xl md:text-7xl font-black leading-tight tracking-tight">
-              The Future of
+              Architected for
               <br />
-              <span className="text-red-600">Automation</span>
+              <span className="text-red-600">Performance</span>
             </h2>
             <p className="text-xl text-gray-400 leading-relaxed max-w-lg">
-              Harness the power of adaptive AI that transforms complex workflows into seamless experiences. Built for scale, designed for brilliance.
+              Full-stack solutions from concept to deployment. Cloud-native architecture, modern frameworks, and scalable infrastructure with optional AI capabilities.
             </p>
             <div className="grid grid-cols-2 gap-6 pt-4">
               <div className="flex items-center gap-3 text-sm font-bold text-gray-300">
                 <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
-                  <Shield size={18} className="text-red-500" />
+                  <Code size={18} className="text-red-500" />
                 </div>
-                Secure Core
+                Clean Code
               </div>
               <div className="flex items-center gap-3 text-sm font-bold text-gray-300">
                 <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
-                  <Flame size={18} className="text-red-500" />
+                  <Database size={18} className="text-red-500" />
                 </div>
-                High Velocity
+                Scalable Systems
               </div>
             </div>
           </div>
@@ -215,11 +215,11 @@ export default function RedHero() {
               <div className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl bg-red-950/40 backdrop-blur-3xl border border-red-500/20 transform group-hover:-translate-y-2 transition-transform duration-500">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-1">Process Speed</div>
-                    <div className="text-3xl font-black text-white tracking-tighter">0.02<span className="text-red-500 text-xl">ms</span></div>
+                    <div className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-1">Deployment Time</div>
+                    <div className="text-3xl font-black text-white tracking-tighter">2-6<span className="text-red-500 text-xl">wks</span></div>
                   </div>
                   <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
-                    <Sparkles className="text-white" size={20} />
+                    <Terminal className="text-white" size={20} />
                   </div>
                 </div>
               </div>
