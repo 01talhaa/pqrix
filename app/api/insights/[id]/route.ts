@@ -15,17 +15,18 @@ function generateSlug(title: string): string {
 // GET /api/insights/[id] - Fetch single insight (by ID or slug)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
     const collection = db.collection<InsightDocument>(INSIGHTS_COLLECTION)
 
     // Try to find by ID first, then by slug
-    let insight = await collection.findOne({ id: params.id })
+    let insight = await collection.findOne({ id: id })
     
     if (!insight) {
-      insight = await collection.findOne({ slug: params.id })
+      insight = await collection.findOne({ slug: id })
     }
 
     if (!insight) {
@@ -57,19 +58,20 @@ export async function GET(
 // PUT /api/insights/[id] - Update insight
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
 
     const { db } = await connectToDatabase()
     const collection = db.collection<InsightDocument>(INSIGHTS_COLLECTION)
 
     // Find existing insight
-    let existing = await collection.findOne({ id: params.id })
+    let existing = await collection.findOne({ id: id })
     
     if (!existing) {
-      existing = await collection.findOne({ slug: params.id })
+      existing = await collection.findOne({ slug: id })
     }
 
     if (!existing) {
@@ -152,17 +154,18 @@ export async function PUT(
 // DELETE /api/insights/[id] - Delete insight
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { db } = await connectToDatabase()
     const collection = db.collection<InsightDocument>(INSIGHTS_COLLECTION)
 
     // Try to find by ID first, then by slug
-    let insight = await collection.findOne({ id: params.id })
+    let insight = await collection.findOne({ id: id })
     
     if (!insight) {
-      insight = await collection.findOne({ slug: params.id })
+      insight = await collection.findOne({ slug: id })
     }
 
     if (!insight) {

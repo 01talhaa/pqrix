@@ -14,11 +14,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Menu, Briefcase, Wrench, FolderOpen, Users, LogOut, LayoutDashboard, Lightbulb, Sparkles } from "lucide-react"
+import { useClientAuth } from "@/lib/client-auth"
+import { useRouter } from "next/navigation"
 
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const client = { name: "John Doe", email: "john@example.com", image: "" }
+  const { client, logout } = useClientAuth()
+  const router = useRouter()
+  const isAuthenticated = !!client
   
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +30,11 @@ export default function SiteHeader() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+  
+  const handleLogout = () => {
+    logout()
+    router.push('/')
+  }
   
   const links = [
     { href: "/", label: "Home" },
@@ -120,13 +128,16 @@ export default function SiteHeader() {
                         <p className="text-xs text-white/60 truncate">{client.email}</p>
                       </div>
                     </div>
-                    <Button
-                      className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 transition-all duration-300 hover:scale-105 shadow-lg shadow-red-500/30 border border-red-400/20"
-                    >
-                      Dashboard
-                    </Button>
+                    <Link href="/client/dashboard">
+                      <Button
+                        className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 transition-all duration-300 hover:scale-105 shadow-lg shadow-red-500/30 border border-red-400/20"
+                      >
+                        Dashboard
+                      </Button>
+                    </Link>
                     <Button
                       variant="outline"
+                      onClick={handleLogout}
                       className="w-full border-red-400/50 text-red-400 hover:bg-red-400/10 rounded-full py-6 transition-all duration-300"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
@@ -134,11 +145,13 @@ export default function SiteHeader() {
                     </Button>
                   </div>
                 ) : (
+                  <Link href="/client/register">
                   <Button
                     className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold rounded-full py-6 shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
                   >
                     Get Started
                   </Button>
+                  </Link>
                 )}
               </div>
             </SheetContent>
@@ -218,7 +231,9 @@ export default function SiteHeader() {
             className="absolute z-10 flex items-center gap-3 transition-all duration-700 ease-out"
             style={{
               transform: scrolled 
-                ? 'translateX(clamp(-80%, -100%, -110%)) scale(1)' 
+                ? isAuthenticated 
+                  ? 'translateX(clamp(-250%, -250%, -170%)) scale(1)' 
+                  : 'translateX(clamp(-80%, -100%, -110%)) scale(1)'
                 : 'translateX(40%) scale(1.05)',
               paddingRight: scrolled ? '1.2rem' : '0',
               top: '50%',
@@ -229,7 +244,7 @@ export default function SiteHeader() {
             {isAuthenticated && client ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 hover:scale-105 transition-transform">
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 hover:scale-105 transition-all duration-500 shadow-[0_4px_16px_rgba(220,38,38,0.3)] hover:shadow-[0_8px_24px_rgba(220,38,38,0.5)]">
                     <Avatar className="h-10 w-10 border-2 border-red-500 shadow-lg shadow-red-500/20">
                       <AvatarImage src={client.image} alt={client.name} />
                       <AvatarFallback className="bg-gradient-to-br from-red-600 to-red-900 text-white font-bold">
@@ -240,27 +255,34 @@ export default function SiteHeader() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
                   align="end" 
-                  className="w-56 bg-black/95 backdrop-blur-xl border-white/10 shadow-xl"
+                  className="w-56 bg-black/95 backdrop-blur-xl border-red-500/20 shadow-xl"
                 >
                   <DropdownMenuLabel className="text-white">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium">{client.name}</p>
-                      <p className="text-xs text-white/60">{client.email}</p>
+                      <p className="text-xs text-gray-400">{client.email}</p>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem className="text-white hover:bg-white/10 cursor-pointer focus:bg-white/10">
+                  <DropdownMenuSeparator className="bg-red-500/20" />
+                  <DropdownMenuItem 
+                    className="text-white hover:bg-red-500/10 cursor-pointer focus:bg-red-500/10"
+                    onClick={() => router.push('/client/dashboard')}
+                  >
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     Dashboard
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem className="text-red-400 hover:bg-white/10 cursor-pointer focus:bg-white/10">
+                  <DropdownMenuSeparator className="bg-red-500/20" />
+                  <DropdownMenuItem 
+                    className="text-red-400 hover:bg-red-500/10 cursor-pointer focus:bg-red-500/10"
+                    onClick={handleLogout}
+                  >
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
+              <Link href="/client/register"> 
               <Button
                 className="relative overflow-hidden bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-bold px-8 py-5 rounded-full text-sm shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
               >
@@ -269,6 +291,7 @@ export default function SiteHeader() {
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </Button>
+              </Link>
             )}
           </div>
         </div>

@@ -58,9 +58,9 @@ export default async function TeamPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
               <span className="block">Meet Our</span>
-              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Creative Team</span>
+              <span className="block bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(239,68,68,0.5)]">Creative Team</span>
             </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-300 sm:text-xl">
               Talented professionals passionate about bringing your vision to life through exceptional creative work
             </p>
           </div>
@@ -71,15 +71,15 @@ export default async function TeamPage() {
 
         {/* Join Team CTA */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Want to Join Our Team?</h2>
-            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">
+          <Card className="liquid-glass-enhanced border border-red-500/20 bg-black/40 backdrop-blur-xl text-center p-8 sm:p-12 shadow-lg shadow-red-500/30">
+            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Want to Join Our Team?</h2>
+            <p className="mb-8 text-lg text-gray-300">
               We're always looking for talented creatives to join our growing team
             </p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+              className="rounded-full bg-gradient-to-r from-red-600 to-red-800 px-8 text-base font-semibold text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.5)]"
             >
               <Link href="mailto:careers@pqrix.com">View Open Positions</Link>
             </Button>

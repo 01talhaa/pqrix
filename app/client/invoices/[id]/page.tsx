@@ -78,7 +78,7 @@ export default function ClientInvoicePage() {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-12 w-12 text-lime-400 animate-spin mx-auto mb-4" />
+          <Loader2 className="h-12 w-12 text-red-400 animate-spin mx-auto mb-4" />
           <p className="text-white">Loading invoice...</p>
         </div>
       </div>
@@ -119,7 +119,7 @@ export default function ClientInvoicePage() {
               onClick={handleRefresh}
               variant="outline"
               size="icon"
-              className="border-white/20 text-white hover:bg-white/10"
+              className="border-red-500/30 text-white hover:bg-red-500/10"
               title="Refresh invoice"
             >
               <RefreshCw className="h-4 w-4" />
@@ -127,14 +127,14 @@ export default function ClientInvoicePage() {
             <Button
               onClick={handleContactSupport}
               variant="outline"
-              className="border-white/20 text-white hover:bg-white/10"
+              className="border-red-500/30 text-white hover:bg-red-500/10"
             >
               <MessageCircle className="mr-2 h-4 w-4" />
               Contact Support
             </Button>
             <Button
               onClick={() => window.print()}
-              className="bg-lime-400 text-black hover:bg-lime-300"
+              className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white"
             >
               <Download className="mr-2 h-4 w-4" />
               Download PDF
@@ -145,9 +145,9 @@ export default function ClientInvoicePage() {
         {/* Invoice Display */}
         <div className="max-w-5xl mx-auto">
           {/* Last Updated Info */}
-          <div className="mb-4 p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between">
+          <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+              <div className="h-2 w-2 rounded-full bg-red-400 animate-pulse"></div>
               <span className="text-sm text-gray-400">
                 Last updated: {new Date(invoice.updatedAt).toLocaleString()}
               </span>
@@ -155,7 +155,7 @@ export default function ClientInvoicePage() {
             {invoice.milestones && invoice.milestones.length > 1 && (
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500">Progress:</span>
-                <span className="text-sm font-semibold text-lime-400">
+                <span className="text-sm font-semibold text-red-400">
                   {invoice.milestones.filter(m => m.paymentStatus === "Paid").length} / {invoice.milestones.length} Milestones Paid
                 </span>
               </div>
@@ -166,7 +166,7 @@ export default function ClientInvoicePage() {
         </div>
 
         {/* Help Section */}
-        <Card className="liquid-glass border-white/20 bg-white/5 backdrop-blur-xl p-6 mt-8 max-w-5xl mx-auto">
+        <Card className="liquid-glass border-red-500/20 bg-red-500/10 backdrop-blur-xl p-6 mt-8 max-w-5xl mx-auto shadow-lg shadow-red-900/20">
           <div className="text-center">
             <h3 className="text-lg font-semibold text-white mb-2">Need Help?</h3>
             <p className="text-sm text-gray-400 mb-4">
@@ -176,7 +176,7 @@ export default function ClientInvoicePage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button
                 onClick={handleContactSupport}
-                className="bg-lime-400 text-black hover:bg-lime-300"
+                className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 WhatsApp Support
@@ -184,7 +184,7 @@ export default function ClientInvoicePage() {
               <Button
                 asChild
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="border-red-500/30 text-white hover:bg-red-500/10"
               >
                 <a href="mailto:billing@pqrix.com">
                   Email: billing@pqrix.com

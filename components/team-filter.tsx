@@ -56,8 +56,8 @@ export function TeamFilter({ initialMembers }: TeamFilterProps) {
             variant={selectedDepartment === "all" ? "default" : "outline"}
             className={
               selectedDepartment === "all"
-                ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300 transition-colors duration-150"
-                : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-150"
+                ? "rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/40"
+                : "rounded-full border-red-500/30 bg-black/20 text-gray-300 hover:bg-black/40 hover:border-red-500/50 transition-all duration-300"
             }
           >
             All Departments
@@ -69,8 +69,8 @@ export function TeamFilter({ initialMembers }: TeamFilterProps) {
               variant={selectedDepartment === dept ? "default" : "outline"}
               className={
                 selectedDepartment === dept
-                  ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300 transition-colors duration-150"
-                  : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-150"
+                  ? "rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/40"
+                  : "rounded-full border-red-500/30 bg-black/20 text-gray-300 hover:bg-black/40 hover:border-red-500/50 transition-all duration-300"
               }
             >
               {dept}
@@ -84,7 +84,7 @@ export function TeamFilter({ initialMembers }: TeamFilterProps) {
         <div className="min-h-[400px]">
           {filteredMembers.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              <p className="text-lg text-gray-400">
                 No team members found in this department.
               </p>
             </div>
@@ -92,7 +92,7 @@ export function TeamFilter({ initialMembers }: TeamFilterProps) {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {filteredMembers.map((member) => (
                 <Link key={member.id} href={`/team/${member.id}`}>
-                  <Card className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
+                  <Card className="group liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl overflow-hidden transition-all hover:border-red-500/40 hover:shadow-lg hover:shadow-red-500/30 h-full">
                     <div className="relative aspect-square overflow-hidden bg-gray-200 dark:bg-gray-900">
                       <img
                         src={member.image || "/placeholder.svg"}
@@ -145,18 +145,18 @@ export function TeamFilter({ initialMembers }: TeamFilterProps) {
 
                       {/* Department Badge */}
                       <div className="absolute top-3 right-3">
-                        <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-green-400 dark:text-lime-400 border border-green-400/30 dark:border-lime-400/30">
+                        <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-red-400 border border-red-400/30">
                           {member.department}
                         </span>
                       </div>
                     </div>
 
                     <div className="p-5">
-                      <h3 className="mb-1 text-xl font-bold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
+                      <h3 className="mb-1 text-xl font-bold text-white group-hover:text-red-400 transition-colors">
                         {member.name}
                       </h3>
-                      <p className="mb-3 text-sm font-medium text-green-600 dark:text-lime-400">{member.role}</p>
-                      <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{member.bio}</p>
+                      <p className="mb-3 text-sm font-medium text-red-400">{member.role}</p>
+                      <p className="text-sm text-gray-300 line-clamp-2">{member.bio}</p>
                     </div>
                   </Card>
                 </Link>

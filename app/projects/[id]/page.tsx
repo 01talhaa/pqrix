@@ -178,7 +178,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
         {/* Back Button */}
         <div className="container mx-auto px-4 pt-8">
-          <Button asChild variant="ghost" className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">
+          <Button asChild variant="ghost" className="text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors">
             <Link href="/projects">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Projects
@@ -191,42 +191,42 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-start">
             <div>
               <div className="flex items-center gap-3 mb-4 flex-wrap">
-                <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-lime-400/20 border border-green-300 dark:border-lime-400/30 px-4 py-1.5 text-sm font-medium text-green-700 dark:text-lime-400">
+                <span className="inline-flex items-center rounded-full bg-red-500/20 border border-red-500/30 px-4 py-1.5 text-sm font-medium text-red-400">
                   {project.category}
                 </span>
-                <span className="inline-flex items-center rounded-full bg-gray-200 dark:bg-white/10 px-4 py-1.5 text-sm font-medium text-black dark:text-white">
+                <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white">
                   {project.year}
                 </span>
                 {project.status && (
-                  <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-500/20 border border-green-300 dark:border-green-500/30 px-4 py-1.5 text-sm font-medium text-green-700 dark:text-green-400">
+                  <span className="inline-flex items-center rounded-full bg-red-500/20 border border-red-500/30 px-4 py-1.5 text-sm font-medium text-red-400">
                     {project.status}
                   </span>
                 )}
               </div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Client: {project.client}</p>
-              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-black dark:text-white">
+              <p className="text-sm font-medium text-gray-400 mb-3">Client: {project.client}</p>
+              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-white">
                 {project.title}
               </h1>
-              <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">{project.description}</p>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">{project.longDescription}</p>
+              <p className="text-xl text-gray-200 mb-6">{project.description}</p>
+              <p className="text-gray-300 mb-6">{project.longDescription}</p>
 
               {/* Project Meta Info */}
               <div className="grid grid-cols-2 gap-4">
                 {project.duration && (
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-green-500 dark:text-lime-400" />
+                    <Calendar className="h-5 w-5 text-red-500" />
                     <div>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">Duration</p>
-                      <p className="text-sm font-medium text-black dark:text-white">{project.duration}</p>
+                      <p className="text-xs text-gray-400">Duration</p>
+                      <p className="text-sm font-medium text-white">{project.duration}</p>
                     </div>
                   </div>
                 )}
                 {project.budget && (
                   <div className="flex items-center gap-2">
-                    <DollarSign className="h-5 w-5 text-green-500 dark:text-lime-400" />
+                    <DollarSign className="h-5 w-5 text-red-500" />
                     <div>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">Budget</p>
-                      <p className="text-sm font-medium text-black dark:text-white">{project.budget}</p>
+                      <p className="text-xs text-gray-400">Budget</p>
+                      <p className="text-sm font-medium text-white">{project.budget}</p>
                     </div>
                   </div>
                 )}
@@ -234,7 +234,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             </div>
 
             {/* Main Media */}
-            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-gray-200 dark:border-white/10">
+            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-red-500/20 shadow-xl shadow-red-900/20">
               {project.video ? (
                 <video
                   src={project.video}
@@ -264,7 +264,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               {project.images.slice(1).map((image: string, idx: number) => (
                 <div
                   key={idx}
-                  className="relative aspect-square rounded-xl overflow-hidden liquid-glass border border-white/10 hover:scale-105 transition-transform cursor-pointer"
+                  className="relative aspect-square rounded-xl overflow-hidden liquid-glass border border-red-500/20 hover:scale-105 hover:border-red-500/40 transition-all cursor-pointer shadow-lg shadow-red-900/10"
                 >
                   <img
                     src={image || "/placeholder.svg"}
@@ -280,16 +280,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Key Metrics */}
         {project.metrics && project.metrics.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Key Results & Metrics</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Key Results & Metrics</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {project.metrics.map((metric: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-6 hover:scale-105 transition-transform"
+                  className="liquid-glass-enhanced border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl text-center p-6 hover:scale-105 transition-transform shadow-lg shadow-red-900/20"
                 >
-                  <TrendingUp className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
-                  <p className="text-3xl font-bold text-black dark:text-white mb-2">{metric.value}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{metric.label}</p>
+                  <TrendingUp className="h-8 w-8 text-red-500 mx-auto mb-3" />
+                  <p className="text-3xl font-bold text-white mb-2">{metric.value}</p>
+                  <p className="text-sm text-gray-400">{metric.label}</p>
                 </Card>
               ))}
             </div>
@@ -300,7 +300,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <section className="container mx-auto px-4 pb-12">
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag: any) => (
-              <span key={tag} className="rounded-full bg-gray-100 dark:bg-black/30 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-white/20">
+              <span key={tag} className="rounded-full bg-red-500/10 px-4 py-2 text-sm text-gray-300 border border-red-500/20">
                 {tag}
               </span>
             ))}
@@ -310,16 +310,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Technologies Used */}
         {project.technologies && project.technologies.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-8 shadow-lg shadow-red-900/10">
               <div className="flex items-center gap-3 mb-6">
-                <Code2 className="h-6 w-6 text-green-500 dark:text-lime-400" />
-                <h2 className="text-2xl font-bold text-black dark:text-white">Technologies & Tools</h2>
+                <Code2 className="h-6 w-6 text-red-500" />
+                <h2 className="text-2xl font-bold text-white">Technologies & Tools</h2>
               </div>
               <div className="flex flex-wrap gap-3">
                 {project.technologies.map((tech: any, idx: number) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-green-100 to-green-50 dark:from-lime-400/20 dark:to-green-400/20 border border-green-300 dark:border-lime-400/30 px-4 py-2 text-sm font-medium text-green-700 dark:text-lime-300"
+                    className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-500/30 px-4 py-2 text-sm font-medium text-red-400"
                   >
                     <Code2 className="h-4 w-4" />
                     {tech}
@@ -333,24 +333,24 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Timeline */}
         {project.timeline && project.timeline.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Project Timeline</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Project Timeline</h2>
             <div className="max-w-4xl mx-auto">
               <div className="space-y-6">
                 {project.timeline.map((phase: any, idx: number) => (
                   <Card
                     key={idx}
-                    className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-6 hover:bg-white dark:hover:bg-white/10 transition-colors"
+                    className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-6 hover:bg-black/60 hover:border-red-500/40 transition-all shadow-lg shadow-red-900/10"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 dark:bg-lime-400/20 border border-green-300 dark:border-lime-400/30 flex items-center justify-center">
-                        <span className="text-lg font-bold text-green-600 dark:text-lime-400">{idx + 1}</span>
+                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 border border-red-400/30 flex items-center justify-center shadow-lg shadow-red-500/30">
+                        <span className="text-lg font-bold text-white">{idx + 1}</span>
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-xl font-bold text-black dark:text-white">{phase.phase}</h3>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">{phase.duration}</span>
+                          <h3 className="text-xl font-bold text-white">{phase.phase}</h3>
+                          <span className="text-sm text-gray-400">{phase.duration}</span>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300">{phase.description}</p>
+                        <p className="text-gray-300">{phase.description}</p>
                       </div>
                     </div>
                   </Card>
@@ -366,18 +366,18 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <div className="grid gap-8 lg:grid-cols-2">
               {/* Challenges */}
               {project.challenges && project.challenges.length > 0 && (
-                <Card className="liquid-glass border border-red-300 dark:border-red-500/20 bg-red-50 dark:bg-red-500/5 backdrop-blur-xl p-8">
+                <Card className="liquid-glass border border-red-500/30 bg-gradient-to-br from-red-950/30 to-black/40 backdrop-blur-xl p-8 shadow-lg shadow-red-900/20">
                   <div className="flex items-center gap-3 mb-6">
-                    <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
-                    <h2 className="text-2xl font-bold text-black dark:text-white">Challenges</h2>
+                    <AlertCircle className="h-6 w-6 text-red-400" />
+                    <h2 className="text-2xl font-bold text-white">Challenges</h2>
                   </div>
                   <div className="space-y-4">
                     {project.challenges.map((challenge: any, idx: number) => (
                       <div key={idx} className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-100 dark:bg-red-500/20 border border-red-300 dark:border-red-500/30 flex items-center justify-center mt-0.5">
-                          <span className="text-xs font-bold text-red-600 dark:text-red-400">{idx + 1}</span>
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mt-0.5">
+                          <span className="text-xs font-bold text-red-400">{idx + 1}</span>
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300">{challenge}</p>
+                        <p className="text-gray-300">{challenge}</p>
                       </div>
                     ))}
                   </div>
@@ -386,16 +386,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
               {/* Solutions */}
               {project.solutions && project.solutions.length > 0 && (
-                <Card className="liquid-glass border border-green-300 dark:border-green-500/20 bg-green-50 dark:bg-green-500/5 backdrop-blur-xl p-8">
+                <Card className="liquid-glass border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl p-8 shadow-lg shadow-red-900/20">
                   <div className="flex items-center gap-3 mb-6">
-                    <Lightbulb className="h-6 w-6 text-green-600 dark:text-green-400" />
-                    <h2 className="text-2xl font-bold text-black dark:text-white">Solutions</h2>
+                    <Lightbulb className="h-6 w-6 text-red-400" />
+                    <h2 className="text-2xl font-bold text-white">Solutions</h2>
                   </div>
                   <div className="space-y-4">
                     {project.solutions.map((solution: any, idx: number) => (
                       <div key={idx} className="flex items-start gap-3">
-                        <Check className="h-6 w-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-                        <p className="text-gray-700 dark:text-gray-300">{solution}</p>
+                        <Check className="h-6 w-6 text-red-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-gray-300">{solution}</p>
                       </div>
                     ))}
                   </div>
@@ -408,16 +408,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Deliverables */}
         {project.deliverables && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-8 shadow-lg shadow-red-900/10">
               <div className="flex items-center gap-3 mb-6">
-                <Target className="h-6 w-6 text-green-500 dark:text-lime-400" />
-                <h2 className="text-2xl font-bold text-black dark:text-white">Deliverables</h2>
+                <Target className="h-6 w-6 text-red-500" />
+                <h2 className="text-2xl font-bold text-white">Deliverables</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {project.deliverables.map((deliverable: any, idx: number) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300">{deliverable}</span>
+                    <Check className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-300">{deliverable}</span>
                   </div>
                 ))}
               </div>
@@ -428,16 +428,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Awards */}
         {project.awards && project.awards.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-yellow-300 dark:border-yellow-500/20 bg-yellow-50 dark:bg-yellow-500/5 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl p-8 shadow-xl shadow-red-900/20">
               <div className="flex items-center gap-3 mb-6">
-                <Award className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
-                <h2 className="text-2xl font-bold text-black dark:text-white">Awards & Recognition</h2>
+                <Award className="h-6 w-6 text-red-400" />
+                <h2 className="text-2xl font-bold text-white">Awards & Recognition</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {project.awards.map((award: any, idx: number) => (
-                  <div key={idx} className="flex items-center gap-3 p-4 rounded-lg bg-yellow-100 dark:bg-yellow-500/10 border border-yellow-300 dark:border-yellow-500/20">
-                    <Award className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
-                    <span className="text-gray-800 dark:text-gray-200 font-medium">{award}</span>
+                  <div key={idx} className="flex items-center gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/30">
+                    <Award className="h-5 w-5 text-red-400 flex-shrink-0" />
+                    <span className="text-gray-200 font-medium">{award}</span>
                   </div>
                 ))}
               </div>
@@ -448,15 +448,15 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Results */}
         {project.results && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Project Outcomes</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Project Outcomes</h2>
             <div className="grid gap-6 sm:grid-cols-3">
               {project.results.map((result: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl text-center p-6"
+                  className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl text-center p-6 shadow-lg shadow-red-900/10"
                 >
-                  <Check className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
-                  <p className="text-lg font-semibold text-black dark:text-white">{result}</p>
+                  <Check className="h-8 w-8 text-red-500 mx-auto mb-3" />
+                  <p className="text-lg font-semibold text-white">{result}</p>
                 </Card>
               ))}
             </div>
@@ -466,18 +466,18 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Testimonial */}
         {project.testimonial && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl p-8 sm:p-12 max-w-4xl mx-auto">
+            <Card className="liquid-glass-enhanced border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl p-8 sm:p-12 max-w-4xl mx-auto shadow-xl shadow-red-900/20">
               <div className="flex justify-center mb-6">
-                <div className="h-16 w-16 rounded-full bg-green-100 dark:bg-lime-400/20 border-2 border-green-300 dark:border-lime-400/30 flex items-center justify-center">
-                  <Quote className="h-8 w-8 text-green-600 dark:text-lime-400" />
+                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-red-600 to-red-800 border-2 border-red-400/30 flex items-center justify-center shadow-lg shadow-red-500/30">
+                  <Quote className="h-8 w-8 text-white" />
                 </div>
               </div>
-              <blockquote className="text-xl sm:text-2xl text-center text-black dark:text-white mb-6 italic leading-relaxed">
+              <blockquote className="text-xl sm:text-2xl text-center text-white mb-6 italic leading-relaxed">
                 "{project.testimonial.quote}"
               </blockquote>
               <div className="text-center">
-                <p className="font-bold text-xl text-black dark:text-white">{project.testimonial.author}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{project.testimonial.role}</p>
+                <p className="font-bold text-xl text-white">{project.testimonial.author}</p>
+                <p className="text-sm text-gray-400 mt-1">{project.testimonial.role}</p>
               </div>
             </Card>
           </section>
@@ -492,7 +492,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   key={idx}
                   asChild
                   variant="outline"
-                  className="liquid-glass hover:liquid-glass-enhanced border-green-500/30 dark:border-lime-400/30 text-green-600 dark:text-lime-400"
+                  className="liquid-glass hover:liquid-glass-enhanced border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500/50"
                 >
                   <Link href={link.url} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-4 w-4" />
@@ -507,10 +507,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Team Members */}
         {project.teamMembers && project.teamMembers.length > 0 && (
           <section className="container mx-auto px-4 pb-12">
-            <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
+            <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-8 shadow-lg shadow-red-900/10">
               <div className="flex items-center gap-3 mb-6">
-                <Users className="h-6 w-6 text-green-500 dark:text-lime-400" />
-                <h2 className="text-2xl font-bold text-black dark:text-white">Project Team</h2>
+                <Users className="h-6 w-6 text-red-500" />
+                <h2 className="text-2xl font-bold text-white">Project Team</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {project.teamMembers.map((memberId: any) => {
@@ -518,8 +518,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   if (!member) return null
                   return (
                     <Link key={memberId} href={`/team/${memberId}`}>
-                      <div className="flex items-center gap-3 p-4 rounded-lg bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-all hover:scale-105 border border-gray-200 dark:border-white/10">
-                        <div className="relative h-14 w-14 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
+                      <div className="flex items-center gap-3 p-4 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-all hover:scale-105 border border-red-500/20 hover:border-red-500/40">
+                        <div className="relative h-14 w-14 rounded-full overflow-hidden bg-gray-700 flex-shrink-0">
                           <img
                             src={member.image || "/placeholder.svg"}
                             alt={member.name}
@@ -527,8 +527,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                           />
                         </div>
                         <div>
-                          <p className="font-semibold text-black dark:text-white">{member.name}</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{member.role}</p>
+                          <p className="font-semibold text-white">{member.name}</p>
+                          <p className="text-sm text-gray-400">{member.role}</p>
                         </div>
                       </div>
                     </Link>
@@ -541,16 +541,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
         {/* CTA */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 bg-gradient-to-br from-green-100 to-green-50 dark:from-lime-500/20 dark:to-green-500/20 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Start Your Project?</h2>
-            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+          <Card className="liquid-glass-enhanced border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl text-center p-8 sm:p-12 shadow-xl shadow-red-900/20">
+            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Start Your Project?</h2>
+            <p className="mb-8 text-lg text-gray-300 max-w-2xl mx-auto">
               Let's create something amazing together. Get in touch to discuss how we can help bring your vision to life.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
                 asChild
                 size="lg"
-                className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+                className="rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-8 text-base font-semibold text-white shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
               >
                 <Link href="https://wa.me/8801401658685">Get in Touch via WhatsApp</Link>
               </Button>
@@ -558,7 +558,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full border-green-500/30 dark:border-white/30 text-green-600 dark:text-white hover:bg-green-50 dark:hover:bg-white/10"
+                className="rounded-full border-red-500/30 text-white hover:bg-red-500/10 hover:border-red-500/50 transition-colors"
               >
                 <Link href="/services">Explore Our Services</Link>
               </Button>

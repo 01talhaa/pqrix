@@ -109,10 +109,10 @@ export default function CareersPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black dark:text-white mb-4">
-            Join Our <span className="text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Team</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
+            Join Our <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(239,68,68,0.5)]">Team</span>
           </h1>
-          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Build the future of digital experiences with us. We're always looking for talented individuals to join our growing team.
           </p>
         </motion.div>
@@ -196,7 +196,7 @@ export default function CareersPage() {
         {/* Job Listings */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-600 dark:text-gray-400">Loading jobs...</p>
+            <p className="text-gray-400">Loading jobs...</p>
           </div>
         ) : jobs.length === 0 ? (
           <motion.div
@@ -205,8 +205,8 @@ export default function CareersPage() {
             className="text-center py-16"
           >
             <Briefcase className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-black dark:text-white mb-2">No Open Positions</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <h3 className="text-2xl font-bold text-white mb-2">No Open Positions</h3>
+            <p className="text-gray-400 mb-6">
               We don't have any openings matching your criteria right now, but check back soon!
             </p>
           </motion.div>
@@ -219,16 +219,16 @@ export default function CareersPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl hover:shadow-lg transition-all duration-300 hover:border-green-500 dark:hover:border-lime-400">
+                <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 hover:border-red-500/40">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div className="space-y-2 flex-1">
                         <div className="flex items-start gap-3">
-                          <CardTitle className="text-2xl font-bold text-black dark:text-white">
+                          <CardTitle className="text-2xl font-bold text-white">
                             {job.title}
                           </CardTitle>
                           {job.status === 'active' && (
-                            <Badge className="bg-green-500 dark:bg-lime-400 text-white dark:text-black">Active</Badge>
+                            <Badge className="bg-gradient-to-r from-red-600 to-red-800 text-white border-0">Active</Badge>
                           )}
                         </div>
                         <CardDescription className="text-base">
@@ -236,7 +236,7 @@ export default function CareersPage() {
                         </CardDescription>
                       </div>
                       <Link href={`/careers/${job.id}`}>
-                        <Button className="gap-2 rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
+                        <Button className="gap-2 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/40">
                           View Details
                           <ChevronRight className="h-4 w-4" />
                         </Button>
@@ -247,11 +247,11 @@ export default function CareersPage() {
                     <div className="space-y-4">
                       {/* Job Details */}
                       <div className="flex flex-wrap gap-4">
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-2 text-gray-400">
                           <MapPin className="h-4 w-4" />
                           <span>{job.location}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-2 text-gray-400">
                           <Briefcase className="h-4 w-4" />
                           <Badge className={getJobTypeColor(job.type)}>
                             {job.type}
@@ -263,21 +263,21 @@ export default function CareersPage() {
                           </Badge>
                         </div>
                         {job.salaryRange && (
-                          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                          <div className="flex items-center gap-2 text-gray-400">
                             <DollarSign className="h-4 w-4" />
                             <span>
                               {job.salaryRange.currency} {job.salaryRange.min.toLocaleString()} - {job.salaryRange.max.toLocaleString()}
                             </span>
                           </div>
                         )}
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-2 text-gray-400">
                           <Clock className="h-4 w-4" />
                           <span>Posted {new Date(job.postedDate).toLocaleDateString()}</span>
                         </div>
                       </div>
 
                       {/* Description Preview */}
-                      <p className="text-gray-700 dark:text-gray-300 line-clamp-2">
+                      <p className="text-gray-300 line-clamp-2">
                         {job.description}
                       </p>
                     </div>
@@ -295,28 +295,28 @@ export default function CareersPage() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl">
+          <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl">
             <CardContent className="p-6 text-center">
-              <div className="text-4xl font-bold text-green-600 dark:text-lime-400 mb-2">
+              <div className="text-4xl font-bold text-red-400 mb-2">
                 {jobs.length}
               </div>
-              <p className="text-gray-600 dark:text-gray-400">Open Positions</p>
+              <p className="text-gray-400">Open Positions</p>
             </CardContent>
           </Card>
-          <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl">
+          <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl">
             <CardContent className="p-6 text-center">
-              <div className="text-4xl font-bold text-green-600 dark:text-lime-400 mb-2">
+              <div className="text-4xl font-bold text-red-400 mb-2">
                 Remote
               </div>
-              <p className="text-gray-600 dark:text-gray-400">Work From Anywhere</p>
+              <p className="text-gray-400">Work From Anywhere</p>
             </CardContent>
           </Card>
-          <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl">
+          <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl">
             <CardContent className="p-6 text-center">
-              <div className="text-4xl font-bold text-green-600 dark:text-lime-400 mb-2">
+              <div className="text-4xl font-bold text-red-400 mb-2">
                 Growth
               </div>
-              <p className="text-gray-600 dark:text-gray-400">Career Development</p>
+              <p className="text-gray-400">Career Development</p>
             </CardContent>
           </Card>
         </motion.div>

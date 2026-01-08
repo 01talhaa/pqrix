@@ -84,9 +84,9 @@ export default function InsightsPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
               <span className="block">Industry</span>
-              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Insights</span>
+              <span className="block bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(239,68,68,0.5)]">Insights</span>
             </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-300 sm:text-xl">
               Explore our latest insights on technology, market trends, and industry best practices
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function InsightsPage() {
 
         {/* Filters */}
         <section className="container mx-auto px-4 pb-8">
-          <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl">
+          <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl">
             <CardContent className="p-6">
               <div className="flex flex-col md:flex-row gap-4">
                 {/* Search */}
@@ -106,7 +106,7 @@ export default function InsightsPage() {
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      className="pl-10 bg-white dark:bg-black/50 border-gray-200 dark:border-white/10 text-black dark:text-white"
+                      className="pl-10 bg-black/50 border-red-500/30 text-white focus:border-red-500/50 focus:ring-red-500/30"
                     />
                   </div>
                 </div>
@@ -116,10 +116,10 @@ export default function InsightsPage() {
                   setCategory(value)
                   setCurrentPage(1)
                 }}>
-                  <SelectTrigger className="w-full md:w-48 bg-white dark:bg-black/50 border-gray-200 dark:border-white/10 text-black dark:text-white">
+                  <SelectTrigger className="w-full md:w-48 bg-black/50 border-red-500/30 text-white">
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-black border-gray-200 dark:border-white/10">
+                  <SelectContent className="bg-black border-red-500/30">
                     <SelectItem value="all">All Categories</SelectItem>
                     <SelectItem value="Market Analysis">Market Analysis</SelectItem>
                     <SelectItem value="Investment Tips">Investment Tips</SelectItem>
@@ -132,7 +132,7 @@ export default function InsightsPage() {
 
                 <Button 
                   onClick={handleSearch}
-                  className="rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+                  className="rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/40"
                 >
                   Search
                 </Button>
@@ -146,14 +146,14 @@ export default function InsightsPage() {
           {loading ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-                <div key={i} className="h-96 rounded-lg bg-gray-200 dark:bg-white/5 animate-pulse" />
+                <div key={i} className="h-96 rounded-lg bg-black/40 border border-red-500/20 animate-pulse" />
               ))}
             </div>
           ) : insights.length === 0 ? (
             <div className="text-center py-20">
               <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-black dark:text-white text-2xl font-bold mb-2">No Insights Found</h3>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
+              <h3 className="text-white text-2xl font-bold mb-2">No Insights Found</h3>
+              <p className="text-gray-300 mb-4">
                 Try adjusting your filters or search query
               </p>
               <Button 
@@ -163,7 +163,7 @@ export default function InsightsPage() {
                   setCategory('all')
                   setCurrentPage(1)
                 }}
-                className="rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+                className="rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/40"
               >
                 Clear Filters
               </Button>
@@ -176,7 +176,7 @@ export default function InsightsPage() {
                     key={insight._id || insight.id}
                     href={`/insights/${insight.slug}`}
                   >
-                    <Card className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white/90 dark:hover:bg-white/10 h-full flex flex-col">
+                    <Card className="group liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl overflow-hidden transition-all hover:border-red-500/40 hover:shadow-lg hover:shadow-red-500/30 h-full flex flex-col">
                       {/* Featured Image */}
                       <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-900">
                         {insight.featuredImage ? (
@@ -187,8 +187,8 @@ export default function InsightsPage() {
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-green-500 to-green-600 dark:from-lime-400 dark:to-lime-500 flex items-center justify-center">
-                            <span className="text-4xl font-bold text-white dark:text-black">
+                          <div className="w-full h-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                            <span className="text-4xl font-bold text-white">
                               {insight.title.charAt(0)}
                             </span>
                           </div>
@@ -196,7 +196,7 @@ export default function InsightsPage() {
                         {/* Category Badge */}
                         {insight.category && (
                           <div className="absolute top-3 left-3">
-                            <Badge className="bg-green-600 dark:bg-lime-400 text-white dark:text-black text-xs font-semibold">
+                            <Badge className="bg-gradient-to-r from-red-600 to-red-800 text-white text-xs font-semibold border-0">
                               {insight.category}
                             </Badge>
                           </div>
@@ -210,17 +210,17 @@ export default function InsightsPage() {
 
                       <CardContent className="flex-1 p-6 flex flex-col">
                         {/* Title */}
-                        <h3 className="text-xl font-bold text-black dark:text-white mb-3 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-lime-300 transition-colors">
+                        <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-red-400 transition-colors">
                           {insight.title}
                         </h3>
 
                         {/* Excerpt */}
-                        <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-3 flex-1">
+                        <p className="text-sm text-gray-300 mb-4 line-clamp-3 flex-1">
                           {insight.excerpt}
                         </p>
 
                         {/* Meta */}
-                        <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-white/10 pt-4">
+                        <div className="flex items-center justify-between text-xs text-gray-400 border-t border-red-500/20 pt-4">
                           <div className="flex items-center gap-1">
                             <User className="h-3 w-3" />
                             <span>{typeof insight.author === 'string' ? insight.author : insight.author?.name || 'Anonymous'}</span>
@@ -232,7 +232,7 @@ export default function InsightsPage() {
                         </div>
 
                         {/* Read More */}
-                        <div className="flex items-center gap-2 text-green-600 dark:text-lime-400 font-semibold text-sm mt-4 group-hover:gap-3 transition-all">
+                        <div className="flex items-center gap-2 text-red-400 font-semibold text-sm mt-4 group-hover:gap-3 transition-all">
                           <span>Read More</span>
                           <ArrowRight className="h-4 w-4" />
                         </div>
@@ -249,7 +249,7 @@ export default function InsightsPage() {
                     variant="outline"
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="rounded-full border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                    className="rounded-full border-red-500/30 bg-black/40 text-white hover:bg-black/60"
                   >
                     Previous
                   </Button>
@@ -272,8 +272,8 @@ export default function InsightsPage() {
                         variant={currentPage === pageNum ? 'default' : 'outline'}
                         onClick={() => setCurrentPage(pageNum)}
                         className={currentPage === pageNum 
-                          ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
-                          : "rounded-full border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                          ? "rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 shadow-lg shadow-red-500/40"
+                          : "rounded-full border-red-500/30 bg-black/40 text-white hover:bg-black/60"
                         }
                       >
                         {pageNum}
@@ -285,7 +285,7 @@ export default function InsightsPage() {
                     variant="outline"
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
-                    className="rounded-full border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                    className="rounded-full border-red-500/30 bg-black/40 text-white hover:bg-black/60"
                   >
                     Next
                   </Button>
