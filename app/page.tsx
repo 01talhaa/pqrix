@@ -17,6 +17,9 @@ import { WhatsAppButton } from "@/components/whatsapp-button"
 import { AdDisplay } from "@/components/ad-display"
 import { PqrixChatbot } from "@/components/pqrix-chatbot"
 import { PartnerSection } from "@/components/partner-section"
+import { HowWeWork } from "@/components/how-we-work"
+import { WhyPqrix } from "@/components/why-pqrix"
+import { CaseStudiesSection } from "@/components/case-studies-section"
 
 // ✅ Force static generation for low TTFB
 export const dynamic = "force-static"
@@ -98,12 +101,15 @@ export default function Page() {
         {/* <StatsSection /> */}
         <ServicesSection />
         <ProjectsSection />
+        <CaseStudiesSection />
         <TechStackMarquee />
         <InsightsSection />
         {/* <LatestInsightsSection /> */}
         <CareersSection />
         <PartnerSection />
         <BlogSection />
+        <HowWeWork />
+        <WhyPqrix />
         <Features />
         {/* <LogoMarquee /> */}
         {/* <Pricing /> */}
