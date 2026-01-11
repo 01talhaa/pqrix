@@ -68,7 +68,7 @@ export function CaseStudiesSection() {
 
   if (loading) {
     return (
-      <section id="case-studies" className="container mx-auto px-4 py-16 sm:py-20">
+      <section id="case-studies" className="container mx-auto px-4 py-16 sm:py-20 bg-white dark:bg-[#050000]">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">
             Case <span className="text-red-600 dark:text-red-400">Studies</span>
@@ -89,7 +89,7 @@ export function CaseStudiesSection() {
   }
 
   return (
-    <section id="case-studies" className="container mx-auto px-4 py-16 sm:py-20">
+    <section id="case-studies" className="container mx-auto px-4 py-16 sm:py-20 bg-white dark:bg-[#050000]">
       <div className="mb-12 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/10 dark:bg-red-950/30 border border-red-500/30 backdrop-blur-xl mb-6">
           <Sparkles className="w-4 h-4 text-red-600 dark:text-red-400" />
