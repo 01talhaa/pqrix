@@ -1,23 +1,11 @@
-import { SiteHeader } from "@/components/site-header"
+import SiteHeader from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Play } from "lucide-react"
 import Link from "next/link"
 import { getAllProjectsForBuild } from "@/lib/get-projects"
-
-interface Project {
-  id: string
-  title: string
-  client: string
-  category: string
-  description: string
-  image?: string
-  images?: string[]
-  video?: string
-  tags: string[]
-  year: string
-}
+import { getServicesForFilter } from "@/lib/get-services"
+import { ProjectsFilter } from "@/components/projects-filter"
 
 export const metadata = {
   title: "Our Projects & Portfolio | Software Development Case Studies | Pqrix Bangladesh",
@@ -317,15 +305,18 @@ async function getProjects(): Promise<any[]> {
   }
 }
 
-function getAllCategories(projects: any[]) {
-  if (!Array.isArray(projects)) return ['All']
-  const categories = new Set(projects.map((p: any) => p.category))
-  return ['All', ...Array.from(categories)]
-}
-
 export default async function ProjectsPage() {
-  const allProjects = await getProjects()
-  const categories = getAllCategories(allProjects)
+  const [allProjects, allServices] = await Promise.all([
+    getProjects(),
+    getServicesForFilter()
+  ])
+  
+  // Ensure data is always arrays with proper typing
+  const projects = Array.isArray(allProjects) ? allProjects : []
+  const services: Array<{id: string, title: string}> = Array.isArray(allServices) 
+    ? allServices.map(s => ({ id: s.id || '', title: s.title || '' }))
+    : []
+  
   return (
     <>
       <main className="min-h-[100dvh] text-black dark:text-white">
@@ -335,116 +326,27 @@ export default async function ProjectsPage() {
         <section className="container mx-auto px-4 py-16 sm:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
-              <span className="block">Our Creative</span>
-              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Portfolio</span>
+              <span className="block text-white">Our Creative</span>
+              <span className="block bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">Portfolio</span>
             </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-300 sm:text-xl">
               Explore our latest work and see how we've helped brands create unforgettable experiences
             </p>
           </div>
         </section>
 
-        {/* Filter Tabs */}
-        <section className="container mx-auto px-4 pb-8">
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={category === "All" ? "default" : "outline"}
-                className={
-                  category === "All"
-                    ? "rounded-full bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
-                    : "rounded-full border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
-                }
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-        </section>
-
-        {/* Projects Grid */}
-        <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allProjects.map((project: Project) => (
-              <Link key={project.id} href={`/projects/${project.id}`}>
-                <Card className="group liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden transition-all hover:border-gray-300 dark:hover:border-white/20 hover:bg-white dark:hover:bg-white/10 h-full">
-                  <div className="relative aspect-video overflow-hidden bg-gray-200 dark:bg-gray-900">
-                    {project.video ? (
-                      <>
-                        <video
-                          src={project.video}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      </>
-                    ) : (
-                      <>
-                        <img
-                          src={project.image || project.images?.[0] || "/placeholder.svg"}
-                          alt={project.title}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      </>
-                    )}
-
-                    {project.video && (
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/90 dark:bg-lime-400/90 backdrop-blur-sm">
-                          <Play className="h-7 w-7 text-white dark:text-black fill-white dark:fill-black ml-1" />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="absolute top-3 left-3">
-                      <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-green-400 dark:text-lime-400 border border-green-400/30 dark:border-lime-400/30">
-                        {project.category}
-                      </span>
-                    </div>
-
-                    <div className="absolute top-3 right-3">
-                      <span className="inline-flex items-center rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs font-medium text-white">
-                        {project.year}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-5">
-                    <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">{project.client}</div>
-                    <h3 className="mb-2 text-xl font-bold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="mb-4 text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{project.description}</p>
-                    {project.tags && project.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.slice(0, 3).map((tag: string) => (
-                          <span key={tag} className="rounded-full bg-gray-100 dark:bg-white/5 px-2.5 py-1 text-xs text-gray-600 dark:text-gray-400">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {/* Interactive Filter and Projects Grid */}
+        <ProjectsFilter initialProjects={projects} initialServices={services} />
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
-            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's bring your vision to life with our creative expertise</p>
+          <Card className="liquid-glass-enhanced border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl text-center p-8 sm:p-12 shadow-xl shadow-red-900/20">
+            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Create Something Amazing?</h2>
+            <p className="mb-8 text-lg text-gray-300">Let's bring your vision to life with our creative expertise</p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+              className="rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-8 text-base font-semibold text-white shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
             >
               <Link href="https://wa.me/8801401658685">Start Your Project</Link>
             </Button>

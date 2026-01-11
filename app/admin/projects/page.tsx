@@ -24,6 +24,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
 import { Plus, Pencil, Trash2, Search, Eye } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -34,6 +42,7 @@ interface Project {
   id: string
   title: string
   category: string
+  serviceCategory?: string
   status: "Completed" | "In Progress" | "On Hold"
   duration: number
   budget: string
@@ -45,8 +54,10 @@ export default function AdminProjectsPage() {
   const { user, isAuthenticated } = useAuth()
   const router = useRouter()
   const [projects, setProjects] = useState<Project[]>([])
+  const [services, setServices] = useState<Array<{id: string, title: string}>>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
+  const [serviceCategoryFilter, setServiceCategoryFilter] = useState<string>("all")
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
 
@@ -55,6 +66,7 @@ export default function AdminProjectsPage() {
       router.push("/admin/login")
     } else {
       fetchProjects()
+      fetchServices()
     }
   }, [isAuthenticated, user, router])
 
@@ -73,6 +85,18 @@ export default function AdminProjectsPage() {
       toast.error("An error occurred while fetching projects")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchServices = async () => {
+    try {
+      const response = await fetch('/api/services')
+      const data = await response.json()
+      if (data.success) {
+        setServices(data.data.map((s: any) => ({ id: s.id, title: s.title })))
+      }
+    } catch (error) {
+      console.error('Error fetching services:', error)
     }
   }
 
@@ -101,10 +125,12 @@ export default function AdminProjectsPage() {
     }
   }
 
-  const filteredProjects = projects.filter((project) =>
-    project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.category.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.category.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesService = serviceCategoryFilter === "all" || project.serviceCategory === serviceCategoryFilter
+    return matchesSearch && matchesService
+  })
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -140,8 +166,8 @@ export default function AdminProjectsPage() {
         </Link>
       </div>
 
-      <div className="mb-6">
-        <div className="relative max-w-md">
+      <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="relative">
           <Search className="absolute left-3 top-3 h-4 w-4 text-white/60" />
           <Input
             placeholder="Search projects..."
@@ -149,6 +175,21 @@ export default function AdminProjectsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40"
           />
+        </div>
+        <div>
+          <Select value={serviceCategoryFilter} onValueChange={setServiceCategoryFilter}>
+            <SelectTrigger className="bg-white/5 border-white/10 text-white">
+              <SelectValue placeholder="Filter by Service Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Service Categories</SelectItem>
+              {services.map((service) => (
+                <SelectItem key={service.id} value={service.id}>
+                  {service.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -164,6 +205,7 @@ export default function AdminProjectsPage() {
                 <TableHead className="w-20 text-white">Image</TableHead>
                 <TableHead className="text-white">Title</TableHead>
                 <TableHead className="text-white">Category</TableHead>
+                <TableHead className="text-white">Service</TableHead>
                 <TableHead className="text-white">Status</TableHead>
                 <TableHead className="text-white">Duration</TableHead>
                 <TableHead className="text-white">Budget</TableHead>
@@ -173,7 +215,7 @@ export default function AdminProjectsPage() {
             <TableBody>
               {filteredProjects.length === 0 ? (
                 <TableRow className="border-white/10">
-                  <TableCell colSpan={7} className="text-center py-10 text-white/60">
+                  <TableCell colSpan={8} className="text-center py-10 text-white/60">
                     No projects found
                   </TableCell>
                 </TableRow>
@@ -196,6 +238,15 @@ export default function AdminProjectsPage() {
                     </TableCell>
                     <TableCell className="font-medium text-white">{project.title}</TableCell>
                     <TableCell className="text-white/80">{project.category}</TableCell>
+                    <TableCell className="text-white/80">
+                      {project.serviceCategory ? (
+                        <span className="text-lime-400 text-xs">
+                          {services.find(s => s.id === project.serviceCategory)?.title || project.serviceCategory}
+                        </span>
+                      ) : (
+                        <span className="text-gray-500 text-xs">-</span>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <Badge className={getStatusColor(project.status)}>
                         {project.status}

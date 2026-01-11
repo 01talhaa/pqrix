@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+import SiteHeader from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -414,10 +414,10 @@ export default async function ServicesPage() {
         <section className="container mx-auto px-4 py-16 sm:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
-              <span className="block">Premium Creative</span>
-              <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">Services</span>
+              <span className="block text-white">Premium Creative</span>
+              <span className="block bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">Services</span>
             </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 sm:text-xl">
+            <p className="text-lg text-gray-300 sm:text-xl">
               From concept to completion, we deliver world-class creative solutions that drive real results for your
               business
             </p>
@@ -432,7 +432,7 @@ export default async function ServicesPage() {
               return (
               <Card
                 key={service.id}
-                className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl overflow-hidden"
+                className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl overflow-hidden hover:border-red-500/40 transition-all duration-300 shadow-lg shadow-red-900/10 hover:shadow-red-900/20"
               >
                 <div className={`grid gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}>
                   {/* Image */}
@@ -454,18 +454,18 @@ export default async function ServicesPage() {
                     </div>
 
                     <CardHeader className="p-0 mb-4">
-                      <p className="text-sm font-medium text-green-600 dark:text-lime-400 mb-2">{service.tagline}</p>
-                      <CardTitle className="text-3xl text-black dark:text-white mb-3">{service.title}</CardTitle>
-                      <p className="text-gray-700 dark:text-gray-300">{service.description}</p>
+                      <p className="text-sm font-medium text-red-400 mb-2">{service.tagline}</p>
+                      <CardTitle className="text-3xl text-white mb-3">{service.title}</CardTitle>
+                      <p className="text-gray-300">{service.description}</p>
                     </CardHeader>
 
                     <CardContent className="p-0 space-y-6">
                       <div>
-                        <h4 className="text-sm font-semibold text-black dark:text-white mb-3">What's Included:</h4>
+                        <h4 className="text-sm font-semibold text-white mb-3">What's Included:</h4>
                         <ul className="grid gap-2 sm:grid-cols-2">
                           {service.features.map((feature: any, idx: number) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                              <Check className="h-4 w-4 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
+                            <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                              <Check className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -473,8 +473,8 @@ export default async function ServicesPage() {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-4">
-                        <div className="text-2xl font-bold text-black dark:text-white">{service.pricing}</div>
-                        <Button asChild className="rounded-full bg-green-500 dark:bg-lime-400 px-6 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
+                        <div className="text-2xl font-bold text-white">{service.pricing}</div>
+                        <Button asChild className="rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-6 text-white font-semibold shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 border border-red-400/20">
                           <Link href={`/services/${service.id}`}>
                             View Details
                             <ArrowRight className="ml-2 h-4 w-4" />
@@ -492,13 +492,13 @@ export default async function ServicesPage() {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 pb-16 sm:pb-24">
-          <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl text-center p-8 sm:p-12">
-            <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">Ready to Start Your Project?</h2>
-            <p className="mb-8 text-lg text-gray-700 dark:text-gray-300">Let's discuss how we can bring your vision to life</p>
+          <Card className="liquid-glass-enhanced border border-red-500/30 bg-gradient-to-br from-black/60 via-red-950/20 to-black/60 backdrop-blur-xl text-center p-8 sm:p-12 shadow-xl shadow-red-900/20">
+            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">Ready to Start Your Project?</h2>
+            <p className="mb-8 text-lg text-gray-300">Let's discuss how we can bring your vision to life</p>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-green-500 dark:bg-lime-400 px-8 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+              className="rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-8 text-base font-semibold text-white shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.6)] transition-all duration-500 hover:scale-105 border border-red-400/20"
             >
               <Link href="https://wa.me/8801401658685">Get in Touch</Link>
             </Button>

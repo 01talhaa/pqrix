@@ -1,275 +1,271 @@
-"use client"
-
+'use client'
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
-import LazyVideo from "./lazy-video"
 import { useEffect, useState } from "react"
-import type { BannerDocument } from "@/lib/models/Banner"
+import { motion } from "framer-motion"
+import { 
+  Star, 
+  ArrowRight, 
+  Sparkles, 
+  Zap, 
+  Shield, 
+  Flame, 
+  Cpu, 
+  Terminal, 
+  Database, 
+  Code 
+} from "lucide-react"
+import dynamic from 'next/dynamic'
 
-export function Hero() {
-  const [banners, setBanners] = useState<BannerDocument[]>([])
-  const [loading, setLoading] = useState(true)
+const Tech3DScene = dynamic(() => import('@/components/tech-3d-scene'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 z-0 flex items-center justify-center">
+      <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+})
+
+export default function RedHero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
-    fetchBanners()
-    
-    // Listen for banner updates
-    const handleBannerUpdate = () => {
-      fetchBanners()
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
     }
-    
-    window.addEventListener('banner-published', handleBannerUpdate)
-    
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener('banner-published', handleBannerUpdate)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
-  const fetchBanners = async () => {
-    try {
-      const response = await fetch("/api/banners", {
-        next: { revalidate: 300 }, // 🚀 Cache for 5 minutes
-      })
-      const data = await response.json()
-      if (data.success && data.data.length > 0) {
-        setBanners(data.data)
-      } else {
-        // Fallback to default banners
-        setBanners([])
-      }
-    } catch (error) {
-      console.error("Error fetching banners:", error)
-      setBanners([])
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const displayBanners = banners.length > 0 ? banners : phoneData
-
-  // const buttonNew = (
-  //   <Button asChild className="rounded-full bg-green-500 dark:bg-lime-400 px-6 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300">
-  //     <a href="https://wa.me/8801878377992" target="_blank" rel="noopener noreferrer">
-  //       Chat With Us
-  //     </a>
-  //   </Button>
-  // )
-
   return (
-    <section className="relative isolate overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-center py-14 sm:py-20">
-          {/* Logo */}
-          <div className="mb-5 flex items-center gap-2">
-            <Image
-              src="/icons/pqrix-white.svg"
-              alt="Pqrix logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 dark:invert-0 invert"
-            />
-            <p className="text-sm uppercase tracking-[0.25em] text-green-600 dark:text-lime-300/80">pqrix</p>
-          </div>
+    <section className="relative min-h-screen bg-[#050000] overflow-hidden text-white font-sans">
+      
+      {/* 3D Scene Background */}
+      <div className="absolute inset-0 z-0 opacity-60">
+        <Tech3DScene />
+      </div>
 
-          {/* Heading */}
-          <h1 className="mt-3 text-center text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl">
-            <span className="block">HIGH-IMPACT</span>
-            <span className="block text-green-600 dark:text-lime-300 drop-shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:drop-shadow-[0_0_20px_rgba(132,204,22,0.35)]">
-              3D ANIMATION
+      {/* Advanced Background with 3D Depth */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        <div 
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(220, 38, 38, 0.35) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(220, 38, 38, 0.35) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+            transform: `perspective(1000px) rotateX(60deg) translateZ(${scrollY * 0.5}px)`,
+            transformOrigin: 'center top'
+          }}
+        />
+        
+        <div 
+          className="absolute top-1/3 left-1/3 w-[1000px] h-[1000px] rounded-full blur-[200px] opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(220, 38, 38, 0.4) 0%, transparent 70%)',
+            transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`
+          }}
+        />
+        
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-red-500/30 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4">
+        {/* Hero Content */}
+        <div className="flex flex-col items-center justify-center pt-24 pb-20 text-center">
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mb-8 inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-red-950/30 border border-red-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(220,38,38,0.2)]"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
             </span>
-            <span className="block">FOR BRANDS</span>
-          </h1>
+            <span className="text-[11px] font-black text-red-300 uppercase tracking-[0.25em]">PQRIX - we solve, you scale</span>
+            {/* <Terminal size={14} className="text-red-500" /> */}
+          </motion.div>
 
-          {/* CTA */}
-          {/* <div className="mt-6">{buttonNew}</div> */}
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className="max-w-5xl text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8"
+          >
+            <span className="inline-block bg-gradient-to-r from-white via-gray-50 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+              Custom Software
+            </span>
+            <br />
+            <span className="inline-block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(239,68,68,0.8)]">
+              Built for Scale
+            </span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            className="mt-6 max-w-2xl text-xl text-white leading-relaxed font-medium"
+          >
+            Enterprise-grade web & mobile solutions engineered for performance. From MVPs to complex systems.
+            <span className="text-red-400 font-bold"> AI-powered when it matters.</span>
+          </motion.p>
 
-          {/* Phone Grid */}
-          <div className="mt-10 grid w-full gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-            {loading ? (
-              <div className="col-span-full flex justify-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 dark:border-lime-400"></div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            className="flex flex-col sm:flex-row gap-5 mt-12"
+          >
+            <Button className="group relative overflow-hidden bg-red-600 hover:bg-red-700 text-white font-bold px-10 py-7 rounded-full text-lg shadow-[0_20px_60px_rgba(220,38,38,0.3)] transition-all duration-500 hover:scale-105 border border-red-400/20">
+              <span className="relative z-10 flex items-center gap-2">
+                Start Your Project
+                <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
+              </span>
+            </Button>
+            
+            <Button variant="outline" className="border-2 border-white/10 hover:border-red-500/50 bg-white/5 backdrop-blur-xl text-white font-semibold px-10 py-7 rounded-full text-lg transition-all duration-500">
+              Talk to an Expert
+            </Button>
+          </motion.div>
+
+          {/* Stats Bar */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+            className="mt-20 flex flex-wrap justify-center gap-12 px-10 py-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl"
+          >
+            {[
+              { val: '200+', lab: 'Projects Delivered' },
+              { val: '50+', lab: 'Enterprise Clients' },
+              { val: '15+', lab: 'Tech Stacks' }
+            ].map((stat, i) => (
+              <div key={i} className="flex items-center gap-12">
+                <div className="text-center">
+                  <div className="text-3xl font-black text-red-400">{stat.val}</div>
+                  <div className="text-xs uppercase tracking-widest text-white mt-1 font-bold">{stat.lab}</div>
+                </div>
+                {i < 2 && <div className="hidden md:block h-10 w-px bg-white/10" />}
               </div>
-            ) : (
-              displayBanners.map((item, i) => {
-                const visibility =
-                  i <= 2
-                    ? "block"
-                    : i === 3
-                    ? "hidden md:block"
-                    : i === 4
-                    ? "hidden xl:block"
-                    : "hidden"
+            ))}
+          </motion.div>
+        </div>
 
-                // Check if item is a banner or phoneData
-                const isBanner = 'media' in item
-                
-                if (isBanner) {
-                  const banner = item as BannerDocument
-                  
-                  return (
-                    <div key={banner.id} className={visibility}>
-                      <PhoneCard
-                        title={banner.title}
-                        sub={banner.subtitle}
-                        tone={banner.tone}
-                        gradient={banner.gradient || "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]"}
-                        media={banner.media}
-                        displayStyle={banner.displayStyle}
-                      />
-                    </div>
-                  )
-                } else {
-                  return (
-                    <div key={i} className={visibility}>
-                      <PhoneCard {...(item as any)} />
-                    </div>
-                  )
-                }
-              })
-            )}
+        {/* Brand Showcase */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
+          className="mt-10 flex flex-col items-center"
+        >
+          <div className="flex gap-1.5 mb-6">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={24} className="fill-red-400 text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,0.6)]" />
+            ))}
+          </div>
+          <p className="text-xl font-black text-white uppercase tracking-[0.4em] mb-12">Powering innovative startups & enterprises</p>
+          <div className="flex flex-wrap justify-center items-center gap-20 opacity-40 hover:opacity-100 transition-all duration-700">
+            {['SHILPOMARKET', 'PIXELPRIMP', 'ECOMMERZO', 'MEDIA-MIND', 'BASHA-LAGBE'].map((name) => (
+              <div key={name} className="text-3xl font-black tracking-tighter text-white hover:text-red-400 transition-colors cursor-pointer hover:scale-110 duration-500">
+                {name}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Feature Section */}
+        <div className="mt-48 grid md:grid-cols-2 gap-20 items-center pb-40">
+          <div className="space-y-8">
+            <div className="flex items-center gap-4">
+              <div className="h-14 w-1.5 bg-red-600 rounded-full" />
+              <span className="text-xs font-black tracking-[0.3em] uppercase text-red-500">End-to-End Development</span>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-black leading-tight tracking-tight">
+              Architected for
+              <br />
+              <span className="text-red-600">Performance</span>
+            </h2>
+            <p className="text-xl text-gray-400 leading-relaxed max-w-lg">
+              Full-stack solutions from concept to deployment. Cloud-native architecture, modern frameworks, and scalable infrastructure with optional AI capabilities.
+            </p>
+            <div className="grid grid-cols-2 gap-6 pt-4">
+              <div className="flex items-center gap-3 text-sm font-bold text-gray-300">
+                <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <Code size={18} className="text-red-500" />
+                </div>
+                Clean Code
+              </div>
+              <div className="flex items-center gap-3 text-sm font-bold text-gray-300">
+                <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <Database size={18} className="text-red-500" />
+                </div>
+                Scalable Systems
+              </div>
+            </div>
+          </div>
+          
+          <div className="relative group">
+            {/* 3D Card */}
+            <div 
+              className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-black p-3 shadow-[0_40px_100px_rgba(220,38,38,0.2)] transition-all duration-700"
+              style={{
+                transform: `perspective(1000px) rotateY(${(mousePosition.x - (typeof window !== 'undefined' ? window.innerWidth : 0) / 2) * 0.01}deg) rotateX(${(mousePosition.y - (typeof window !== 'undefined' ? window.innerHeight : 0) / 2) * -0.01}deg)`
+              }}
+            >
+              <div className="rounded-[2rem] overflow-hidden relative aspect-video">
+                <img 
+                  src="https://thumbs.dreamstime.com/b/red-digital-cityscape-glowing-globe-futuristic-tech-abstract-technology-background-modern-city-skyline-network-connections-385727613.jpg" 
+                  alt="AI Technology" 
+                  className="object-cover w-full h-full opacity-60 group-hover:scale-110 transition-transform duration-[2s]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+              </div>
+              
+              <div className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl bg-red-950/40 backdrop-blur-3xl border border-red-500/20 transform group-hover:-translate-y-2 transition-transform duration-500">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-1">Deployment Time</div>
+                    <div className="text-3xl font-black text-white tracking-tighter">2-6<span className="text-red-500 text-xl">wks</span></div>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
+                    <Terminal className="text-white" size={20} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="absolute -inset-10 bg-red-600/10 blur-[100px] -z-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+      `}</style>
     </section>
   )
 }
-
-function PhoneCard({
-  title,
-  sub,
-  tone,
-  gradient,
-  videoSrc,
-  imageSrc,
-  poster,
-  media,
-  displayStyle,
-}: {
-  title: string
-  sub: string
-  tone: string
-  gradient: string
-  videoSrc?: string
-  imageSrc?: string
-  poster?: string
-  media?: { url: string; type: 'image' | 'video'; posterUrl?: string }[]
-  displayStyle?: 'autoplay' | 'slider' | 'static'
-}) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  // Slider functionality - auto cycle through media items
-  useEffect(() => {
-    if (displayStyle === 'slider' && media && media.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % media.length)
-      }, 4000) // Change slide every 4 seconds
-
-      return () => clearInterval(interval)
-    }
-  }, [displayStyle, media])
-
-  // Determine what to display
-  const currentMedia = media && media.length > 0 ? media[currentIndex] : null
-  const finalVideoSrc = currentMedia?.type === 'video' ? currentMedia.url : videoSrc
-  const finalImageSrc = currentMedia?.type === 'image' ? currentMedia.url : imageSrc
-  const finalPoster = currentMedia?.type === 'video' ? currentMedia.posterUrl : poster
-
-  return (
-    <div className="relative rounded-[28px] glass-border bg-gray-100 dark:bg-neutral-900 p-2">
-      <div className="relative aspect-[9/19] w-full overflow-hidden rounded-2xl bg-white dark:bg-black">
-        {finalImageSrc ? (
-          // Static Image
-          <img
-            src={finalImageSrc}
-            alt={`${title} - ${sub}`}
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
-          />
-        ) : (
-          // Video
-          <LazyVideo
-            key={finalVideoSrc} // Key forces re-render when video changes
-            src={
-              finalVideoSrc ??
-              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b0f3222371106db366a14ca1c29cef55-1b1EWVSa4w3FL2zslcaCGYTy9vcxjF.mp4"
-            }
-            poster={finalPoster ?? "/thumbnails/default.jpg"}
-            className="absolute inset-0 h-full w-full object-cover"
-            {...({ autoPlay: true, loop: true, muted: true, playsInline: true } as any)}
-            aria-label={`${title} - ${sub}`}
-          />
-        )}
-
-        <div className="relative z-10 p-3">
-          <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-black/20 dark:bg-white/20" />
-          <div className="space-y-1 px-1">
-            <div className="text-3xl font-bold leading-snug text-black/90 dark:text-white/90">{title}</div>
-            <p className="text-xs text-black/70 dark:text-white/70">{sub}</p>
-            <div className="mt-3 inline-flex items-center rounded-full bg-white/60 dark:bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-green-700 dark:text-lime-300">
-              {tone}
-            </div>
-          </div>
-        </div>
-
-        {/* Slider Indicators */}
-        {displayStyle === 'slider' && media && media.length > 1 && (
-          <div className="absolute bottom-16 left-0 right-0 z-20 flex justify-center gap-1.5">
-            {media.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  idx === currentIndex
-                    ? 'w-6 bg-green-500 dark:bg-lime-400'
-                    : 'w-1.5 bg-black/30 dark:bg-white/30 hover:bg-black/50 dark:hover:bg-white/50'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-const phoneData = [
-  {
-    title: "Conversions",
-    sub: "Turn clicks into paying customers.",
-    tone: "results",
-    gradient: "from-[#0b0b0b] via-[#0f172a] to-[#020617]",
-    videoSrc:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/A%20new%20chapter%20in%20the%20story%20of%20success.__Introducing%20the%20new%20TAG%20Heuer%20Carrera%20Day-Date%20collection%2C%20reimagined%20with%20bold%20colors%2C%20refined%20finishes%2C%20and%20upgraded%20functionality%20to%20keep%20you%20focused%20on%20your%20goals.%20__Six%20-nDNoRQyFaZ8oaaoty4XaQz8W8E5bqA.mp4",
-    poster: "/thumbnails/conversions.jpg",
-  },
-  {
-    title: "Speed",
-    sub: "Launch in days, not weeks.",
-    tone: "speed",
-    gradient: "from-[#0b1a0b] via-[#052e16] to-[#022c22]",
-    poster: "/thumbnails/speed.jpg",
-  },
-  {
-    title: "Social-Ready",
-    sub: "Made for IG, TikTok, and Meta.",
-    tone: "social",
-    gradient: "from-[#001028] via-[#0b355e] to-[#052e5e]",
-    videoSrc:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Timeline%201-Ku3Y2Hgaw8hCiFEFg1ELtYp631rSzR.webm",
-    poster: "/thumbnails/social.jpg",
-  },
-  {
-    title: "Standout",
-    sub: "Be the product no one scrolls past.",
-    tone: "standout",
-    gradient: "from-[#0b0b0b] via-[#1f2937] to-[#0b1220]",
-    poster: "/thumbnails/standout.jpg",
-  },
-  {
-    title: "Premium",
-    sub: "Look like the market leader.",
-    tone: "premium",
-    gradient: "from-[#0b0b0b] via-[#111827] to-[#052e16]",
-    poster: "/thumbnails/premium.jpg",
-  },
-]

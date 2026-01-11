@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+import SiteHeader from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -140,8 +140,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <SiteHeader />
 
         {/* Back Button */}
-        <div className="container mx-auto px-4 pt-8">
-          <Button asChild variant="ghost" className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">
+<div className="container mx-auto px-4 pt-8 mt-20"> {/* Increased from pt-8 to pt-16 */}
+          <Button asChild variant="ghost" className="text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors">
             <Link href="/services">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Services
@@ -154,18 +154,18 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
             <div>
               <div
-                className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${service.color}`}
+                className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${service.color} shadow-lg`}
               >
                 <Icon className="h-8 w-8 text-white" />
               </div>
-              <p className="text-sm font-medium text-green-600 dark:text-lime-400 mb-3">{service.tagline}</p>
-              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-black dark:text-white">
+              <p className="text-sm font-medium text-red-400 mb-3">{service.tagline}</p>
+              <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-white">
                 {service.title}
               </h1>
-              <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">{service.description}</p>
-              <p className="text-gray-600 dark:text-gray-400">{service.longDescription}</p>
+              <p className="text-xl text-gray-200 mb-6">{service.description}</p>
+              <p className="text-gray-300">{service.longDescription}</p>
             </div>
-            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-gray-200 dark:border-white/10">
+            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-red-500/20 shadow-xl shadow-red-900/20">
               <img
                 src={service.image || "/placeholder.svg"}
                 alt={service.title}
@@ -185,11 +185,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 return (
                   <Card
                     key={idx}
-                    className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl text-center p-6"
+                    className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl text-center p-6 hover:border-red-500/40 transition-all duration-300 shadow-lg shadow-red-900/10"
                   >
-                    <StatIcon className="h-8 w-8 text-green-500 dark:text-lime-400 mx-auto mb-3" />
-                    <div className="text-2xl font-bold text-black dark:text-white mb-1">{stat.value}</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+                    <StatIcon className="h-8 w-8 text-red-500 mx-auto mb-3" />
+                    <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-sm text-gray-400">{stat.label}</div>
                   </Card>
                 )
               })}
@@ -199,13 +199,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
         {/* Features */}
         <section className="container mx-auto px-4 pb-12">
-          <Card className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-8">
-            <h2 className="text-2xl font-bold text-black dark:text-white mb-6">What's Included</h2>
+          <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-8 shadow-lg shadow-red-900/10">
+            <h2 className="text-2xl font-bold text-white mb-6">What's Included</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {service.features.map((feature: string, idx: number) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                  <Check className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-300">{feature}</span>
                 </div>
               ))}
             </div>
@@ -215,18 +215,18 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         {/* Process */}
         {service.process && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Our Process</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Process</h2>
             <div className="grid gap-6 md:grid-cols-5">
               {service.process.map((item: any, idx: number) => (
                 <Card
                   key={idx}
-                  className="liquid-glass border border-gray-200 dark:border-white/10 backdrop-blur-xl p-6 text-center"
+                  className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-6 text-center hover:border-red-500/40 transition-all duration-300 shadow-lg shadow-red-900/10"
                 >
-                  <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-lime-400/20 text-green-600 dark:text-lime-400 font-bold">
+                  <div className="mb-4 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white font-bold shadow-lg shadow-red-500/30">
                     {idx + 1}
                   </div>
-                  <h3 className="text-lg font-semibold text-black dark:text-white mb-2">{item.step}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
+                  <h3 className="text-lg font-semibold text-white mb-2">{item.step}</h3>
+                  <p className="text-sm text-gray-400">{item.description}</p>
                 </Card>
               ))}
             </div>
@@ -236,40 +236,40 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         {/* Packages */}
         {service.packages && (
           <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-3xl font-bold text-black dark:text-white mb-8 text-center">Choose Your Package</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Choose Your Package</h2>
             <div className="grid gap-6 md:grid-cols-3">
               {service.packages.map((pkg: any, idx: number) => (
                 <Card
                   key={idx}
-                  className={`liquid-glass border backdrop-blur-xl p-6 relative ${
-                    pkg.popular ? "border-green-500/50 dark:border-lime-400/50 bg-green-50 dark:bg-lime-400/5" : "border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5"
+                  className={`liquid-glass border backdrop-blur-xl p-6 relative transition-all duration-300 ${
+                    pkg.popular ? "border-red-500/50 bg-gradient-to-br from-red-950/30 to-black/40 shadow-xl shadow-red-900/20" : "border-red-500/20 bg-black/40 shadow-lg shadow-red-900/10 hover:border-red-500/40"
                   }`}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 dark:bg-lime-400 text-white dark:text-black text-xs font-bold px-3 py-1 rounded-full">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-red-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-red-500/30">
                       MOST POPULAR
                     </div>
                   )}
                   <CardContent className="p-0 space-y-6">
                     <div>
-                      <h3 className="text-2xl font-bold text-black dark:text-white mb-2">{pkg.name}</h3>
-                      <div className="text-4xl font-extrabold text-green-600 dark:text-lime-400 mb-1">{pkg.price}</div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{pkg.duration}</p>
+                      <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
+                      <div className="text-4xl font-extrabold text-red-400 mb-1">{pkg.price}</div>
+                      <p className="text-sm text-gray-400">{pkg.duration}</p>
                     </div>
                     <ul className="space-y-3">
                       {pkg.features.map((feature: string, fidx: number) => (
-                        <li key={fidx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                          <Check className="h-4 w-4 text-green-500 dark:text-lime-400 mt-0.5 flex-shrink-0" />
+                        <li key={fidx} className="flex items-start gap-2 text-sm text-gray-300">
+                          <Check className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
                     <Button
                       asChild
-                      className={`w-full rounded-full ${
+                      className={`w-full rounded-full transition-all duration-300 ${
                         pkg.popular
-                          ? "bg-green-500 dark:bg-lime-400 text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
-                          : "bg-gray-200 dark:bg-white/10 text-black dark:text-white hover:bg-gray-300 dark:hover:bg-white/20"
+                          ? "bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-semibold shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-105 border border-red-400/20"
+                          : "bg-red-500/20 text-white hover:bg-red-500/30 border border-red-500/30 hover:border-red-500/50"
                       }`}
                     >
                       <Link href={`/checkout?service=${service.id}&package=${idx}`}>Select Package</Link>
@@ -282,7 +282,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         )}
 
         {/* Booking Form */}
-        {service.packages && (
+        {/* {service.packages && (
           <section id="booking" className="container mx-auto px-4 pb-16 sm:pb-24">
             <Card className="liquid-glass-enhanced border border-gray-200 dark:border-white/15 backdrop-blur-xl p-8 sm:p-12 max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold text-black dark:text-white mb-4 text-center">Book This Service</h2>
@@ -292,7 +292,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <BookingForm serviceId={service.id} serviceName={service.title} packages={service.packages} />
             </Card>
           </section>
-        )}
+        )} */}
 
         <AppverseFooter />
       </main>

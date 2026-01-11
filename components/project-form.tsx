@@ -22,6 +22,7 @@ interface ProjectFormData {
   id: string
   title: string
   category: string
+  serviceCategory?: string
   description: string
   client: string
   year: string
@@ -57,10 +58,12 @@ export default function ProjectForm({ projectId, initialData }: ProjectFormProps
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [services, setServices] = useState<Array<{id: string, title: string}>>([])
   const [formData, setFormData] = useState<ProjectFormData>({
     id: "",
     title: "",
     category: "",
+    serviceCategory: undefined,
     description: "",
     client: "",
     year: new Date().getFullYear().toString(),
@@ -88,6 +91,11 @@ export default function ProjectForm({ projectId, initialData }: ProjectFormProps
     ...initialData,
   })
 
+  // Load services list
+  useEffect(() => {
+    fetchServices()
+  }, [])
+
   // Load project data if editing
   useEffect(() => {
     if (projectId && !initialData) {
@@ -95,13 +103,30 @@ export default function ProjectForm({ projectId, initialData }: ProjectFormProps
     }
   }, [projectId])
 
+  const fetchServices = async () => {
+    try {
+      const response = await fetch('/api/services')
+      const data = await response.json()
+      if (data.success) {
+        setServices(data.data.map((s: any) => ({ id: s.id, title: s.title })))
+      }
+    } catch (error) {
+      console.error('Error fetching services:', error)
+    }
+  }
+
   const fetchProject = async () => {
     try {
       const response = await fetch(`/api/projects/${projectId}`)
       const data = await response.json()
 
       if (data.success) {
-        setFormData(data.data)
+        // Clean the data to ensure no empty strings in serviceCategory
+        const cleanedData = {
+          ...data.data,
+          serviceCategory: data.data.serviceCategory && data.data.serviceCategory !== "" ? data.data.serviceCategory : undefined,
+        }
+        setFormData(cleanedData)
       } else {
         toast.error("Failed to load project")
       }
@@ -244,12 +269,18 @@ export default function ProjectForm({ projectId, initialData }: ProjectFormProps
       const url = projectId ? `/api/projects/${projectId}` : "/api/projects"
       const method = projectId ? "PUT" : "POST"
 
+      // Clean the form data to remove empty strings and convert to undefined
+      const cleanedFormData = {
+        ...formData,
+        serviceCategory: formData.serviceCategory && formData.serviceCategory !== "" ? formData.serviceCategory : undefined,
+      }
+
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(cleanedFormData),
       })
 
       const data = await response.json()
@@ -322,6 +353,31 @@ export default function ProjectForm({ projectId, initialData }: ProjectFormProps
               />
             </div>
 
+            <div>
+              <Label htmlFor="serviceCategory">Service Category</Label>
+              <Select
+                value={formData.serviceCategory && formData.serviceCategory !== "" ? formData.serviceCategory : "none"}
+                onValueChange={(value) => setFormData({ ...formData, serviceCategory: value === "none" ? undefined : value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a service" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {services.map((service) => (
+                    <SelectItem key={service.id} value={service.id}>
+                      {service.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground mt-1">
+                Link this project to a service for category filtering
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="client">Client</Label>
               <Input

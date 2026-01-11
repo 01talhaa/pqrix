@@ -26,6 +26,7 @@ export function ServiceForm({ initialData, isEdit = false }: ServiceFormProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [priorityWarning, setPriorityWarning] = useState<string>("")  
   const [formData, setFormData] = useState<Partial<ServiceDocument>>({
     id: initialData?.id || "",
     icon: initialData?.icon || "Code",
@@ -50,6 +51,7 @@ export function ServiceForm({ initialData, isEdit = false }: ServiceFormProps) {
     pricing: initialData?.pricing || "",
     color: initialData?.color || "from-blue-500/20 to-cyan-500/20",
     image: initialData?.image || "",
+    priority: initialData?.priority !== undefined ? initialData.priority : 0,
   })
 
   // Image upload handler
@@ -222,6 +224,26 @@ export function ServiceForm({ initialData, isEdit = false }: ServiceFormProps) {
     }))
   }
 
+  // Check for duplicate priority
+  const checkPriorityDuplicate = async (priority: number) => {
+    try {
+      const response = await fetch('/api/services')
+      const data = await response.json()
+      if (data.success) {
+        const duplicate = data.data.find((s: any) => 
+          s.priority === priority && s.id !== formData.id
+        )
+        if (duplicate) {
+          setPriorityWarning(`⚠️ Priority ${priority} is already used by "${duplicate.title}"`)
+        } else {
+          setPriorityWarning("")
+        }
+      }
+    } catch (error) {
+      console.error('Error checking priority:', error)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -347,6 +369,34 @@ export function ServiceForm({ initialData, isEdit = false }: ServiceFormProps) {
                 className="bg-white/5 border-white/10"
                 placeholder="Starting ৳ 8,500"
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="priority">Display Priority</Label>
+              <Input
+                id="priority"
+                type="number"
+                value={formData.priority !== undefined ? formData.priority : 0}
+                onChange={(e) => {
+                  const value = e.target.value
+                  const priority = value === '' ? 0 : parseInt(value)
+                  if (!isNaN(priority)) {
+                    setFormData({ ...formData, priority })
+                    checkPriorityDuplicate(priority)
+                  }
+                }}
+                className="bg-white/5 border-white/10"
+                placeholder="0"
+                min="0"
+                step="1"
+              />
+              {priorityWarning && (
+                <p className="text-xs text-yellow-400">
+                  {priorityWarning}
+                </p>
+              )}
+              <p className="text-xs text-gray-400">
+                Lower number = higher priority. 0 = highest (appears first on services page)
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="color">Color Gradient</Label>

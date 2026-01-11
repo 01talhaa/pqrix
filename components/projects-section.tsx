@@ -65,7 +65,7 @@ export function ProjectsSection() {
       <div className="mt-12 text-center">
         <Button
           asChild
-          className="rounded-full bg-green-500 dark:bg-lime-400 px-8 py-6 text-base font-semibold text-white dark:text-black hover:bg-green-600 dark:hover:bg-lime-300"
+          className="rounded-full bg-red-600 dark:bg-red-500 px-8 py-6 text-base font-semibold text-white hover:bg-red-700 dark:hover:bg-red-600"
         >
           <Link href="/projects">
             View All Projects
@@ -114,15 +114,15 @@ function ProjectCard({ project }: { project: any }) {
           {/* Play button overlay for video projects */}
           {project.video && (
             <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/90 dark:bg-lime-400/90 backdrop-blur-sm">
-                <Play className="h-7 w-7 text-white dark:text-black fill-white dark:fill-black ml-1" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-600/90 dark:bg-red-500/90 backdrop-blur-sm">
+                <Play className="h-7 w-7 text-white fill-white ml-1" />
               </div>
             </div>
           )}
 
           {/* Category badge */}
           <div className="absolute top-3 left-3">
-            <span className="inline-flex items-center rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-sm px-2.5 py-0.5 text-xs font-medium text-green-700 dark:text-lime-400 border border-green-500/30 dark:border-lime-400/30">
+            <span className="inline-flex items-center rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-sm px-2.5 py-0.5 text-xs font-medium text-red-700 dark:text-red-400 border border-red-500/30 dark:border-red-400/30">
               {project.category}
             </span>
           </div>
@@ -132,7 +132,7 @@ function ProjectCard({ project }: { project: any }) {
           <div className="mb-1 text-sm text-gray-600 dark:text-gray-400">
             <span>{project.client}</span>
           </div>
-          <h3 className="mb-2 text-xl font-bold text-black dark:text-white group-hover:text-green-600 dark:group-hover:text-lime-400 transition-colors">
+          <h3 className="mb-2 text-xl font-bold text-black dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
             {project.title}
           </h3>
           <p className="mb-3 text-gray-700 dark:text-gray-300 text-sm flex-grow">{project.description}</p>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Instagram, Twitter, Youtube, MessageCircle } from "lucide-react"
@@ -15,7 +16,7 @@ interface FooterContent {
 
 const defaultContent: FooterContent = {
   tagline:
-    "Experience 3D animation like never before. We craft cinematic visuals for brands and products.",
+    "Professional software development company delivering custom web, mobile, and desktop solutions tailored to your business needs.",
   copyright: "© 2025 — Pqrix",
 }
 
@@ -37,40 +38,22 @@ export function AppverseFooter() {
   }, [])
 
   return (
-    <section className="text-black dark:text-white">
-      {/* Contact CTA */}
-      {/* <div className="container mx-auto px-4 pt-12 sm:pt-16">
-        <div className="flex justify-center">
-          <Button
-            asChild
-            className="rounded-full bg-green-500 dark:bg-lime-400 px-6 py-2 text-sm font-medium text-white dark:text-black shadow-[0_0_20px_rgba(34,197,94,0.35)] dark:shadow-[0_0_20px_rgba(163,230,53,0.35)] hover:bg-green-600 dark:hover:bg-lime-300"
-          >
-            <a
-              href="https://wa.me/8801878377992"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contact us
-            </a>
-          </Button>
-        </div>
-      </div> */}
-
+    <section className="text-black dark:text-white bg-white dark:bg-[#050000]">
       {/* Download the app */}
       <div className="container mx-auto px-4 py-12 sm:py-16">
         <Card className="relative overflow-hidden rounded-3xl liquid-glass p-6 sm:p-10">
           <div className="relative grid items-center gap-8 md:grid-cols-2">
             {/* Left copy */}
             <div>
-              <p className="mb-2 text-[11px] tracking-widest text-green-600 dark:text-lime-300">
-                STREAMLINE YOUR LAUNCHES
+              <p className="mb-2 text-[11px] tracking-widest text-red-600 dark:text-red-400">
+                STREAMLINE YOUR WORKFLOW
               </p>
               <h3 className="text-2xl font-bold leading-tight text-black dark:text-white sm:text-3xl">
-                Preview &amp; approve high-end 3D visuals from anywhere
+                Collaborate &amp; manage your software projects from anywhere
               </h3>
               <p className="mt-2 max-w-prose text-sm text-gray-600 dark:text-neutral-400">
-                Review renders, leave timestamped comments, and approve scenes
-                from anywhere using our revision &amp; collaboration tools.
+                Track progress, review deliverables, provide feedback, and approve milestones
+                using our project management &amp; collaboration platform.
               </p>
             </div>
 
@@ -87,14 +70,14 @@ export function AppverseFooter() {
                   <div className="relative p-3">
                     <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/20" />
                     <div className="space-y-1 px-1">
-                      <div className="text-5xl font-extrabold text-green-500 dark:text-lime-300">
-                        Approvals Made Easy
+                      <div className="text-5xl font-extrabold text-red-600 dark:text-red-400">
+                        Project Management
                       </div>
                       <p className="text-xs text-white/80">
-                        From feedback to approval in a single flow
+                        From concept to deployment in one place
                       </p>
-                      <div className="mt-3 inline-flex items-center rounded-full bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-green-400 dark:text-lime-300">
-                        Zero Hassle
+                      <div className="mt-3 inline-flex items-center rounded-full bg-black/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-red-400 dark:text-red-400">
+                        Seamless Workflow
                       </div>
                     </div>
                   </div>
@@ -106,20 +89,14 @@ export function AppverseFooter() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 dark:border-white/10 pb-20 md:pb-10">
+      {/* FIX: added relative z-10 to stop the Card above from blocking clicks */}
+      <footer className="relative z-10 border-t border-gray-200 dark:border-white/10 pb-20 md:pb-10">
         <div className="container mx-auto px-4 py-10">
           <div className="grid gap-8 md:grid-cols-[1.2fr_1fr_1fr]">
             {/* Brand */}
             <div className="space-y-3">
               <div className="flex items-center gap-1.5">
-                <Image
-                  src="/icons/pqrix-white.svg"
-                  alt="Pqrix logo"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6 dark:invert-0 invert"
-                />
-                <span className="text-xl font-semibold text-green-600 dark:text-lime-300">
+                <span className="text-xl font-semibold text-red-600 dark:text-red-400">
                   Pqrix
                 </span>
               </div>
@@ -136,21 +113,26 @@ export function AppverseFooter() {
                 </h5>
                 <ul className="space-y-2 text-sm text-gray-700 dark:text-neutral-300">
                   {[
-                    "Home",
-                    "Features",
-                    "Testimonials",
-                    "Pricing",
-                    "Blog",
-                    "Download",
+                    { name: "Home", href: "/" },
+                    { name: "Services", href: "/services" },
+                    { name: "Projects", href: "/projects" },
+                    { name: "Insights", href: "/insights" },
+                    { name: "Careers", href: "/careers" },
+                    { name: "About", href: "/About" },
                   ].map((item) => (
-                    <li key={item}>
+                    <motion.li 
+                      key={item.name}
+                      whileHover={{ x: 5, scale: 1.05 }}
+                      transition={{ duration: 0.2 }}
+                      className="origin-left"
+                    >
                       <Link
-                        href={`#${item.toLowerCase()}`}
-                        className="hover:text-lime-300"
+                        href={item.href}
+                        className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block"
                       >
-                        {item}
+                        {item.name}
                       </Link>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
@@ -159,54 +141,70 @@ export function AppverseFooter() {
                   Social media
                 </h5>
                 <ul className="space-y-2 text-sm text-gray-700 dark:text-neutral-300">
-                  <li className="flex items-center gap-2">
+                  <motion.li 
+                    className="flex items-center gap-2 origin-left"
+                    whileHover={{ x: 5, scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <Twitter className="h-4 w-4 text-gray-600 dark:text-neutral-400" />
                     <a
                       href="https://twitter.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block"
                       aria-label="Follow pqrix on Twitter"
                     >
                       X/Twitter
                     </a>
-                  </li>
-                  <li className="flex items-center gap-2">
+                  </motion.li>
+                  <motion.li 
+                    className="flex items-center gap-2 origin-left"
+                    whileHover={{ x: 5, scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <Youtube className="h-4 w-4 text-gray-600 dark:text-neutral-400" />
                     <a
                       href="https://www.youtube.com/@pqrixinternational"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block"
                       aria-label="Subscribe to pqrix on YouTube"
                     >
                       YouTube
                     </a>
-                  </li>
-                  <li className="flex items-center gap-2">
+                  </motion.li>
+                  <motion.li 
+                    className="flex items-center gap-2 origin-left"
+                    whileHover={{ x: 5, scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <Instagram className="h-4 w-4 text-gray-600 dark:text-neutral-400" />
                     <a
                       href="https://instagram.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block"
                       aria-label="Follow pqrix on Instagram"
                     >
                       Instagram
                     </a>
-                  </li>
-                  <li className="flex items-center gap-2">
+                  </motion.li>
+                  <motion.li 
+                    className="flex items-center gap-2 origin-left"
+                    whileHover={{ x: 5, scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <MessageCircle className="h-4 w-4 text-gray-600 dark:text-neutral-400" />
                     <a
                       href="https://threads.com/pqrix"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-green-600 dark:hover:text-lime-300"
+                      className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block"
                       aria-label="Follow pqrix on Threads"
                     >
                       Threads
                     </a>
-                  </li>
+                  </motion.li>
                 </ul>
               </div>
             </div>
@@ -216,12 +214,22 @@ export function AppverseFooter() {
           <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-gray-200 dark:border-white/10 pt-6 text-xs text-gray-600 dark:text-neutral-500 sm:flex-row">
             <p>{content.copyright}</p>
             <div className="flex items-center gap-6">
-              <Link href="/revisions" className="hover:text-green-600 dark:hover:text-lime-300">
-                Revision Policy
-              </Link>
-              <Link href="/t&c" className="hover:text-green-600 dark:hover:text-lime-300">
-                Terms & Conditions
-              </Link>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link href="/revisions" className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block">
+                  Revision Policy
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link href="/t&c" className="hover:text-red-600 dark:hover:text-red-400 transition-colors inline-block">
+                  Terms & Conditions
+                </Link>
+              </motion.div>
             </div>
           </div>
         </div>

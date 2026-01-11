@@ -44,22 +44,22 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
+    <div className="min-h-screen flex items-center justify-center p-4 relative bg-black">
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-background to-background" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/20 via-black to-black" />
 
-      <Card className="w-full max-w-md relative border-white/10 bg-black/40 backdrop-blur-xl">
+      <Card className="w-full max-w-md relative border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
             Welcome Back
           </CardTitle>
-          <CardDescription className="text-center text-white/60">Sign in to your account to continue</CardDescription>
+          <CardDescription className="text-center text-gray-300">Sign in to your account to continue</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="client" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="client">Client Login</TabsTrigger>
-              <TabsTrigger value="admin">Admin Login</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-black/40 border border-red-500/20">
+              <TabsTrigger value="client" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-600 data-[state=active]:to-red-800 data-[state=active]:text-white">Client Login</TabsTrigger>
+              <TabsTrigger value="admin" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-600 data-[state=active]:to-red-800 data-[state=active]:text-white">Admin Login</TabsTrigger>
             </TabsList>
 
             <TabsContent value="client">
@@ -72,7 +72,7 @@ export default function LoginPage() {
                     type="email"
                     placeholder="client@example.com"
                     required
-                    className="bg-white/5 border-white/10"
+                    className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                   />
                 </div>
                 <div className="space-y-2">
@@ -83,7 +83,7 @@ export default function LoginPage() {
                     type="password"
                     placeholder="••••••••"
                     required
-                    className="bg-white/5 border-white/10"
+                    className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                   />
                 </div>
                 {error && (
@@ -91,16 +91,16 @@ export default function LoginPage() {
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
                 )}
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white" disabled={loading}>
                   {loading ? "Signing in..." : "Sign In"}
                 </Button>
-                <p className="text-sm text-center text-white/60">
+                <p className="text-sm text-center text-gray-400">
                   Don't have an account?{" "}
-                  <Link href="/register" className="text-purple-400 hover:text-purple-300">
+                  <Link href="/register" className="text-red-400 hover:text-red-300">
                     Register here
                   </Link>
                 </p>
-                <p className="text-xs text-center text-white/40 mt-4">Demo: client@example.com / client123</p>
+                <p className="text-xs text-center text-gray-500 mt-4">Demo: client@example.com / client123</p>
               </form>
             </TabsContent>
 
@@ -114,7 +114,7 @@ export default function LoginPage() {
                     type="email"
                     placeholder="admin@pqrix.com"
                     required
-                    className="bg-white/5 border-white/10"
+                    className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                   />
                 </div>
                 <div className="space-y-2">
@@ -125,7 +125,7 @@ export default function LoginPage() {
                     type="password"
                     placeholder="••••••••"
                     required
-                    className="bg-white/5 border-white/10"
+                    className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                   />
                 </div>
                 {error && (
@@ -133,10 +133,10 @@ export default function LoginPage() {
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
                 )}
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white" disabled={loading}>
                   {loading ? "Signing in..." : "Sign In as Admin"}
                 </Button>
-                <p className="text-xs text-center text-white/40 mt-4">Demo: admin@pqrix.com / admin123</p>
+                <p className="text-xs text-center text-gray-500 mt-4">Demo: admin@pqrix.com / admin123</p>
               </form>
             </TabsContent>
           </Tabs>

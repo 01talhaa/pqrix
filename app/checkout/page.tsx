@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useClientAuth } from "@/lib/client-auth"
-import { SiteHeader } from "@/components/site-header"
+import SiteHeader from "@/components/site-header"
 import { AppverseFooter } from "@/components/appverse-footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -184,7 +184,7 @@ function CheckoutContent() {
         <SiteHeader />
 
         <div className="container mx-auto px-4 pt-8">
-          <Button asChild variant="ghost" className="text-gray-300 hover:text-white">
+          <Button asChild variant="ghost" className="text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors">
             <Link href={`/services/${serviceId}`}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Service
@@ -200,7 +200,7 @@ function CheckoutContent() {
 
             <div className="grid gap-8 lg:grid-cols-5">
               <div className="lg:col-span-2">
-                <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-6 sticky top-8">
+                <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-6 sticky top-8 shadow-lg shadow-red-900/10">
                   <h2 className="text-xl font-bold text-white mb-4">Order Summary</h2>
 
                   <div className="space-y-4">
@@ -211,29 +211,29 @@ function CheckoutContent() {
 
                     <div>
                       <p className="text-sm text-gray-400">Package</p>
-                      <p className="text-lg font-semibold text-lime-400">{selectedPackage.name}</p>
+                      <p className="text-lg font-semibold text-red-400">{selectedPackage.name}</p>
                     </div>
 
-                    <div className="pt-4 border-t border-white/10">
+                    <div className="pt-4 border-t border-red-500/20">
                       <p className="text-sm text-gray-400 mb-2">Package Includes:</p>
                       <ul className="space-y-2">
                         {selectedPackage.features.map((feature, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
-                            <Check className="h-4 w-4 text-lime-400 mt-0.5 flex-shrink-0" />
+                            <Check className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
                             <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="pt-4 border-t border-white/10">
+                    <div className="pt-4 border-t border-red-500/20">
                       <div className="flex justify-between items-center">
                         <span className="text-lg text-gray-300">Duration</span>
                         <span className="text-lg font-semibold text-white">{selectedPackage.duration}</span>
                       </div>
                       <div className="flex justify-between items-center mt-2">
                         <span className="text-xl font-bold text-white">Total</span>
-                        <span className="text-2xl font-extrabold text-lime-400">{selectedPackage.price}</span>
+                        <span className="text-2xl font-extrabold text-red-400">{selectedPackage.price}</span>
                       </div>
                     </div>
                   </div>
@@ -241,7 +241,7 @@ function CheckoutContent() {
               </div>
 
               <div className="lg:col-span-3">
-                <Card className="liquid-glass border border-white/10 bg-white/5 backdrop-blur-xl p-8">
+                <Card className="liquid-glass border border-red-500/20 bg-black/40 backdrop-blur-xl p-8 shadow-lg shadow-red-900/10">
                   <h2 className="text-2xl font-bold text-white mb-6">Your Information</h2>
 
                   <form className="space-y-6">
@@ -256,7 +256,7 @@ function CheckoutContent() {
                         onChange={handleInputChange}
                         placeholder="John Doe"
                         required
-                        className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                        className="mt-2 bg-white/10 border-red-500/20 text-white placeholder:text-gray-400 focus:border-red-500/50 focus:ring-red-500/30"
                       />
                     </div>
 
@@ -272,7 +272,7 @@ function CheckoutContent() {
                         onChange={handleInputChange}
                         placeholder="john@example.com"
                         required
-                        className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                        className="mt-2 bg-white/10 border-red-500/20 text-white placeholder:text-gray-400 focus:border-red-500/50 focus:ring-red-500/30"
                       />
                     </div>
 
@@ -288,7 +288,7 @@ function CheckoutContent() {
                         onChange={handleInputChange}
                         placeholder="+1 (555) 000-0000"
                         required
-                        className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                        className="mt-2 bg-white/10 border-red-500/20 text-white placeholder:text-gray-400 focus:border-red-500/50 focus:ring-red-500/30"
                       />
                     </div>
 
@@ -302,7 +302,7 @@ function CheckoutContent() {
                         value={formData.company}
                         onChange={handleInputChange}
                         placeholder="Your Company"
-                        className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                        className="mt-2 bg-white/10 border-red-500/20 text-white placeholder:text-gray-400 focus:border-red-500/50 focus:ring-red-500/30"
                       />
                     </div>
 
@@ -317,7 +317,7 @@ function CheckoutContent() {
                         onChange={handleInputChange}
                         placeholder="Tell us about your project requirements..."
                         rows={4}
-                        className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                        className="mt-2 bg-white/10 border-red-500/20 text-white placeholder:text-gray-400 focus:border-red-500/50 focus:ring-red-500/30"
                       />
                     </div>
 
@@ -330,7 +330,7 @@ function CheckoutContent() {
                           type="button"
                           onClick={(e) => handleSubmit(e, "8801401658685")}
                           disabled={isLoading}
-                          className="w-full rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300 disabled:opacity-50"
+                          className="w-full rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-8 text-base font-semibold text-white shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 border border-red-400/20 disabled:opacity-50 disabled:hover:scale-100"
                         >
                           <Send className="mr-2 h-5 w-5" />
                           {isLoading ? "Sending..." : "Send to +880 1401-658685"}
@@ -340,7 +340,7 @@ function CheckoutContent() {
                           type="button"
                           onClick={(e) => handleSubmit(e, "8801878377992")}
                           disabled={isLoading}
-                          className="w-full rounded-full bg-lime-400 px-8 text-base font-semibold text-black hover:bg-lime-300 disabled:opacity-50"
+                          className="w-full rounded-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 px-8 text-base font-semibold text-white shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 border border-red-400/20 disabled:opacity-50 disabled:hover:scale-100"
                         >
                           <Send className="mr-2 h-5 w-5" />
                           {isLoading ? "Sending..." : "Send to +880 1878-377992"}
@@ -371,7 +371,7 @@ export default function CheckoutPage() {
       fallback={
         <div className="min-h-screen flex items-center justify-center text-white">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-lime-400 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
             <p>Loading checkout...</p>
           </div>
         </div>

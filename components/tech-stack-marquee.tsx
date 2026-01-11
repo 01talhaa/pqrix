@@ -53,7 +53,7 @@ export function TechStackMarquee() {
       onMouseEnter={() => setPausedRow(rowId)}
       onMouseLeave={() => setPausedRow(null)}
     >
-      <div className="group w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl border border-gray-200 dark:border-white/10 backdrop-blur-xl flex flex-col items-center justify-center gap-2 hover:bg-white dark:hover:bg-white/10 hover:border-green-500/30 dark:hover:border-lime-400/30 transition-all duration-300 hover:scale-105">
+      <div className="group w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-2xl border border-gray-200 dark:border-white/10 backdrop-blur-xl flex flex-col items-center justify-center gap-2 hover:bg-white dark:hover:bg-white/10 hover:border-red-500/40 dark:hover:border-red-400/40 transition-all duration-300 hover:scale-105">
         {tech.bg ? (
           <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl ${tech.bg} flex items-center justify-center border border-gray-300 dark:border-white/20`}>
             <span className={`text-2xl sm:text-3xl font-bold ${tech.color}`}>{tech.icon}</span>
@@ -61,7 +61,7 @@ export function TechStackMarquee() {
         ) : (
           <span className={`text-3xl sm:text-4xl ${tech.color}`}>{tech.icon}</span>
         )}
-        <span className="text-[10px] sm:text-xs font-medium text-gray-700 dark:text-white/70 group-hover:text-green-600 dark:group-hover:text-lime-300 transition-colors">
+        <span className="text-[10px] sm:text-xs font-medium text-gray-700 dark:text-white/70 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
           {tech.name}
         </span>
       </div>
@@ -69,13 +69,13 @@ export function TechStackMarquee() {
   )
 
   return (
-    <section className="text-black dark:text-white py-16 sm:py-20 overflow-hidden bg-gradient-to-b from-transparent via-green-100/20 dark:via-lime-500/5 to-transparent">
+    <section className="text-black dark:text-white py-16 sm:py-20 overflow-hidden bg-gradient-to-b from-transparent via-red-100/20 dark:via-red-900/10 to-transparent">
       <div className="container mx-auto px-4">
         {/* Header */}
 <div className="flex items-center justify-between mb-12 flex-col sm:flex-row sm:items-center">
   <div className="text-center w-full"> {/* Added text-center and w-full */}
     <h2 className="text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl"> {/* Removed text-center sm:text-left */}
-      Our <span className="text-green-600 dark:text-lime-300">Technology</span>
+      Our <span className="text-red-600 dark:text-red-400">Technology</span>
       <br />
       Stack
     </h2>
@@ -89,7 +89,7 @@ export function TechStackMarquee() {
         <div className="relative">
           {/* First Row - Frontend Technologies */}
           <div className="mb-2">
-            <div className="text-xs font-semibold text-green-600/70 dark:text-lime-300/60 mb-3 pl-3">FRONTEND & MOBILE</div>
+            <div className="text-xs font-semibold text-red-600/70 dark:text-red-400/70 mb-3 pl-3">FRONTEND & MOBILE</div>
             <div className="flex overflow-hidden mb-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
               <div
                 className={`flex animate-scroll-right whitespace-nowrap`}
@@ -108,7 +108,7 @@ export function TechStackMarquee() {
 
           {/* Second Row - Backend Technologies */}
           <div className="mb-2">
-            <div className="text-xs font-semibold text-green-600/70 dark:text-lime-300/60 mb-3 pl-3">BACKEND & DATABASE</div>
+            <div className="text-xs font-semibold text-red-600/70 dark:text-red-400/70 mb-3 pl-3">BACKEND & DATABASE</div>
             <div className="flex overflow-hidden mb-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
               <div
                 className={`flex animate-scroll-left whitespace-nowrap`}
@@ -127,7 +127,7 @@ export function TechStackMarquee() {
 
           {/* Third Row - Cloud & Tools */}
           <div className="mb-2">
-            <div className="text-xs font-semibold text-green-600/70 dark:text-lime-300/60 mb-3 pl-3">CLOUD & DEVOPS</div>
+            <div className="text-xs font-semibold text-red-600/70 dark:text-red-400/70 mb-3 pl-3">CLOUD & DEVOPS</div>
             <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
               <div
                 className={`flex animate-scroll-right whitespace-nowrap`}
@@ -148,19 +148,19 @@ export function TechStackMarquee() {
         {/* Stats Section */}
         <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-lime-300">30+</div>
+            <div className="text-3xl sm:text-4xl font-bold text-red-500 dark:text-red-400">30+</div>
             <div className="text-xs sm:text-sm text-white/60 mt-1">Technologies</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-lime-300">100%</div>
+            <div className="text-3xl sm:text-4xl font-bold text-red-500 dark:text-red-400">100%</div>
             <div className="text-xs sm:text-sm text-white/60 mt-1">Modern Stack</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-lime-300">5+</div>
+            <div className="text-3xl sm:text-4xl font-bold text-red-500 dark:text-red-400">5+</div>
             <div className="text-xs sm:text-sm text-white/60 mt-1">Years Experience</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl font-bold text-lime-300">24/7</div>
+            <div className="text-3xl sm:text-4xl font-bold text-red-500 dark:text-red-400">24/7</div>
             <div className="text-xs sm:text-sm text-white/60 mt-1">Support Available</div>
           </div>
         </div>

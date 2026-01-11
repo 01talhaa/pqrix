@@ -47,16 +47,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
+    <div className="min-h-screen flex items-center justify-center p-4 relative bg-black">
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-background to-background" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/20 via-black to-black" />
 
-      <Card className="w-full max-w-md relative border-white/10 bg-black/40 backdrop-blur-xl">
+      <Card className="w-full max-w-md relative border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
             Create Account
           </CardTitle>
-          <CardDescription className="text-center text-white/60">Register as a client to get started</CardDescription>
+          <CardDescription className="text-center text-gray-300">Register as a client to get started</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
@@ -68,7 +68,7 @@ export default function RegisterPage() {
                 type="text"
                 placeholder="John Doe"
                 required
-                className="bg-white/5 border-white/10"
+                className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
               />
             </div>
             <div className="space-y-2">
@@ -79,7 +79,7 @@ export default function RegisterPage() {
                 type="email"
                 placeholder="you@example.com"
                 required
-                className="bg-white/5 border-white/10"
+                className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
               />
             </div>
             <div className="space-y-2">
@@ -90,7 +90,7 @@ export default function RegisterPage() {
                 type="password"
                 placeholder="••••••••"
                 required
-                className="bg-white/5 border-white/10"
+                className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
               />
             </div>
             <div className="space-y-2">
@@ -101,7 +101,7 @@ export default function RegisterPage() {
                 type="password"
                 placeholder="••••••••"
                 required
-                className="bg-white/5 border-white/10"
+                className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
               />
             </div>
             {error && (
@@ -109,12 +109,12 @@ export default function RegisterPage() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white" disabled={loading}>
               {loading ? "Creating account..." : "Create Account"}
             </Button>
-            <p className="text-sm text-center text-white/60">
+            <p className="text-sm text-center text-gray-400">
               Already have an account?{" "}
-              <Link href="/login" className="text-purple-400 hover:text-purple-300">
+              <Link href="/login" className="text-red-400 hover:text-red-300">
                 Sign in here
               </Link>
             </p>

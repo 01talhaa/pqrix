@@ -26,7 +26,11 @@ import {
   Briefcase,
   Package,
   Star,
-  MessageSquare
+  MessageSquare,
+  MapPin,
+  Calendar,
+  FileText,
+  ExternalLink
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -45,6 +49,8 @@ export default function ClientDashboard() {
     rating: 5,
     review: ""
   })
+  const [applications, setApplications] = useState<any[]>([])
+  const [loadingApplications, setLoadingApplications] = useState(true)
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -52,6 +58,7 @@ export default function ClientDashboard() {
     } else if (client) {
       fetchBookings()
       fetchTestimonials()
+      fetchApplications()
     }
   }, [isAuthenticated, isLoading, router, client])
 
@@ -88,6 +95,23 @@ export default function ClientDashboard() {
       console.error("Error fetching testimonials:", error)
     } finally {
       setLoadingTestimonials(false)
+    }
+  }
+
+  const fetchApplications = async () => {
+    if (!client) return
+    
+    setLoadingApplications(true)
+    try {
+      const response = await fetch(`/api/applications?userId=${client.id}`)
+      const data = await response.json()
+      if (data.success) {
+        setApplications(data.data)
+      }
+    } catch (error) {
+      console.error("Error fetching applications:", error)
+    } finally {
+      setLoadingApplications(false)
     }
   }
 
@@ -324,7 +348,7 @@ export default function ClientDashboard() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Button asChild variant="ghost" className="text-white hover:text-lime-400 mb-4">
+          <Button asChild variant="ghost" className="text-gray-300 hover:text-red-400 mb-4">
             <Link href="/">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Home
@@ -334,25 +358,25 @@ export default function ClientDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-white">Client Dashboard</h1>
-              <p className="text-white/60 mt-2">Track your projects and their progress</p>
+              <p className="text-gray-400 mt-2">Track your projects and their progress</p>
             </div>
           </div>
         </div>
 
         {/* Profile Card */}
-        <Card className="mb-8 border-white/10 bg-black/40 backdrop-blur-xl">
+        <Card className="mb-8 border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
           <CardContent className="p-6">
             <div className="flex items-center gap-6">
               <div className="relative">
-                <Avatar className="h-24 w-24 border-4 border-lime-400">
+                <Avatar className="h-24 w-24 border-4 border-red-500">
                   <AvatarImage src={client.image} alt={client.name} />
-                  <AvatarFallback className="bg-lime-400 text-black text-2xl font-semibold">
+                  <AvatarFallback className="bg-gradient-to-r from-red-600 to-red-800 text-white text-2xl font-semibold">
                     {getInitials(client.name)}
                   </AvatarFallback>
                 </Avatar>
                 <label
                   htmlFor="avatar-upload"
-                  className="absolute bottom-0 right-0 bg-lime-400 hover:bg-lime-300 text-black rounded-full p-2 cursor-pointer transition-all"
+                  className="absolute bottom-0 right-0 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white rounded-full p-2 cursor-pointer transition-all"
                 >
                   {uploading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -371,10 +395,10 @@ export default function ClientDashboard() {
               </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-white">{client.name}</h2>
-                <p className="text-white/60 mt-1">{client.email}</p>
-                {client.phone && <p className="text-white/60">{client.phone}</p>}
+                <p className="text-gray-400 mt-1">{client.email}</p>
+                {client.phone && <p className="text-gray-400">{client.phone}</p>}
                 {client.company && (
-                  <p className="text-lime-400 font-medium mt-2">{client.company}</p>
+                  <p className="text-red-400 font-medium mt-2">{client.company}</p>
                 )}
               </div>
             </div>
@@ -384,11 +408,11 @@ export default function ClientDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {stats.map((stat) => (
-            <Card key={stat.title} className="border-white/10 bg-black/40 backdrop-blur-xl">
+            <Card key={stat.title} className="border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white/60 text-sm">{stat.title}</p>
+                    <p className="text-gray-400 text-sm">{stat.title}</p>
                     <p className="text-3xl font-bold text-white mt-2">{stat.value}</p>
                   </div>
                   <stat.icon className={`w-12 h-12 ${stat.color}`} />
@@ -400,7 +424,7 @@ export default function ClientDashboard() {
 
         {/* Projects and Services Tabs */}
         <Tabs defaultValue="projects" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-6">
             <TabsTrigger value="projects">
               <FolderKanban className="mr-2 h-4 w-4" />
               Projects
@@ -409,11 +433,15 @@ export default function ClientDashboard() {
               <Package className="mr-2 h-4 w-4" />
               Services
             </TabsTrigger>
+            <TabsTrigger value="applications">
+              <Briefcase className="mr-2 h-4 w-4" />
+              Applications ({applications.length})
+            </TabsTrigger>
           </TabsList>
 
           {/* Projects Tab */}
           <TabsContent value="projects">
-            <Card className="border-white/10 bg-black/40 backdrop-blur-xl">
+            <Card className="border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
               <CardHeader>
                 <CardTitle className="text-white">Your Projects</CardTitle>
               </CardHeader>
@@ -421,25 +449,25 @@ export default function ClientDashboard() {
                 {!client.projects || client.projects.length === 0 ? (
                   <div className="text-center py-12">
                     <FolderKanban className="h-16 w-16 text-white/20 mx-auto mb-4" />
-                    <p className="text-white/60">No projects yet</p>
-                    <p className="text-white/40 text-sm mt-2">
+                    <p className="text-gray-400">No projects yet</p>
+                    <p className="text-gray-500 text-sm mt-2">
                       Contact us to start your first project
                     </p>
-                    <Button asChild className="mt-4 bg-lime-400 text-black hover:bg-lime-300">
+                    <Button asChild className="mt-4 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white">
                       <Link href="/#contact">Get Started</Link>
                     </Button>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     {client.projects.map((project, index) => (
-                      <Card key={index} className="border-white/10 bg-white/5">
+                      <Card key={index} className="border-red-500/20 bg-black/40 shadow-lg shadow-red-900/20">
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between mb-4">
                             <div>
                               <h3 className="text-xl font-semibold text-white">
                                 {project.projectTitle}
                               </h3>
-                              <p className="text-white/60 text-sm mt-1">
+                              <p className="text-gray-400 text-sm mt-1">
                                 Booked: {new Date(project.bookedDate).toLocaleDateString()}
                               </p>
                             </div>
@@ -451,7 +479,7 @@ export default function ClientDashboard() {
                           {/* Progress Bar */}
                           <div className="mb-6">
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm text-white/60">Progress</span>
+                              <span className="text-sm text-gray-400">Progress</span>
                               <span className="text-sm font-semibold text-white">
                                 {project.progress}%
                               </span>
@@ -470,14 +498,14 @@ export default function ClientDashboard() {
                                     <div className="flex items-center justify-between">
                                       <p className="text-white font-medium">{phase.phase}</p>
                                       {phase.date && (
-                                        <span className="text-xs text-white/60">
+                                        <span className="text-xs text-gray-400">
                                           {new Date(phase.date).toLocaleDateString()}
                                         </span>
                                       )}
                                     </div>
                                     <Badge
                                       variant="outline"
-                                      className="mt-1 text-xs border-white/20 text-white/60"
+                                      className="mt-1 text-xs border-red-500/30 text-gray-400"
                                     >
                                       {phase.status}
                                     </Badge>
@@ -488,10 +516,10 @@ export default function ClientDashboard() {
                           )}
 
                           {/* Dates */}
-                          <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
+                          <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-red-500/20">
                             {project.startDate && (
                               <div>
-                                <p className="text-xs text-white/60">Start Date</p>
+                                <p className="text-xs text-gray-400">Start Date</p>
                                 <p className="text-white font-medium">
                                   {new Date(project.startDate).toLocaleDateString()}
                                 </p>
@@ -499,7 +527,7 @@ export default function ClientDashboard() {
                             )}
                             {project.estimatedCompletion && (
                               <div>
-                                <p className="text-xs text-white/60">Est. Completion</p>
+                                <p className="text-xs text-gray-400">Est. Completion</p>
                                 <p className="text-white font-medium">
                                   {new Date(project.estimatedCompletion).toLocaleDateString()}
                                 </p>
@@ -509,8 +537,8 @@ export default function ClientDashboard() {
 
                           {/* Notes */}
                           {project.notes && (
-                            <div className="mt-4 p-4 rounded-lg bg-white/5">
-                              <p className="text-xs text-white/60 mb-1">Notes</p>
+                            <div className="mt-4 p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                              <p className="text-xs text-gray-400 mb-1">Notes</p>
                               <p className="text-white text-sm">{project.notes}</p>
                             </div>
                           )}
@@ -525,7 +553,7 @@ export default function ClientDashboard() {
 
           {/* Services Tab */}
           <TabsContent value="services">
-            <Card className="border-white/10 bg-black/40 backdrop-blur-xl">
+            <Card className="border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
               <CardHeader>
                 <CardTitle className="text-white">Service Bookings</CardTitle>
               </CardHeader>
@@ -533,7 +561,7 @@ export default function ClientDashboard() {
                 {loadingBookings ? (
                   <div className="space-y-6">
                     {[1, 2].map((i) => (
-                      <Card key={i} className="border-white/10 bg-white/5">
+                      <Card key={i} className="border-red-500/20 bg-black/40">
                         <CardContent className="p-6">
                           <Skeleton className="h-6 w-3/4 mb-4" />
                           <Skeleton className="h-4 w-1/2 mb-4" />
@@ -546,28 +574,28 @@ export default function ClientDashboard() {
                 ) : bookings.length === 0 ? (
                   <div className="text-center py-12">
                     <Package className="h-16 w-16 text-white/20 mx-auto mb-4" />
-                    <p className="text-white/60">No service bookings yet</p>
-                    <p className="text-white/40 text-sm mt-2">
+                    <p className="text-gray-400">No service bookings yet</p>
+                    <p className="text-gray-500 text-sm mt-2">
                       Browse our services to get started
                     </p>
-                    <Button asChild className="mt-4 bg-lime-400 text-black hover:bg-lime-300">
+                    <Button asChild className="mt-4 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white">
                       <Link href="/services">Browse Services</Link>
                     </Button>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     {bookings.map((booking) => (
-                      <Card key={booking.id} className="border-white/10 bg-white/5">
+                      <Card key={booking.id} className="border-red-500/20 bg-black/40 shadow-lg shadow-red-900/20">
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between mb-4">
                             <div>
                               <h3 className="text-xl font-semibold text-white">
                                 {booking.serviceTitle}
                               </h3>
-                              <p className="text-purple-400 font-medium mt-1">
+                              <p className="text-red-400 font-medium mt-1">
                                 {booking.packageName} - ${booking.packagePrice}
                               </p>
-                              <p className="text-white/60 text-sm mt-1">
+                              <p className="text-gray-400 text-sm mt-1">
                                 Booked: {new Date(booking.createdAt).toLocaleDateString()}
                               </p>
                             </div>
@@ -589,7 +617,7 @@ export default function ClientDashboard() {
                           {/* Progress Bar */}
                           <div className="mb-6">
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm text-white/60">Progress</span>
+                              <span className="text-sm text-gray-400">Progress</span>
                               <span className="text-sm font-semibold text-white">
                                 {booking.progress || 0}%
                               </span>
@@ -608,17 +636,17 @@ export default function ClientDashboard() {
                                     <div className="flex items-center justify-between">
                                       <p className="text-white font-medium">{phase.phase}</p>
                                       {phase.date && (
-                                        <span className="text-xs text-white/60">
+                                        <span className="text-xs text-gray-400">
                                           {new Date(phase.date).toLocaleDateString()}
                                         </span>
                                       )}
                                     </div>
                                     {phase.description && (
-                                      <p className="text-xs text-white/60 mt-1">{phase.description}</p>
+                                      <p className="text-xs text-gray-400 mt-1">{phase.description}</p>
                                     )}
                                     <Badge
                                       variant="outline"
-                                      className="mt-1 text-xs border-white/20 text-white/60"
+                                      className="mt-1 text-xs border-red-500/30 text-gray-400"
                                     >
                                       {phase.status}
                                     </Badge>
@@ -629,10 +657,10 @@ export default function ClientDashboard() {
                           )}
 
                           {/* Dates */}
-                          <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
+                          <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-red-500/20">
                             {booking.startDate && (
                               <div>
-                                <p className="text-xs text-white/60">Start Date</p>
+                                <p className="text-xs text-gray-400">Start Date</p>
                                 <p className="text-white font-medium">
                                   {new Date(booking.startDate).toLocaleDateString()}
                                 </p>
@@ -640,7 +668,7 @@ export default function ClientDashboard() {
                             )}
                             {booking.estimatedCompletion && (
                               <div>
-                                <p className="text-xs text-white/60">Est. Completion</p>
+                                <p className="text-xs text-gray-400">Est. Completion</p>
                                 <p className="text-white font-medium">
                                   {new Date(booking.estimatedCompletion).toLocaleDateString()}
                                 </p>
@@ -650,8 +678,8 @@ export default function ClientDashboard() {
 
                           {/* Notes */}
                           {booking.notes && (
-                            <div className="mt-4 p-4 rounded-lg bg-white/5">
-                              <p className="text-xs text-white/60 mb-1">Admin Notes</p>
+                            <div className="mt-4 p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                              <p className="text-xs text-gray-400 mb-1">Admin Notes</p>
                               <p className="text-white text-sm">{booking.notes}</p>
                             </div>
                           )}
@@ -661,7 +689,7 @@ export default function ClientDashboard() {
                             <div className="mt-4">
                               <Button
                                 asChild
-                                className="w-full bg-lime-400 text-black hover:bg-lime-300"
+                                className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white"
                               >
                                 <Link href={`/client/invoices/${booking.invoiceId}`}>
                                   View Invoice & Payment Details
@@ -677,16 +705,165 @@ export default function ClientDashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Applications Tab */}
+          <TabsContent value="applications">
+            <Card className="border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
+              <CardHeader>
+                <CardTitle className="text-white">Job Applications</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loadingApplications ? (
+                  <div className="text-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-red-400 mx-auto" />
+                  </div>
+                ) : applications.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Briefcase className="h-16 w-16 text-white/20 mx-auto mb-4" />
+                    <p className="text-gray-400">No job applications yet</p>
+                    <p className="text-gray-500 text-sm mt-2">
+                      Browse open positions and apply
+                    </p>
+                    <Button asChild className="mt-4 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white">
+                      <Link href="/careers">View Openings</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {applications.map((application: any) => (
+                      <Card key={application.id} className="border-red-500/20 bg-black/40 shadow-lg shadow-red-900/20">
+                        <CardContent className="pt-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge className={`${
+                                  application.status === 'pending' ? 'bg-yellow-500' :
+                                  application.status === 'reviewing' ? 'bg-blue-500' :
+                                  application.status === 'shortlisted' ? 'bg-purple-500' :
+                                  application.status === 'interview-scheduled' ? 'bg-green-500' :
+                                  application.status === 'rejected' ? 'bg-red-500' :
+                                  application.status === 'accepted' ? 'bg-green-600' :
+                                  'bg-gray-500'
+                                } text-white`}>
+                                  {application.status === 'pending' ? 'Pending Review' :
+                                   application.status === 'reviewing' ? 'Under Review' :
+                                   application.status === 'shortlisted' ? 'Shortlisted' :
+                                   application.status === 'interview-scheduled' ? 'Interview Scheduled' :
+                                   application.status === 'rejected' ? 'Not Selected' :
+                                   application.status === 'accepted' ? 'Accepted' :
+                                   application.status}
+                                </Badge>
+                              </div>
+                              <h3 className="text-xl font-bold text-white mb-2">
+                                {application.job?.title || "Position No Longer Available"}
+                              </h3>
+                              {application.job && (
+                                <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                                  <div className="flex items-center gap-1">
+                                    <Briefcase className="h-4 w-4" />
+                                    <span>{application.job.department}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <MapPin className="h-4 w-4" />
+                                    <span>{application.job.location}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="h-4 w-4" />
+                                    <span className="capitalize">{application.job.type.replace('-', ' ')}</span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                              <div>
+                                <div className="text-gray-400 mb-1">Applied On</div>
+                                <div className="font-medium text-white flex items-center gap-1">
+                                  <Calendar className="h-4 w-4" />
+                                  {new Date(application.createdAt).toLocaleDateString()}
+                                </div>
+                              </div>
+                              <div>
+                                <div className="text-white/60 mb-1">Experience</div>
+                                <div className="font-medium text-white">{application.yearsOfExperience} years</div>
+                              </div>
+                              {application.currentCompany && (
+                                <div>
+                                  <div className="text-white/60 mb-1">Current Company</div>
+                                  <div className="font-medium text-white">{application.currentCompany}</div>
+                                </div>
+                              )}
+                              {application.expectedSalary && application.expectedSalary > 0 && (
+                                <div>
+                                  <div className="text-white/60 mb-1">Expected Salary</div>
+                                  <div className="font-medium text-white">৳{application.expectedSalary.toLocaleString()}</div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mb-4">
+                            <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                              <FileText className="h-4 w-4" />
+                              Cover Letter
+                            </h4>
+                            <p className="text-sm text-white/80 line-clamp-3">
+                              {application.coverLetter}
+                            </p>
+                          </div>
+
+                          <div className="flex flex-wrap gap-2">
+                            <a href={application.resumeUrl} target="_blank" rel="noopener noreferrer">
+                              <Button variant="outline" size="sm" className="gap-2 border-red-500/30 text-white hover:bg-red-500/10">
+                                <ExternalLink className="h-4 w-4" />
+                                View Resume
+                              </Button>
+                            </a>
+                            {application.portfolioUrl && (
+                              <a href={application.portfolioUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="gap-2 border-red-500/30 text-white hover:bg-red-500/10">
+                                  <ExternalLink className="h-4 w-4" />
+                                  Portfolio
+                                </Button>
+                              </a>
+                            )}
+                            {application.linkedinUrl && (
+                              <a href={application.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="gap-2 border-red-500/30 text-white hover:bg-red-500/10">
+                                  <ExternalLink className="h-4 w-4" />
+                                  LinkedIn
+                                </Button>
+                              </a>
+                            )}
+                            {application.githubUrl && (
+                              <a href={application.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <Button variant="outline" size="sm" className="gap-2 border-red-500/30 text-white hover:bg-red-500/10">
+                                  <ExternalLink className="h-4 w-4" />
+                                  GitHub
+                                </Button>
+                              </a>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
 
         {/* Testimonial Section */}
-        <Card className="border-white/10 bg-black/40 backdrop-blur-xl mt-8">
+        <Card className="border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10 mt-8">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <MessageSquare className="h-5 w-5" />
               Share Your Experience
             </CardTitle>
-            <p className="text-white/60 text-sm">Your feedback helps us improve and helps others make informed decisions</p>
+            <p className="text-gray-400 text-sm">Your feedback helps us improve and helps others make informed decisions</p>
           </CardHeader>
           <CardContent>
             {/* Submit Testimonial Form */}
@@ -704,7 +881,7 @@ export default function ClientDashboard() {
                       <Star
                         className={`h-8 w-8 ${
                           star <= testimonialForm.rating
-                            ? "fill-lime-400 text-lime-400"
+                            ? "fill-red-400 text-red-400"
                             : "text-white/40"
                         }`}
                       />
@@ -723,7 +900,7 @@ export default function ClientDashboard() {
                   rows={4}
                   className="mt-2"
                 />
-                <p className="text-xs text-white/60 mt-1">Minimum 10 characters</p>
+                <p className="text-xs text-gray-500 mt-1">Minimum 10 characters</p>
               </div>
 
               <div>
@@ -735,7 +912,7 @@ export default function ClientDashboard() {
                         <img
                           src={image}
                           alt={`Testimonial ${index + 1}`}
-                          className="h-24 w-24 rounded-lg object-cover border-2 border-lime-400"
+                          className="h-24 w-24 rounded-lg object-cover border-2 border-red-500"
                         />
                         <button
                           onClick={() => removeTestimonialImage(index)}
@@ -750,13 +927,13 @@ export default function ClientDashboard() {
                     
                     {testimonialImages.length < 5 && (
                       <label className="cursor-pointer">
-                        <div className="h-24 w-24 rounded-lg border-2 border-dashed border-white/20 flex flex-col items-center justify-center hover:border-lime-400 transition-colors">
+                        <div className="h-24 w-24 rounded-lg border-2 border-dashed border-red-500/30 flex flex-col items-center justify-center hover:border-red-400 transition-colors">
                           {uploadingTestimonialImage ? (
-                            <Loader2 className="h-6 w-6 animate-spin text-lime-400" />
+                            <Loader2 className="h-6 w-6 animate-spin text-red-400" />
                           ) : (
                             <>
-                              <Upload className="h-6 w-6 text-white/60" />
-                              <span className="text-xs text-white/60 mt-1">Upload</span>
+                              <Upload className="h-6 w-6 text-gray-400" />
+                              <span className="text-xs text-gray-400 mt-1">Upload</span>
                             </>
                           )}
                         </div>
@@ -770,7 +947,7 @@ export default function ClientDashboard() {
                       </label>
                     )}
                   </div>
-                  <p className="text-sm text-white/60 mt-2">
+                  <p className="text-sm text-gray-400 mt-2">
                     Upload photos of yourself or your work (Max 5 images, 5MB each)
                     {testimonialImages.length > 0 && ` - ${testimonialImages.length}/5 uploaded`}
                   </p>
@@ -780,7 +957,7 @@ export default function ClientDashboard() {
               <Button
                 onClick={handleSubmitTestimonial}
                 disabled={submittingTestimonial || !testimonialForm.review.trim()}
-                className="bg-lime-400 text-black hover:bg-lime-300"
+                className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white"
               >
                 {submittingTestimonial ? (
                   <>
@@ -798,17 +975,17 @@ export default function ClientDashboard() {
               <h3 className="text-lg font-semibold text-white mb-4">Your Reviews</h3>
               {loadingTestimonials ? (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-lime-400" />
+                  <Loader2 className="h-6 w-6 animate-spin text-red-400" />
                 </div>
               ) : testimonials.length === 0 ? (
-                <div className="text-center py-8 bg-white/5 rounded-lg">
+                <div className="text-center py-8 bg-red-500/10 border border-red-500/20 rounded-lg">
                   <MessageSquare className="h-12 w-12 text-white/20 mx-auto mb-3" />
-                  <p className="text-white/60">You haven&apos;t submitted any reviews yet</p>
+                  <p className="text-gray-400">You haven&apos;t submitted any reviews yet</p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {testimonials.map((testimonial) => (
-                    <Card key={testimonial.id} className="bg-white/5 border-white/10">
+                    <Card key={testimonial.id} className="bg-red-500/10 border-red-500/20 shadow-lg shadow-red-900/20">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-4">
                           {testimonial.clientImage && (
@@ -826,7 +1003,7 @@ export default function ClientDashboard() {
                                     key={star}
                                     className={`h-4 w-4 ${
                                       star <= testimonial.rating
-                                        ? "fill-lime-400 text-lime-400"
+                                        ? "fill-red-400 text-red-400"
                                         : "text-white/40"
                                     }`}
                                   />
@@ -837,7 +1014,7 @@ export default function ClientDashboard() {
                               </Badge>
                             </div>
                             <p className="text-white/90 text-sm">{testimonial.review}</p>
-                            <p className="text-xs text-white/60 mt-2">
+                            <p className="text-xs text-gray-400 mt-2">
                               {new Date(testimonial.createdAt).toLocaleDateString()}
                             </p>
                           </div>

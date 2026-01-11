@@ -69,10 +69,10 @@ export default function ClientRegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-black">
       <div className="w-full max-w-md">
         <div className="mb-6">
-          <Button asChild variant="ghost" className="text-white hover:text-lime-400">
+          <Button asChild variant="ghost" className="text-gray-300 hover:text-red-400">
             <Link href="/">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Home
@@ -80,10 +80,10 @@ export default function ClientRegisterPage() {
           </Button>
         </div>
 
-        <Card className="border-white/10 bg-black/40 backdrop-blur-xl">
+        <Card className="border-red-500/20 bg-black/60 backdrop-blur-xl shadow-lg shadow-red-500/10">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-white">Create Account</CardTitle>
-            <CardDescription className="text-white/60">
+            <CardTitle className="text-2xl bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Create Account</CardTitle>
+            <CardDescription className="text-gray-300">
               Sign up to track your projects and bookings
             </CardDescription>
           </CardHeader>
@@ -98,7 +98,7 @@ export default function ClientRegisterPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10"
+                  className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                 />
               </div>
 
@@ -111,7 +111,7 @@ export default function ClientRegisterPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10"
+                  className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                 />
               </div>
 
@@ -123,7 +123,7 @@ export default function ClientRegisterPage() {
                   placeholder="+880 1X-XXXX-XXXX"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="bg-white/5 border-white/10"
+                  className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                 />
               </div>
 
@@ -135,7 +135,7 @@ export default function ClientRegisterPage() {
                   placeholder="Your Company"
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  className="bg-white/5 border-white/10"
+                  className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                 />
               </div>
 
@@ -148,9 +148,9 @@ export default function ClientRegisterPage() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10"
+                  className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                 />
-                <p className="text-xs text-white/40">Minimum 8 characters</p>
+                <p className="text-xs text-gray-500">Minimum 8 characters</p>
               </div>
 
               <div className="space-y-2">
@@ -162,13 +162,13 @@ export default function ClientRegisterPage() {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10"
+                  className="bg-black/50 border-red-500/30 focus:border-red-500/50 focus:ring-red-500/30"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-lime-400 text-black hover:bg-lime-300"
+                className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white"
                 disabled={loading}
               >
                 {loading ? (
@@ -183,9 +183,9 @@ export default function ClientRegisterPage() {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-gray-400">
                 Already have an account?{" "}
-                <Link href="/client/login" className="text-lime-400 hover:text-lime-300">
+                <Link href="/client/login" className="text-red-400 hover:text-red-300">
                   Login
                 </Link>
               </p>
