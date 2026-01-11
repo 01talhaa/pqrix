@@ -48,14 +48,16 @@ export default function NewCaseStudyPage() {
       const data = await response.json()
 
       if (data.success) {
+        alert('Case study created successfully!')
         router.push("/admin/case-studies")
         router.refresh()
       } else {
-        alert(data.message || "Failed to create case study")
+        console.error('Server error:', data.message)
+        alert(data.message || "Failed to create case study. Please check your data and try again.")
       }
     } catch (error) {
       console.error("Error creating case study:", error)
-      alert("Failed to create case study")
+      alert("Network error: Failed to create case study. Please check your connection and try again.")
     } finally {
       setSubmitting(false)
     }

@@ -39,7 +39,19 @@ export default function EditCaseStudyPage({ params }: { params: Promise<{ id: st
         const id = resolvedParams.id
         setCaseStudyId(id)
         
-        const response = await fetch(`/api/case-studies?id=${id}`)
+        const timestamp = new Date().getTime()
+        const response = await fetch(`/api/case-studies?id=${id}&t=${timestamp}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        })
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
         const data = await response.json()
         
         if (data.success) {
@@ -58,12 +70,13 @@ export default function EditCaseStudyPage({ params }: { params: Promise<{ id: st
           setMetrics(cs.metrics || [])
           setTechnologies(cs.technologies || [])
         } else {
-          alert("Case study not found")
+          alert(data.message || "Case study not found")
           router.push("/admin/case-studies")
         }
       } catch (error) {
         console.error("Error fetching case study:", error)
-        alert("Failed to load case study")
+        alert("Failed to load case study. Please try again.")
+        router.push("/admin/case-studies")
       } finally {
         setLoading(false)
       }
@@ -91,14 +104,16 @@ export default function EditCaseStudyPage({ params }: { params: Promise<{ id: st
       const data = await response.json()
 
       if (data.success) {
+        alert('Case study updated successfully!')
         router.push("/admin/case-studies")
         router.refresh()
       } else {
-        alert(data.message || "Failed to update case study")
+        console.error('Server error:', data.message)
+        alert(data.message || "Failed to update case study. Please check your data and try again.")
       }
     } catch (error) {
       console.error("Error updating case study:", error)
-      alert("Failed to update case study")
+      alert("Network error: Failed to update case study. Please check your connection and try again.")
     } finally {
       setSubmitting(false)
     }

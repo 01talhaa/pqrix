@@ -1,64 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server'
-import mongoose from 'mongoose'
-import CaseStudy from '@/lib/models/CaseStudy'
+import { connectToDatabase } from '@/lib/mongodb'
 import { revalidatePath } from 'next/cache'
 
-// Mongoose connection
-const MONGO_URI = process.env.MONGO_URI || ''
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
-if (!MONGO_URI) {
-  throw new Error('Please define the MONGO_URI environment variable')
-}
-
-let cached = global.mongoose
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
-}
-
-async function connectDB() {
-  if (cached.conn) {
-    return cached.conn
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    }
-
-    cached.promise = mongoose.connect(MONGO_URI, opts).then((mongoose) => {
-      return mongoose
-    })
-  }
-
-  try {
-    cached.conn = await cached.promise
-  } catch (e) {
-    cached.promise = null
-    throw e
-  }
-
-  return cached.conn
-}
-
-declare global {
-  var mongoose: {
-    conn: typeof mongoose | null
-    promise: Promise<typeof mongoose> | null
-  }
+interface CaseStudyDocument {
+  _id?: string
+  title: string
+  industry: string
+  clientType: string
+  challenge: string
+  solution: string
+  result: string
+  image?: string
+  metrics?: { label: string; value: string }[]
+  technologies?: string[]
+  isActive: boolean
+  order: number
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 // GET - Fetch all case studies or single case study by id
 export async function GET(request: NextRequest) {
   try {
-    await connectDB()
+    const { db } = await connectToDatabase()
+    const collection = db.collection<CaseStudyDocument>('casestudies')
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
     const activeOnly = searchParams.get('activeOnly') === 'true'
 
     if (id) {
-      const caseStudy = await CaseStudy.findById(id)
+      const { ObjectId } = await import('mongodb')
+      const caseStudy = await collection.findOne({ _id: new ObjectId(id) })
+      
       if (!caseStudy) {
         return NextResponse.json(
           { success: false, message: 'Case study not found' },
@@ -69,13 +46,18 @@ export async function GET(request: NextRequest) {
     }
 
     const query = activeOnly ? { isActive: true } : {}
-    const caseStudies = await CaseStudy.find(query).sort({ order: 1, createdAt: -1 })
+    const caseStudies = await collection
+      .find(query)
+      .sort({ order: 1, createdAt: -1 })
+      .toArray()
 
     return NextResponse.json(
       { success: true, data: caseStudies },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
       }
     )
@@ -91,7 +73,8 @@ export async function GET(request: NextRequest) {
 // POST - Create new case study
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
+    const { db } = await connectToDatabase()
+    const collection = db.collection<CaseStudyDocument>('casestudies')
 
     const body = await request.json()
     const {
@@ -116,7 +99,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const caseStudy = await CaseStudy.create({
+    const caseStudy: CaseStudyDocument = {
       title,
       industry,
       clientType,
@@ -127,15 +110,23 @@ export async function POST(request: NextRequest) {
       metrics: metrics || [],
       technologies: technologies || [],
       isActive: isActive !== undefined ? isActive : true,
-      order: order || 0
-    })
+      order: order || 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+
+    const result2 = await collection.insertOne(caseStudy as any)
 
     // Revalidate cache
     revalidatePath('/')
     revalidatePath('/admin/case-studies')
 
     return NextResponse.json(
-      { success: true, data: caseStudy, message: 'Case study created successfully' },
+      { 
+        success: true, 
+        data: { ...caseStudy, _id: result2.insertedId }, 
+        message: 'Case study created successfully' 
+      },
       { status: 201 }
     )
   } catch (error: any) {
@@ -150,7 +141,8 @@ export async function POST(request: NextRequest) {
 // PUT - Update case study
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB()
+    const { db } = await connectToDatabase()
+    const collection = db.collection<CaseStudyDocument>('casestudies')
 
     const body = await request.json()
     const { id, ...updateData } = body
@@ -162,13 +154,21 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const caseStudy = await CaseStudy.findByIdAndUpdate(
-      id,
-      { $set: updateData },
-      { new: true, runValidators: true }
+    const { ObjectId } = await import('mongodb')
+    
+    // Add updatedAt timestamp
+    const dataToUpdate = {
+      ...updateData,
+      updatedAt: new Date()
+    }
+
+    const result = await collection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: dataToUpdate },
+      { returnDocument: 'after' }
     )
 
-    if (!caseStudy) {
+    if (!result) {
       return NextResponse.json(
         { success: false, message: 'Case study not found' },
         { status: 404 }
@@ -181,7 +181,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: caseStudy,
+      data: result,
       message: 'Case study updated successfully'
     })
   } catch (error: any) {
@@ -196,7 +196,8 @@ export async function PUT(request: NextRequest) {
 // DELETE - Delete case study
 export async function DELETE(request: NextRequest) {
   try {
-    await connectDB()
+    const { db } = await connectToDatabase()
+    const collection = db.collection<CaseStudyDocument>('casestudies')
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
@@ -208,9 +209,10 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const caseStudy = await CaseStudy.findByIdAndDelete(id)
+    const { ObjectId } = await import('mongodb')
+    const result = await collection.deleteOne({ _id: new ObjectId(id) })
 
-    if (!caseStudy) {
+    if (result.deletedCount === 0) {
       return NextResponse.json(
         { success: false, message: 'Case study not found' },
         { status: 404 }
