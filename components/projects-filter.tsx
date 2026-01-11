@@ -3,7 +3,8 @@
 import { useState, useMemo, useCallback } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Play } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Play, Filter, Search, X } from "lucide-react"
 import Link from "next/link"
 
 interface Project {
@@ -32,16 +33,8 @@ interface ProjectsFilterProps {
 
 export function ProjectsFilter({ initialProjects, initialServices }: ProjectsFilterProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-
-  // Memoize filtered projects to prevent unnecessary recalculations
-  const filteredProjects = useMemo(() => {
-    if (selectedCategory === "all") {
-      return initialProjects
-    }
-    return initialProjects.filter(
-      (project) => project.serviceCategory === selectedCategory
-    )
-  }, [selectedCategory, initialProjects])
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [showFilters, setShowFilters] = useState<boolean>(false)
 
   // Memoize service map for O(1) lookup
   const serviceMap = useMemo(() => {
@@ -49,6 +42,48 @@ export function ProjectsFilter({ initialProjects, initialServices }: ProjectsFil
     initialServices.forEach(s => map.set(s.id, s.title))
     return map
   }, [initialServices])
+
+  // Memoize filtered projects to prevent unnecessary recalculations
+  const filteredProjects = useMemo(() => {
+    let projects = initialProjects
+    
+    // Filter by category
+    if (selectedCategory !== "all") {
+      projects = projects.filter(
+        (project) => project.serviceCategory === selectedCategory
+      )
+    }
+    
+    // Filter by search query - search through all visible card content
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim()
+      projects = projects.filter((project) => {
+        // Get the service title that's displayed on the card
+        const serviceTitle = project.serviceCategory 
+          ? serviceMap.get(project.serviceCategory) || ""
+          : ""
+        
+        return (
+          // Title
+          project.title.toLowerCase().includes(query) ||
+          // Client name
+          project.client.toLowerCase().includes(query) ||
+          // Description
+          project.description.toLowerCase().includes(query) ||
+          // Category (fallback display)
+          project.category.toLowerCase().includes(query) ||
+          // Service category title (what's shown on the badge)
+          serviceTitle.toLowerCase().includes(query) ||
+          // Year
+          project.year.toLowerCase().includes(query) ||
+          // All tags
+          project.tags?.some(tag => tag.toLowerCase().includes(query))
+        )
+      })
+    }
+    
+    return projects
+  }, [selectedCategory, searchQuery, initialProjects, serviceMap])
 
   // Handle category change
   const handleCategoryChange = useCallback((category: string) => {
@@ -58,36 +93,78 @@ export function ProjectsFilter({ initialProjects, initialServices }: ProjectsFil
 
   return (
     <>
-      {/* Filter Tabs */}
-      <section className="container mx-auto px-4 pb-8">
-        <div className="flex flex-wrap justify-center gap-3">
+      {/* Search Bar and Filter Toggle - Single Line */}
+      <section className="container mx-auto px-4 pb-6">
+        <div className="flex items-center justify-center gap-3">
+          {/* Search Bar */}
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search projects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-10 rounded-full border-red-500/30 bg-black/40 text-white placeholder:text-gray-400 focus:border-red-500/50 focus:ring-red-500/20"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Filter Toggle Button */}
           <Button
-            onClick={() => handleCategoryChange("all")}
-            variant={selectedCategory === "all" ? "default" : "outline"}
-            className={
-              selectedCategory === "all"
-                ? "rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/30 border border-red-400/20"
-                : "rounded-full border-red-500/30 bg-black/40 text-gray-300 hover:bg-red-500/10 hover:border-red-500/50 hover:text-white transition-all duration-300"
-            }
+            onClick={() => setShowFilters(!showFilters)}
+            variant="outline"
+            className={`rounded-full border-red-500/30 bg-black/40 text-gray-300 hover:bg-red-500/10 hover:border-red-500/50 hover:text-white transition-all duration-300 shrink-0 ${
+              showFilters ? "border-red-500/50 bg-red-500/10" : ""
+            }`}
           >
-            All Projects
+            <Filter className="h-4 w-4 mr-2" />
+            Filters
+            {selectedCategory !== "all" && (
+              <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-red-600 text-white">1</span>
+            )}
           </Button>
-          {initialServices.map((service) => (
+        </div>
+      </section>
+
+      {/* Filter Tabs - Hidden by default */}
+      {showFilters && (
+        <section className="container mx-auto px-4 pb-8">
+          <div className="flex flex-wrap justify-center gap-3">
             <Button
-              key={service.id}
-              onClick={() => handleCategoryChange(service.id)}
-              variant={selectedCategory === service.id ? "default" : "outline"}
+              onClick={() => handleCategoryChange("all")}
+              variant={selectedCategory === "all" ? "default" : "outline"}
               className={
-                selectedCategory === service.id
+                selectedCategory === "all"
                   ? "rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/30 border border-red-400/20"
                   : "rounded-full border-red-500/30 bg-black/40 text-gray-300 hover:bg-red-500/10 hover:border-red-500/50 hover:text-white transition-all duration-300"
               }
             >
-              {service.title}
+              All Projects
             </Button>
-          ))}
-        </div>
-      </section>
+            {initialServices.map((service) => (
+              <Button
+                key={service.id}
+                onClick={() => handleCategoryChange(service.id)}
+                variant={selectedCategory === service.id ? "default" : "outline"}
+                className={
+                  selectedCategory === service.id
+                    ? "rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-all duration-300 shadow-lg shadow-red-500/30 border border-red-400/20"
+                    : "rounded-full border-red-500/30 bg-black/40 text-gray-300 hover:bg-red-500/10 hover:border-red-500/50 hover:text-white transition-all duration-300"
+                }
+              >
+                {service.title}
+              </Button>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Projects Grid */}
       <section className="container mx-auto px-4 pb-16 sm:pb-24">
