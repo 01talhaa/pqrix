@@ -178,20 +178,39 @@ export default function RedHero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
-          className="mt-10 flex flex-col items-center"
+          className="mt-10 flex flex-col items-center w-full"
         >
-          <div className="flex gap-1.5 mb-6">
+          <div className="flex gap-1 sm:gap-1.5 mb-4 sm:mb-6">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} size={24} className="fill-red-400 text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,0.6)]" />
+              <Star key={i} size={16} className="sm:w-6 sm:h-6 fill-red-400 text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,0.6)]" />
             ))}
           </div>
-          <p className="text-xl font-black text-white uppercase tracking-[0.4em] mb-12">Powering innovative startups & enterprises</p>
-          <div className="flex flex-wrap justify-center items-center gap-20 opacity-40 hover:opacity-100 transition-all duration-700">
-            {['SHILPOMARKET', 'PIXELPRIMP', 'ECOMMERZO', 'MEDIA-MIND', 'BASHA-LAGBE'].map((name) => (
-              <div key={name} className="text-3xl font-black tracking-tighter text-white hover:text-red-400 transition-colors cursor-pointer hover:scale-110 duration-500">
-                {name}
-              </div>
-            ))}
+          <p className="text-xs sm:text-sm md:text-base lg:text-xl font-black text-white uppercase tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] mb-8 sm:mb-10 md:mb-12 text-center px-4">
+            Powering innovative startups & enterprises
+          </p>
+          
+          {/* Infinite Scroll Container */}
+          <div className="w-full overflow-hidden relative">
+            <div className="flex animate-scroll hover:pause">
+              {/* First set of brands */}
+              {['SHILPOMARKET', 'PIXELPRIMP', 'ECOMMERZO', 'MEDIA-MIND', 'BASHA-LAGBE'].map((name, idx) => (
+                <div 
+                  key={`first-${idx}`} 
+                  className="text-xl sm:text-2xl md:text-3xl font-black tracking-tighter text-white hover:text-red-400 transition-colors cursor-pointer hover:scale-110 duration-500 whitespace-nowrap mx-8 sm:mx-12 md:mx-16 lg:mx-20 flex-shrink-0 opacity-60 hover:opacity-100"
+                >
+                  {name}
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {['SHILPOMARKET', 'PIXELPRIMP', 'ECOMMERZO', 'MEDIA-MIND', 'BASHA-LAGBE'].map((name, idx) => (
+                <div 
+                  key={`second-${idx}`} 
+                  className="text-xl sm:text-2xl md:text-3xl font-black tracking-tighter text-white hover:text-red-400 transition-colors cursor-pointer hover:scale-110 duration-500 whitespace-nowrap mx-8 sm:mx-12 md:mx-16 lg:mx-20 flex-shrink-0 opacity-60 hover:opacity-100"
+                >
+                  {name}
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
 
@@ -264,6 +283,31 @@ export default function RedHero() {
         @keyframes scan {
           0% { transform: translateY(-100%); }
           100% { transform: translateY(100%); }
+        }
+        
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        
+        .animate-scroll {
+          animation: scroll 10s linear infinite;
+        }
+        
+        @media (min-width: 640px) {
+          .animate-scroll {
+            animation: scroll 20s linear infinite;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .animate-scroll {
+            animation: scroll 25s linear infinite;
+          }
+        }
+        
+        .animate-scroll:hover {
+          animation-play-state: paused;
         }
       `}</style>
     </section>
