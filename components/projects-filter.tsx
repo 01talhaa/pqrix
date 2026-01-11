@@ -65,19 +65,19 @@ export function ProjectsFilter({ initialProjects, initialServices }: ProjectsFil
         
         return (
           // Title
-          project.title.toLowerCase().includes(query) ||
+          (project.title || "").toLowerCase().includes(query) ||
           // Client name
-          project.client.toLowerCase().includes(query) ||
+          (project.client || "").toLowerCase().includes(query) ||
           // Description
-          project.description.toLowerCase().includes(query) ||
+          (project.description || "").toLowerCase().includes(query) ||
           // Category (fallback display)
-          project.category.toLowerCase().includes(query) ||
+          (project.category || "").toLowerCase().includes(query) ||
           // Service category title (what's shown on the badge)
           serviceTitle.toLowerCase().includes(query) ||
           // Year
-          project.year.toLowerCase().includes(query) ||
+          String(project.year || "").toLowerCase().includes(query) ||
           // All tags
-          project.tags?.some(tag => tag.toLowerCase().includes(query))
+          project.tags?.some(tag => (tag || "").toLowerCase().includes(query))
         )
       })
     }
