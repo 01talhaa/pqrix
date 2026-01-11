@@ -37,10 +37,25 @@ export function CaseStudiesSection() {
   useEffect(() => {
     const fetchCaseStudies = async () => {
       try {
-        const response = await fetch('/api/case-studies?activeOnly=true')
+        // Add cache busting for production
+        const timestamp = new Date().getTime()
+        const response = await fetch(`/api/case-studies?activeOnly=true&t=${timestamp}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        })
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
         const data = await response.json()
         if (data.success) {
           setCaseStudies(data.data)
+        } else {
+          console.error('Failed to fetch case studies:', data.message)
         }
       } catch (error) {
         console.error('Error fetching case studies:', error)
