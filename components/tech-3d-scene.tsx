@@ -76,9 +76,9 @@ function InteractiveGlobe({ scrollProgress, deviceType }: { scrollProgress: numb
     }
   })
 
-  const segments = deviceType === 'mobile' ? 32 : deviceType === 'tablet' ? 48 : 64
-  const pointSize = deviceType === 'mobile' ? 0.012 : deviceType === 'tablet' ? 0.016 : 0.02
-  const torusSegments = deviceType === 'mobile' ? 64 : deviceType === 'tablet' ? 80 : 100
+  const segments = deviceType === 'mobile' ? 12 : deviceType === 'tablet' ? 20 : 32
+  const pointSize = deviceType === 'mobile' ? 0.018 : deviceType === 'tablet' ? 0.020 : 0.024
+  const torusSegments = deviceType === 'mobile' ? 24 : deviceType === 'tablet' ? 40 : 64
 
   return (
     <group ref={globeRef}>
@@ -270,9 +270,9 @@ function OrbitingSatellites({ scrollProgress, deviceType }: { scrollProgress: nu
   const { satelliteCount, orbitRadius, boxSize } = useMemo(() => {
     switch (deviceType) {
       case 'mobile':
-        return { satelliteCount: 2, orbitRadius: 2.2, boxSize: 0.07 }
+        return { satelliteCount: 0, orbitRadius: 2.2, boxSize: 0.07 }
       case 'tablet':
-        return { satelliteCount: 3, orbitRadius: 2.8, boxSize: 0.085 }
+        return { satelliteCount: 2, orbitRadius: 2.8, boxSize: 0.085 }
       default:
         return { satelliteCount: 3, orbitRadius: 3.5, boxSize: 0.1 }
     }
@@ -376,13 +376,13 @@ function Globe3D() {
     switch (deviceType) {
       case 'mobile':
         return {
-          dpr: [1, 1.5] as [number, number],
+          dpr: [0.75, 1] as [number, number],
           antialias: false,
           powerPreference: 'low-power' as const
         }
       case 'tablet':
         return {
-          dpr: [1, 1.75] as [number, number],
+          dpr: [1, 1.5] as [number, number],
           antialias: true,
           powerPreference: 'default' as const
         }
