@@ -1,6 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 import { 
   Star, 
   ArrowRight, 
@@ -92,31 +93,51 @@ export default function RedHero() {
         {/* Hero Content */}
         <div className="flex flex-col items-center justify-center pt-24 pb-20 text-center">
           
-          <div className="mb-8 inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-red-950/30 border border-red-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(220,38,38,0.2)]">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mb-8 inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-red-950/30 border border-red-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(220,38,38,0.2)]"
+          >
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
             </span>
-            <span className="text-[11px] font-black text-red-400 uppercase tracking-[0.25em]">PQRIX - we solve, you scale</span>
+            <span className="text-[11px] font-black text-red-300 uppercase tracking-[0.25em]">PQRIX - we solve, you scale</span>
             {/* <Terminal size={14} className="text-red-500" /> */}
-          </div>
+          </motion.div>
 
-          <h1 className="max-w-5xl text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8">
-            <span className="inline-block bg-gradient-to-r from-white via-red-100 to-white bg-clip-text text-transparent">
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className="max-w-5xl text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8"
+          >
+            <span className="inline-block bg-gradient-to-r from-white via-gray-50 to-white bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
               Custom Software
             </span>
             <br />
-            <span className="inline-block bg-gradient-to-r from-red-600 via-red-500 to-red-800 bg-clip-text text-transparent">
+            <span className="inline-block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(239,68,68,0.8)]">
               Built for Scale
             </span>
-          </h1>
+          </motion.h1>
           
-          <p className="mt-6 max-w-2xl text-xl text-gray-400 leading-relaxed font-medium">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            className="mt-6 max-w-2xl text-xl text-white leading-relaxed font-medium"
+          >
             Enterprise-grade web & mobile solutions engineered for performance. From MVPs to complex systems.
-            <span className="text-red-500"> AI-powered when it matters.</span>
-          </p>
+            <span className="text-red-400 font-bold"> AI-powered when it matters.</span>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-5 mt-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            className="flex flex-col sm:flex-row gap-5 mt-12"
+          >
             <Button className="group relative overflow-hidden bg-red-600 hover:bg-red-700 text-white font-bold px-10 py-7 rounded-full text-lg shadow-[0_20px_60px_rgba(220,38,38,0.3)] transition-all duration-500 hover:scale-105 border border-red-400/20">
               <span className="relative z-10 flex items-center gap-2">
                 Start Your Project
@@ -127,10 +148,15 @@ export default function RedHero() {
             <Button variant="outline" className="border-2 border-white/10 hover:border-red-500/50 bg-white/5 backdrop-blur-xl text-white font-semibold px-10 py-7 rounded-full text-lg transition-all duration-500">
               Talk to an Expert
             </Button>
-          </div>
+          </motion.div>
 
           {/* Stats Bar */}
-          <div className="mt-20 flex flex-wrap justify-center gap-12 px-10 py-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+            className="mt-20 flex flex-wrap justify-center gap-12 px-10 py-8 rounded-3xl bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl"
+          >
             {[
               { val: '200+', lab: 'Projects Delivered' },
               { val: '50+', lab: 'Enterprise Clients' },
@@ -138,31 +164,36 @@ export default function RedHero() {
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-12">
                 <div className="text-center">
-                  <div className="text-3xl font-black text-red-500">{stat.val}</div>
-                  <div className="text-xs uppercase tracking-widest text-gray-500 mt-1 font-bold">{stat.lab}</div>
+                  <div className="text-3xl font-black text-red-400">{stat.val}</div>
+                  <div className="text-xs uppercase tracking-widest text-white mt-1 font-bold">{stat.lab}</div>
                 </div>
                 {i < 2 && <div className="hidden md:block h-10 w-px bg-white/10" />}
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Brand Showcase */}
-        <div className="mt-10 flex flex-col items-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
+          className="mt-10 flex flex-col items-center"
+        >
           <div className="flex gap-1.5 mb-6">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} size={18} className="fill-red-500 text-red-500 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]" />
+              <Star key={i} size={24} className="fill-red-400 text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,0.6)]" />
             ))}
           </div>
-          <p className="text-xs font-black text-gray-600 uppercase tracking-[0.4em] mb-12">Powering innovative startups & enterprises</p>
-          <div className="flex flex-wrap justify-center items-center gap-16 opacity-30 hover:opacity-100 transition-all duration-700">
+          <p className="text-xl font-black text-white uppercase tracking-[0.4em] mb-12">Powering innovative startups & enterprises</p>
+          <div className="flex flex-wrap justify-center items-center gap-20 opacity-40 hover:opacity-100 transition-all duration-700">
             {['SHILPOMARKET', 'PIXELPRIMP', 'ECOMMERZO', 'MEDIA-MIND', 'BASHA-LAGBE'].map((name) => (
-              <div key={name} className="text-2xl font-black tracking-tighter text-white hover:text-red-500 transition-colors">
+              <div key={name} className="text-3xl font-black tracking-tighter text-white hover:text-red-400 transition-colors cursor-pointer hover:scale-110 duration-500">
                 {name}
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Feature Section */}
         <div className="mt-48 grid md:grid-cols-2 gap-20 items-center pb-40">
@@ -205,7 +236,7 @@ export default function RedHero() {
             >
               <div className="rounded-[2rem] overflow-hidden relative aspect-video">
                 <img 
-                  src="https://images.unsplash.com/photo-1676299081847-824916ef030a?q=80&w=2070&auto=format&fit=crop" 
+                  src="https://thumbs.dreamstime.com/b/red-digital-cityscape-glowing-globe-futuristic-tech-abstract-technology-background-modern-city-skyline-network-connections-385727613.jpg" 
                   alt="AI Technology" 
                   className="object-cover w-full h-full opacity-60 group-hover:scale-110 transition-transform duration-[2s]"
                 />

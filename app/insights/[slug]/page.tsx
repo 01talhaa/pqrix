@@ -87,7 +87,7 @@ export default function InsightDetailPage() {
         {/* Breadcrumb */}
         <div className="bg-black border-b border-red-500/20">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center gap-2 text-sm text-gray-400">
+            <div className="flex items-center gap-2 text-sm text-gray-400 mt-20">
               <Link href="/" className="hover:text-red-400">Home</Link>
               <span>/</span>
               <Link href="/" className="hover:text-red-400">Insights</Link>

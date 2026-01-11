@@ -69,7 +69,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ id:
         <SiteHeader />
 
         {/* Back Button */}
-        <div className="container mx-auto px-4 pt-8">
+        <div className="container mx-auto px-4 pt-8 mt-20">
           <Button asChild variant="ghost" className="text-gray-300 hover:text-white">
             <Link href="/team">
               <ArrowLeft className="mr-2 h-4 w-4" />

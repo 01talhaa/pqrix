@@ -21,8 +21,8 @@ import { HowWeWork } from "@/components/how-we-work"
 import { WhyPqrix } from "@/components/why-pqrix"
 import { CaseStudiesSection } from "@/components/case-studies-section"
 
-// ✅ Force static generation for low TTFB
-export const dynamic = "force-static"
+// ✅ Force dynamic rendering for consistent backgrounds across browsers
+export const dynamic = "force-dynamic"
 
 export default function Page() {
   // Structured data for pricing
@@ -95,7 +95,7 @@ export default function Page() {
 
   return (
     <>
-      <main className="min-h-[100dvh] text-black dark:text-white">
+      <main className="min-h-[100dvh] text-black dark:text-white bg-white dark:bg-[#050000]">
         <SiteHeader />
         <Hero />
         {/* <StatsSection /> */}

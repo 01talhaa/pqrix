@@ -9,6 +9,7 @@ import { notFound } from "next/navigation"
 import { getTeamMemberById } from "@/data/team"
 import Image from "next/image"
 import { getAllProjectsForBuild, getProjectByIdForBuild } from "@/lib/get-projects"
+import { ProjectGalleryWithGrid } from "@/components/project-gallery"
 
 interface ProjectLink {
   label: string
@@ -177,7 +178,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <SiteHeader />
 
         {/* Back Button */}
-        <div className="container mx-auto px-4 pt-8">
+        <div className="container mx-auto px-4 pt-8 mt-20">
           <Button asChild variant="ghost" className="text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors">
             <Link href="/projects">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -233,49 +234,15 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               </div>
             </div>
 
-            {/* Main Media */}
-            <div className="relative aspect-video rounded-2xl overflow-hidden liquid-glass border border-red-500/20 shadow-xl shadow-red-900/20">
-              {project.video ? (
-                <video
-                  src={project.video}
-                  className="h-full w-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  controls
-                />
-              ) : (
-                <img
-                  src={project.image || project.images?.[0] || "/placeholder.svg"}
-                  alt={project.title}
-                  className="h-full w-full object-cover"
-                />
-              )}
-            </div>
+            {/* Main Media & Gallery */}
+            <ProjectGalleryWithGrid
+              images={project.images || []}
+              mainImage={project.image}
+              video={project.video}
+              title={project.title}
+            />
           </div>
         </section>
-
-        {/* Image Gallery */}
-        {project.images && project.images.length > 1 && (
-          <section className="container mx-auto px-4 pb-12">
-            <h2 className="text-2xl font-bold text-white mb-6">Project Gallery</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {project.images.slice(1).map((image: string, idx: number) => (
-                <div
-                  key={idx}
-                  className="relative aspect-square rounded-xl overflow-hidden liquid-glass border border-red-500/20 hover:scale-105 hover:border-red-500/40 transition-all cursor-pointer shadow-lg shadow-red-900/10"
-                >
-                  <img
-                    src={image || "/placeholder.svg"}
-                    alt={`${project.title} - Image ${idx + 2}`}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* Key Metrics */}
         {project.metrics && project.metrics.length > 0 && (
